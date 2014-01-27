@@ -10,7 +10,6 @@
 
 @interface HomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> 
 
-@property (strong, nonatomic) NSString *fourSquareAccessCodeString;
 @property (weak, nonatomic) IBOutlet UISearchBar *venueSearchBar;
 
 - (void)handleAuthenticationForURL:(NSURL *)url;

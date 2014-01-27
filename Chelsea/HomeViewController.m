@@ -35,8 +35,6 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 	// Do any additional setup after loading the view.
     self.title = @"Check-In";
     _venueSearchBar.delegate = self;
-    NSLog(@"Initializing access code.");
-    _fourSquareAccessCodeString = @"";
     
     // Authenticate with Foursquare
     // Following call returns a statusCode. Handle error case here.
@@ -67,9 +65,8 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 - (void)handleAuthenticationForURL:(NSURL *)url
 {
     NSDictionary *queryDictionary = [self parseQueryString:[url query]];
-    _fourSquareAccessCodeString = [queryDictionary objectForKey:@"code"];
-    NSLog(@"Setting access code: %@", _fourSquareAccessCodeString);
-    NSLog(@"Access code ready.");
+    NSUserDefaults *standardUserDefault = [NSUserDefaults standardUserDefaults];
+    [standardUserDefault setObject:[queryDictionary objectForKey:@"code"] forKey:@"foursquareAccessCode"];
 }
 
 - (void)searchVenuesForQueryString:(NSString *)queryString
@@ -77,8 +74,9 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     CGFloat latitude = 40.745176;
     CGFloat longitude = -73.997215;
     NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
-    NSLog(@"Access code, bis: %@", _fourSquareAccessCodeString);
-    NSDictionary *parameters = @{@"oauth_token":_fourSquareAccessCodeString, @"ll":ll, @"query":@"doughnut"};
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *fourquareAccessCode = [standardUserDefaults objectForKey:@"foursquareAccessCode"];
+    NSDictionary *parameters = @{@"oauth_token":fourquareAccessCode, @"ll":ll, @"query":queryString};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     [manager GET:searchEndPointURL parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -95,7 +93,6 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
  */
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    NSLog(@"Access code here: %@", _fourSquareAccessCodeString);
     NSString *queryString = [searchBar text];
     [self searchVenuesForQueryString:queryString];
 }
