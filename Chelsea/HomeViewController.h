@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> {
-}
+@interface HomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> 
 
 @property (strong, nonatomic) NSString *fourSquareAccessCodeString;
 @property (weak, nonatomic) IBOutlet UISearchBar *venueSearchBar;

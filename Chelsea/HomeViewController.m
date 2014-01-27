@@ -35,6 +35,8 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 	// Do any additional setup after loading the view.
     self.title = @"Check-In";
     _venueSearchBar.delegate = self;
+    NSLog(@"Initializing access code.");
+    _fourSquareAccessCodeString = @"";
     
     // Authenticate with Foursquare
     // Following call returns a statusCode. Handle error case here.
@@ -65,7 +67,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 - (void)handleAuthenticationForURL:(NSURL *)url
 {
     NSDictionary *queryDictionary = [self parseQueryString:[url query]];
-    _fourSquareAccessCodeString = [[NSString alloc] initWithString:[queryDictionary objectForKey:@"code"]];
+    _fourSquareAccessCodeString = [queryDictionary objectForKey:@"code"];
     NSLog(@"Setting access code: %@", _fourSquareAccessCodeString);
     NSLog(@"Access code ready.");
 }
@@ -93,6 +95,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
  */
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    NSLog(@"Access code here: %@", _fourSquareAccessCodeString);
     NSString *queryString = [searchBar text];
     [self searchVenuesForQueryString:queryString];
 }

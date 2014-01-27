@@ -32,7 +32,7 @@ NSString * const FoursquareApplicationName = @"com.naveenium.foursquare";
         [_homeViewController handleAuthenticationForURL:url];
     }
     return NO;
-}
+    }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
