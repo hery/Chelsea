@@ -55,6 +55,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="HhR-aJ-jUD"/>
+                    <connections>
+                        <outlet property="venueSearchBar" destination="L6B-X3-J20" id="Nix-bd-dyd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6hA-NK-FiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

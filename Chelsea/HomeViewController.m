@@ -12,6 +12,8 @@
 
 #include "constants.h"
 
+NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/search";
+
 @interface HomeViewController ()
 
 @end
@@ -32,6 +34,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.title = @"Check-In";
+    _venueSearchBar.delegate = self;
     
     // Authenticate with Foursquare
     // Following call returns a statusCode. Handle error case here.
@@ -42,7 +45,7 @@
     // Real-Time events = Pusher
     
     // Bind search bar to search function
-    // On location tap: check location using GPS
+    // On location tap: check location using GPS, unless search results are already filtered
     //      if close: check-in with Foursquare
     //      else: alert! you're not at that location!
     // After check-in: enter channel room
@@ -62,13 +65,18 @@
 - (void)handleAuthenticationForURL:(NSURL *)url
 {
     NSDictionary *queryDictionary = [self parseQueryString:[url query]];
-    fourSquareAccessCodeString = [queryDictionary objectForKey:@"code"];
-    
+    _fourSquareAccessCodeString = [[NSString alloc] initWithString:[queryDictionary objectForKey:@"code"]];
+    NSLog(@"Setting access code: %@", _fourSquareAccessCodeString);
+    NSLog(@"Access code ready.");
+}
+
+- (void)searchVenuesForQueryString:(NSString *)queryString
+{
     CGFloat latitude = 40.745176;
     CGFloat longitude = -73.997215;
     NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
-    NSString *searchEndPointURL = @"https://api.foursquare.com/v2/venues/search";
-    NSDictionary *parameters = @{@"oauth_token":fourSquareAccessCodeString, @"ll":ll};
+    NSLog(@"Access code, bis: %@", _fourSquareAccessCodeString);
+    NSDictionary *parameters = @{@"oauth_token":_fourSquareAccessCodeString, @"ll":ll, @"query":@"doughnut"};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     [manager GET:searchEndPointURL parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -80,6 +88,19 @@
     }];
 }
 
+/**
+ Handle search event.
+ */
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    NSString *queryString = [searchBar text];
+    [self searchVenuesForQueryString:queryString];
+}
+
+/**
+ Parse the query string into a dictionary.
+ Todo: move to a utility class.
+ */
 - (NSDictionary *)parseQueryString:(NSString *)queryString
 {
     NSMutableDictionary *queryDictionary = [NSMutableDictionary new];
