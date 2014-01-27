@@ -43,7 +43,7 @@ WIP
 ## Contact
 
 * hery at ratsimihah dot com
-* @ratsimihah on Twitter
+* [@ratsimihah](https://twitter.com/ratsimihah) on Twitter
 
 ## License
 
