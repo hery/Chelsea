@@ -9,6 +9,22 @@ Yet another location-based chat app -- built on top of Foursquare.
 * Xcode 5
 * CocoaPods
 
+## Usage
+
+* Login with Foursquare
+* Check in at a location
+* See who's checked in and start chatting with them
+
+## Timeline
+
+* Foursquare authentication complete
+* Venue search complete
+
+* Table view population ongoing
+* Doc ongoing
+* Tests ongoing
+* Chat system ongoing
+
 ## Build
 
 Install dependencies with `pod install` and open workspace with `open Chelsea.xcworkspace`.
