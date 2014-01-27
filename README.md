@@ -19,7 +19,6 @@ Yet another location-based chat app -- built on top of Foursquare.
 
 * Foursquare authentication complete
 * Venue search complete
-
 * Table view population ongoing
 * Doc ongoing
 * Tests ongoing
