@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> 
+@interface HomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> {
+    NSMutableArray *venueNameArray;
+}
 
 @property (weak, nonatomic) IBOutlet UISearchBar *venueSearchBar;
+@property (weak, nonatomic) IBOutlet UITableView *venueTableView;
 
 - (void)handleAuthenticationForURL:(NSURL *)url;
 

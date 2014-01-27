@@ -57,6 +57,7 @@
                     <navigationItem key="navigationItem" id="HhR-aJ-jUD"/>
                     <connections>
                         <outlet property="venueSearchBar" destination="L6B-X3-J20" id="Nix-bd-dyd"/>
+                        <outlet property="venueTableView" destination="bNC-Le-plX" id="keZ-bx-DWv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6hA-NK-FiU" userLabel="First Responder" sceneMemberID="firstResponder"/>

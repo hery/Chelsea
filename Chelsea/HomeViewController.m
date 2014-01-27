@@ -35,32 +35,41 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 	// Do any additional setup after loading the view.
     self.title = @"Check-In";
     _venueSearchBar.delegate = self;
+    _venueTableView.dataSource = self;
+    _venueTableView.delegate = self;
+    [_venueTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    venueNameArray = [[NSMutableArray alloc] init];
     
     // Authenticate with Foursquare
-    // Following call returns a statusCode. Handle error case here.
+    // Following call returns a statusCode.
+    // Todo: Handle error case using status code.
     [FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString];
-    
-    // Back-end = Parse
-    // Location Check-In = Foursquare
-    // Real-Time events = Pusher
-    
-    // Bind search bar to search function
-    // On location tap: check location using GPS, unless search results are already filtered
-    //      if close: check-in with Foursquare
-    //      else: alert! you're not at that location!
-    // After check-in: enter channel room
-    // List users: on "user tap": open channel
 }
 
+
+#pragma mark Data source methods
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [venueNameArray count];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [UITableViewCell new];
+    UITableViewCell *cell = [_venueTableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    if ([venueNameArray count] > 0)
+        cell.textLabel.text = venueNameArray[indexPath.row];
+    else
+        cell.textLabel.text = @"nil";
+    return cell;
 }
+
+#pragma mark Foursquare API methods
 
 - (void)handleAuthenticationForURL:(NSURL *)url
 {
@@ -79,23 +88,40 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     NSDictionary *parameters = @{@"oauth_token":fourquareAccessCode, @"ll":ll, @"query":queryString};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
+    NSMutableArray *indexPathArray = [NSMutableArray new];
+    
     [manager GET:searchEndPointURL parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success!");
-        NSLog(@"JSON: %@", responseObject);
+        
+        NSArray *responseArray = [[responseObject objectForKey:@"response"] objectForKey:@"groups"];
+        NSArray *venuesArray = [[responseArray objectAtIndex:0] objectForKey:@"items"];
+        int i = 0;
+        
+        for (NSDictionary *venue in venuesArray) {
+            [venueNameArray addObject:[venue objectForKey:@"name"]];
+            [indexPathArray addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            i++;
+        }
+        
+        [_venueTableView beginUpdates];
+        [_venueTableView insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationAutomatic];
+        [_venueTableView endUpdates];
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Failure!");
         NSLog(@"Error: %@", [error localizedDescription]);
     }];
 }
 
-/**
- Handle search event.
- */
+# pragma mark Search bar delegate methods 
+
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     NSString *queryString = [searchBar text];
     [self searchVenuesForQueryString:queryString];
 }
+
+# pragma mark Utility functions
 
 /**
  Parse the query string into a dictionary.
