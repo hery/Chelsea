@@ -32,6 +32,10 @@ Install dependencies with `pod install` and open workspace with `open Chelsea.xc
 
 Due to the Foursquare app requirement, Chelsea requires an actual device to run and will not work on a simulator.
 
+## Test
+
+WIP
+
 ## Documentation
 
 WIP
