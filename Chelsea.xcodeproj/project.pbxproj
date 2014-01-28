@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		86D0BA732A784A0DB6D3536E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF5D4ABF404420BAD18C064 /* libPods.a */; };
+		CA0BD5E71897374B0047AAE0 /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA0BD5E61897374B0047AAE0 /* images.xcassets */; };
 		CACE16F31893392D0035F4F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F21893392D0035F4F6 /* Foundation.framework */; };
 		CACE16F51893392D0035F4F6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F41893392D0035F4F6 /* CoreGraphics.framework */; };
 		CACE16F71893392D0035F4F6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F61893392D0035F4F6 /* UIKit.framework */; };
@@ -16,7 +17,6 @@
 		CACE17011893392D0035F4F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CACE17001893392D0035F4F6 /* main.m */; };
 		CACE17051893392D0035F4F6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CACE17041893392D0035F4F6 /* AppDelegate.m */; };
 		CACE17081893392D0035F4F6 /* Chelsea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CACE17061893392D0035F4F6 /* Chelsea.xcdatamodeld */; };
-		CACE170A1893392D0035F4F6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CACE17091893392D0035F4F6 /* Images.xcassets */; };
 		CACE17111893392D0035F4F6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE17101893392D0035F4F6 /* XCTest.framework */; };
 		CACE17121893392D0035F4F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F21893392D0035F4F6 /* Foundation.framework */; };
 		CACE17131893392D0035F4F6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F61893392D0035F4F6 /* UIKit.framework */; };
@@ -40,6 +40,7 @@
 /* Begin PBXFileReference section */
 		2FF5D4ABF404420BAD18C064 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE7D1172E2A94A54B513416A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		CA0BD5E61897374B0047AAE0 /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
 		CACE16EF1893392D0035F4F6 /* Chelsea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chelsea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CACE16F21893392D0035F4F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CACE16F41893392D0035F4F6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -52,7 +53,6 @@
 		CACE17031893392D0035F4F6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CACE17041893392D0035F4F6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CACE17071893392D0035F4F6 /* Chelsea.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chelsea.xcdatamodel; sourceTree = "<group>"; };
-		CACE17091893392D0035F4F6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CACE170F1893392D0035F4F6 /* ChelseaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChelseaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CACE17101893392D0035F4F6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CACE17191893392D0035F4F6 /* ChelseaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ChelseaTests-Info.plist"; sourceTree = "<group>"; };
@@ -133,8 +133,8 @@
 				CAFBA2731894C0220057FAF5 /* constants.h */,
 				CACE172918933B210035F4F6 /* HomeViewController.h */,
 				CACE172A18933B210035F4F6 /* HomeViewController.m */,
-				CACE17091893392D0035F4F6 /* Images.xcassets */,
 				CACE17061893392D0035F4F6 /* Chelsea.xcdatamodeld */,
+				CA0BD5E61897374B0047AAE0 /* images.xcassets */,
 				CACE16FB1893392D0035F4F6 /* Supporting Files */,
 			);
 			path = Chelsea;
@@ -249,8 +249,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA0BD5E71897374B0047AAE0 /* images.xcassets in Resources */,
 				CACE16FF1893392D0035F4F6 /* InfoPlist.strings in Resources */,
-				CACE170A1893392D0035F4F6 /* Images.xcassets in Resources */,
 				CACE172818933A110035F4F6 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

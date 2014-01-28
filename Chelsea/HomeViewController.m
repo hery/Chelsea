@@ -87,7 +87,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString *fourquareAccessCode = [standardUserDefaults objectForKey:@"foursquareAccessCode"];
-    NSDictionary *parameters = @{@"oauth_token":fourquareAccessCode, @"ll":ll, @"query":queryString};
+    NSDictionary *parameters = @{@"oauth_token":fourquareAccessCode, @"ll":ll, @"query":queryString, @"limit":@5};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     NSMutableArray *indexPathArray = [NSMutableArray new];
