@@ -43,9 +43,11 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     // Authenticate with Foursquare
     // Following call returns a statusCode.
     // Todo: Handle error case using status code.
-    [FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *foursquareAccessCodeString = [standardUserDefaults objectForKey:@"foursquareAccessCode"];
+    if (!foursquareAccessCodeString)
+        [FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString];
 }
-
 
 #pragma mark Data source methods
 
@@ -98,6 +100,8 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
         int i = 0;
         
         for (NSDictionary *venue in venuesArray) {
+            // Here we use the venue's name to populte the data source,
+            // But it'd be nice to save the venue's unique id to identify chat rooms.
             [venueNameArray addObject:[venue objectForKey:@"name"]];
             [indexPathArray addObject:[NSIndexPath indexPathForRow:i inSection:0]];
             i++;
@@ -119,6 +123,19 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    // Wipe current results, if any.
+    NSMutableArray *indexPathOfCurrentVenues = [[NSMutableArray alloc] init];
+    for (int i=0; i<[venueNameArray count]; i++) {
+        [indexPathOfCurrentVenues addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+        [venueNameArray removeObjectAtIndex:i];
+    }
+    
+    NSLog(@"%@", venueNameArray);
+    
+    [_venueTableView beginUpdates];
+    [_venueTableView deleteRowsAtIndexPaths:indexPathOfCurrentVenues withRowAnimation:UITableViewRowAnimationLeft];
+    [_venueTableView endUpdates];
+    
     [_venueSearchBar resignFirstResponder];
     NSString *queryString = [searchBar text];
     [self searchVenuesForQueryString:queryString];
