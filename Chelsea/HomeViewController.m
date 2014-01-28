@@ -103,6 +103,8 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
             i++;
         }
         
+        // Sorting the array alphabetically here would be nice.
+        
         [_venueTableView beginUpdates];
         [_venueTableView insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationAutomatic];
         [_venueTableView endUpdates];
@@ -117,6 +119,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    [_venueSearchBar resignFirstResponder];
     NSString *queryString = [searchBar text];
     [self searchVenuesForQueryString:queryString];
 }
