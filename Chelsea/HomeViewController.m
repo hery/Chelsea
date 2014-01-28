@@ -110,7 +110,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
         // Sorting the array alphabetically here would be nice.
         
         [_venueTableView beginUpdates];
-        [_venueTableView insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationAutomatic];
+        [_venueTableView insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationLeft];
         [_venueTableView endUpdates];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -125,15 +125,16 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 {
     // Wipe current results, if any.
     NSMutableArray *indexPathOfCurrentVenues = [[NSMutableArray alloc] init];
-    for (int i=0; i<[venueNameArray count]; i++) {
+    int i = 0;
+    for (NSString *venue in venueNameArray) {
         [indexPathOfCurrentVenues addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-        [venueNameArray removeObjectAtIndex:i];
+        i++;
     }
     
-    NSLog(@"%@", venueNameArray);
+    [venueNameArray removeAllObjects];
     
     [_venueTableView beginUpdates];
-    [_venueTableView deleteRowsAtIndexPaths:indexPathOfCurrentVenues withRowAnimation:UITableViewRowAnimationLeft];
+    [_venueTableView deleteRowsAtIndexPaths:indexPathOfCurrentVenues withRowAnimation:UITableViewRowAnimationRight];
     [_venueTableView endUpdates];
     
     [_venueSearchBar resignFirstResponder];
