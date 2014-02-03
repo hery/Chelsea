@@ -6,13 +6,18 @@
 //  Copyright (c) 2014 Hery Ratsimihah. All rights reserved.
 //
 
-#import "HomeViewController.h"
 #import <FSOAuth.h>
 #import <AFHTTPRequestOperationManager.h>
+
+#import "HomeViewController.h"
+#import "HomeViewControllerDataSource.h"
+
+#import "NSDictionary+Helpers.h"
 
 #include "constants.h"
 
 NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/search";
+NSString * const DATEVERIFIED = @"20130203";
 
 @interface HomeViewController ()
 
@@ -33,51 +38,34 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
     self.title = @"Check-In";
+    
     _venueSearchBar.delegate = self;
-    _venueTableView.dataSource = self;
+    
+    // dataSource is nil if initialized is initializer. Why?
+    dataSource = [HomeViewControllerDataSource new];
+    _venueTableView.dataSource = dataSource;
+    
     _venueTableView.delegate = self;
     [_venueTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
-    venueNameArray = [[NSMutableArray alloc] init];
-    
-    // Authenticate with Foursquare
-    // Following call returns a statusCode.
-    // Todo: Handle error case using status code.
+        
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString *foursquareAccessCodeString = [standardUserDefaults objectForKey:@"foursquareAccessCode"];
+
+    // Todo: check token validity
     if (!foursquareAccessCodeString)
-        [FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString];
-}
-
-#pragma mark Data source methods
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [venueNameArray count];
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [_venueTableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    if ([venueNameArray count] > 0)
-        cell.textLabel.text = venueNameArray[indexPath.row];
-    else
-        cell.textLabel.text = @"nil";
-    return cell;
+        NSLog(@"%i",(int)[FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString]);
 }
 
 #pragma mark Foursquare API methods
 
 - (void)handleAuthenticationForURL:(NSURL *)url
 {
-    NSDictionary *queryDictionary = [self parseQueryString:[url query]];
+    NSDictionary *queryDictionary = [NSDictionary parseQueryString:[url query]];
     NSUserDefaults *standardUserDefault = [NSUserDefaults standardUserDefaults];
     [standardUserDefault setObject:[queryDictionary objectForKey:@"code"] forKey:@"foursquareAccessCode"];
+    NSLog(@"New Foursqare access token: %@", [queryDictionary objectForKey:@"code"]);
 }
 
 - (void)searchVenuesForQueryString:(NSString *)queryString
@@ -87,7 +75,8 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString *fourquareAccessCode = [standardUserDefaults objectForKey:@"foursquareAccessCode"];
-    NSDictionary *parameters = @{@"oauth_token":fourquareAccessCode, @"ll":ll, @"query":queryString, @"limit":@5};
+    NSLog(@"Current access token: %@", fourquareAccessCode);
+    NSDictionary *parameters = @{@"oauth_token":fourquareAccessCode, @"ll":ll, @"query":queryString, @"limit":@5, @"v":DATEVERIFIED};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     NSMutableArray *indexPathArray = [NSMutableArray new];
@@ -95,14 +84,14 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     [manager GET:searchEndPointURL parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success!");
         
-        NSArray *responseArray = [[responseObject objectForKey:@"response"] objectForKey:@"groups"];
-        NSArray *venuesArray = [[responseArray objectAtIndex:0] objectForKey:@"items"];
+        NSArray *venuesArray = [[responseObject objectForKey:@"response"] objectForKey:@"venues"];
         int i = 0;
         
         for (NSDictionary *venue in venuesArray) {
-            // Here we use the venue's name to populte the data source,
+            // Here we use the venue's name to populate the data source,
             // But it'd be nice to save the venue's unique id to identify chat rooms.
-            [venueNameArray addObject:[venue objectForKey:@"name"]];
+            [dataSource.venueNameArray addObject:[venue objectForKey:@"name"]];
+            NSLog(@"%@", venue[@"name"]);
             [indexPathArray addObject:[NSIndexPath indexPathForRow:i inSection:0]];
             i++;
         }
@@ -114,8 +103,14 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
         [_venueTableView endUpdates];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Failure!");
-        NSLog(@"Error: %@", [error localizedDescription]);
+        NSLog(@"Failure for:");
+        
+        NSLog(@"URL: %@", [[operation request] URL]);
+        NSLog(@"Error code: %i", [error code]);
+        NSLog(@"Error message: %@", [error localizedDescription]);
+        
+        if ([[error localizedDescription] isEqualToString:@"Request failed: unauthorized (401)"])
+            NSLog(@"%i",(int)[FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString]);
     }];
 }
 
@@ -123,15 +118,16 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    NSLog(@"Searching for venues...");
     // Wipe current results, if any.
     NSMutableArray *indexPathOfCurrentVenues = [[NSMutableArray alloc] init];
     int i = 0;
-    for (NSString *venue in venueNameArray) {
+    for (NSString *venue in dataSource.venueNameArray) {
         [indexPathOfCurrentVenues addObject:[NSIndexPath indexPathForRow:i inSection:0]];
         i++;
     }
     
-    [venueNameArray removeAllObjects];
+    [dataSource.venueNameArray removeAllObjects];
     
     [_venueTableView beginUpdates];
     [_venueTableView deleteRowsAtIndexPaths:indexPathOfCurrentVenues withRowAnimation:UITableViewRowAnimationRight];
@@ -140,31 +136,6 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     [_venueSearchBar resignFirstResponder];
     NSString *queryString = [searchBar text];
     [self searchVenuesForQueryString:queryString];
-}
-
-# pragma mark Utility functions
-
-/**
- Parse the query string into a dictionary.
- Todo: move to a utility class.
- */
-- (NSDictionary *)parseQueryString:(NSString *)queryString
-{
-    NSMutableDictionary *queryDictionary = [NSMutableDictionary new];
-    NSArray *queryStringElements = [queryString componentsSeparatedByString:@"&"];
-    
-    NSArray *elementArray;
-    NSString *keyString;
-    NSString *valueString;
-    
-    for (NSString *elementString in queryStringElements) {
-        elementArray = [elementString componentsSeparatedByString:@"="];
-        keyString = [[elementArray objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        valueString = [[elementArray objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        [queryDictionary setObject:valueString forKey:keyString];
-    }
-    
-    return (NSDictionary *)queryDictionary;
 }
 
 - (void)didReceiveMemoryWarning

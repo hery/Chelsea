@@ -29,6 +29,7 @@ NSString * const FoursquareApplicationName = @"com.naveenium.foursquare";
 {
     if ([sourceApplication isEqualToString:FoursquareApplicationName])
     {
+        NSLog(@"%@", url);
         [_homeViewController handleAuthenticationForURL:url];
     }
     return NO;

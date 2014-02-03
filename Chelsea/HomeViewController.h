@@ -8,20 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> {
-    NSMutableArray *venueNameArray;
+@class HomeViewControllerDataSource;
+
+@interface HomeViewController : UIViewController <UITableViewDelegate, UISearchBarDelegate> {
+    HomeViewControllerDataSource *dataSource;
+    
 }
 
 @property (weak, nonatomic) IBOutlet UISearchBar *venueSearchBar;
 @property (weak, nonatomic) IBOutlet UITableView *venueTableView;
 
 - (void)handleAuthenticationForURL:(NSURL *)url;
-
-/**
- Parse the query string into a dictionary.
- Todo: move to a utility class.
- */
-- (NSDictionary *)parseQueryString:(NSString *)queryString;
 - (void)searchVenuesForQueryString:(NSString *)queryString;
 
 @end
