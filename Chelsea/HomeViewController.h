@@ -12,7 +12,6 @@
 
 @interface HomeViewController : UIViewController <UITableViewDelegate, UISearchBarDelegate> {
     HomeViewControllerDataSource *dataSource;
-    
 }
 
 @property (weak, nonatomic) IBOutlet UISearchBar *venueSearchBar;
