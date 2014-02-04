@@ -97,33 +97,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CA55E34918A055C5006C8371 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				CA55E34618A05467006C8371 /* NSDictionary+Helpers.h */,
-				CA55E34718A05467006C8371 /* NSDictionary+Helpers.m */,
-			);
-			name = Categories;
-			sourceTree = "<group>";
-		};
-		CA55E34A18A055E6006C8371 /* Data Sources */ = {
-			isa = PBXGroup;
-			children = (
-				CA733D0A18985C4900CF73FF /* HomeViewControllerDataSource.h */,
-				CA733D0B18985C4900CF73FF /* HomeViewControllerDataSource.m */,
-			);
-			name = "Data Sources";
-			sourceTree = "<group>";
-		};
-		CA55E34B18A055F6006C8371 /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				CACE172918933B210035F4F6 /* HomeViewController.h */,
-				CACE172A18933B210035F4F6 /* HomeViewController.m */,
-			);
-			name = "View Controllers";
-			sourceTree = "<group>";
-		};
 		CACE16E61893392D0035F4F6 = {
 			isa = PBXGroup;
 			children = (
@@ -162,10 +135,13 @@
 			children = (
 				CACE17031893392D0035F4F6 /* AppDelegate.h */,
 				CACE17041893392D0035F4F6 /* AppDelegate.m */,
+				CA55E34618A05467006C8371 /* NSDictionary+Helpers.h */,
+				CA55E34718A05467006C8371 /* NSDictionary+Helpers.m */,
+				CA733D0A18985C4900CF73FF /* HomeViewControllerDataSource.h */,
+				CA733D0B18985C4900CF73FF /* HomeViewControllerDataSource.m */,
+				CACE172918933B210035F4F6 /* HomeViewController.h */,
+				CACE172A18933B210035F4F6 /* HomeViewController.m */,
 				CAFBA2731894C0220057FAF5 /* constants.h */,
-				CA55E34B18A055F6006C8371 /* View Controllers */,
-				CA55E34A18A055E6006C8371 /* Data Sources */,
-				CA55E34918A055C5006C8371 /* Categories */,
 				CACE16FB1893392D0035F4F6 /* Supporting Files */,
 			);
 			path = Chelsea;

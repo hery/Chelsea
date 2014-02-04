@@ -70,7 +70,6 @@ NSString * const DATEVERIFIED = @"20130203";
 
 - (void)searchVenuesForQueryString:(NSString *)queryString
 {
-    // Hard-coded locations should be replaced with user's location
     CGFloat latitude = 40.745176;
     CGFloat longitude = -73.997215;
     NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
@@ -107,7 +106,7 @@ NSString * const DATEVERIFIED = @"20130203";
         NSLog(@"Failure for:");
         
         NSLog(@"URL: %@", [[operation request] URL]);
-        NSLog(@"Error code: %li", (long)[error code]);
+        NSLog(@"Error code: %i", [error code]);
         NSLog(@"Error message: %@", [error localizedDescription]);
         
         if ([[error localizedDescription] isEqualToString:@"Request failed: unauthorized (401)"])
