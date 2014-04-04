@@ -26,8 +26,9 @@
       "scale" : "2x"
     },
     {
-      "idiom" : "iphone",
       "size" : "60x60",
+      "idiom" : "iphone",
+      "filename" : "152.png",
       "scale" : "2x"
     },
     {
@@ -77,9 +78,8 @@
       "scale" : "1x"
     },
     {
-      "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "152.png",
+      "size" : "76x76",
       "scale" : "2x"
     }
   ],

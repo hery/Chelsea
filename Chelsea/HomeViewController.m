@@ -43,7 +43,7 @@ NSString * const DATEVERIFIED = @"20130203";
     
     _venueSearchBar.delegate = self;
     
-    // dataSource is nil if initialized is initializer. Why?
+    // dataSource is nil if initialized in initializer. Why?
     dataSource = [HomeViewControllerDataSource new];
     _venueTableView.dataSource = dataSource;
     
@@ -122,11 +122,9 @@ NSString * const DATEVERIFIED = @"20130203";
     NSLog(@"Searching for venues...");
     // Wipe current results, if any.
     NSMutableArray *indexPathOfCurrentVenues = [[NSMutableArray alloc] init];
-    int i = 0;
-    for (NSString *venue in dataSource.venueNameArray) {
-        [indexPathOfCurrentVenues addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-        i++;
-    }
+    [dataSource.venueNameArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [indexPathOfCurrentVenues addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
+    }];
     
     [dataSource.venueNameArray removeAllObjects];
     

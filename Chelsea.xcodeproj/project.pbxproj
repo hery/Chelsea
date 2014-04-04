@@ -11,6 +11,8 @@
 		CA0BD5E71897374B0047AAE0 /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA0BD5E61897374B0047AAE0 /* images.xcassets */; };
 		CA55E34818A05467006C8371 /* NSDictionary+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = CA55E34718A05467006C8371 /* NSDictionary+Helpers.m */; };
 		CA733D0C18985C4900CF73FF /* HomeViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = CA733D0B18985C4900CF73FF /* HomeViewControllerDataSource.m */; };
+		CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */; };
+		CAB3C2AF18EF407700C88E3F /* ChatTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB3C2AE18EF407700C88E3F /* ChatTableViewController.m */; };
 		CACE16F31893392D0035F4F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F21893392D0035F4F6 /* Foundation.framework */; };
 		CACE16F51893392D0035F4F6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F41893392D0035F4F6 /* CoreGraphics.framework */; };
 		CACE16F71893392D0035F4F6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F61893392D0035F4F6 /* UIKit.framework */; };
@@ -47,6 +49,10 @@
 		CA55E34718A05467006C8371 /* NSDictionary+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Helpers.m"; sourceTree = "<group>"; };
 		CA733D0A18985C4900CF73FF /* HomeViewControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewControllerDataSource.h; sourceTree = "<group>"; };
 		CA733D0B18985C4900CF73FF /* HomeViewControllerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewControllerDataSource.m; sourceTree = "<group>"; };
+		CAB3C2AA18EF3FF700C88E3F /* LocationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationTableViewController.h; path = "View Controllers/LocationTableViewController.h"; sourceTree = "<group>"; };
+		CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationTableViewController.m; path = "View Controllers/LocationTableViewController.m"; sourceTree = "<group>"; };
+		CAB3C2AD18EF407700C88E3F /* ChatTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatTableViewController.h; sourceTree = "<group>"; };
+		CAB3C2AE18EF407700C88E3F /* ChatTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatTableViewController.m; sourceTree = "<group>"; };
 		CACE16EF1893392D0035F4F6 /* Chelsea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chelsea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CACE16F21893392D0035F4F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CACE16F41893392D0035F4F6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -97,6 +103,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CAB3C2A618EF3E8000C88E3F /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CACE172918933B210035F4F6 /* HomeViewController.h */,
+				CACE172A18933B210035F4F6 /* HomeViewController.m */,
+				CAB3C2AA18EF3FF700C88E3F /* LocationTableViewController.h */,
+				CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */,
+				CAB3C2AD18EF407700C88E3F /* ChatTableViewController.h */,
+				CAB3C2AE18EF407700C88E3F /* ChatTableViewController.m */,
+			);
+			name = "View Controller";
+			sourceTree = "<group>";
+		};
+		CAB3C2A718EF3EC900C88E3F /* Data Source */ = {
+			isa = PBXGroup;
+			children = (
+				CA733D0A18985C4900CF73FF /* HomeViewControllerDataSource.h */,
+				CA733D0B18985C4900CF73FF /* HomeViewControllerDataSource.m */,
+			);
+			name = "Data Source";
+			sourceTree = "<group>";
+		};
+		CAB3C2A818EF3ED200C88E3F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				CA55E34618A05467006C8371 /* NSDictionary+Helpers.h */,
+				CA55E34718A05467006C8371 /* NSDictionary+Helpers.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		CAB3C2A918EF3ED900C88E3F /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				CACE17031893392D0035F4F6 /* AppDelegate.h */,
+				CACE17041893392D0035F4F6 /* AppDelegate.m */,
+			);
+			name = Delegate;
+			sourceTree = "<group>";
+		};
 		CACE16E61893392D0035F4F6 = {
 			isa = PBXGroup;
 			children = (
@@ -133,15 +179,10 @@
 		CACE16FA1893392D0035F4F6 /* Chelsea */ = {
 			isa = PBXGroup;
 			children = (
-				CACE17031893392D0035F4F6 /* AppDelegate.h */,
-				CACE17041893392D0035F4F6 /* AppDelegate.m */,
-				CA55E34618A05467006C8371 /* NSDictionary+Helpers.h */,
-				CA55E34718A05467006C8371 /* NSDictionary+Helpers.m */,
-				CA733D0A18985C4900CF73FF /* HomeViewControllerDataSource.h */,
-				CA733D0B18985C4900CF73FF /* HomeViewControllerDataSource.m */,
-				CACE172918933B210035F4F6 /* HomeViewController.h */,
-				CACE172A18933B210035F4F6 /* HomeViewController.m */,
-				CAFBA2731894C0220057FAF5 /* constants.h */,
+				CAB3C2A918EF3ED900C88E3F /* Delegate */,
+				CAB3C2A818EF3ED200C88E3F /* Helpers */,
+				CAB3C2A718EF3EC900C88E3F /* Data Source */,
+				CAB3C2A618EF3E8000C88E3F /* View Controller */,
 				CACE16FB1893392D0035F4F6 /* Supporting Files */,
 			);
 			path = Chelsea;
@@ -151,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				CACE172718933A100035F4F6 /* Storyboard.storyboard */,
+				CAFBA2731894C0220057FAF5 /* constants.h */,
 				CACE17061893392D0035F4F6 /* Chelsea.xcdatamodeld */,
 				CA0BD5E61897374B0047AAE0 /* images.xcassets */,
 				CACE16FC1893392D0035F4F6 /* Chelsea-Info.plist */,
@@ -225,7 +267,7 @@
 		CACE16E71893392D0035F4F6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Hery Ratsimihah";
 				TargetAttributes = {
 					CACE16EE1893392D0035F4F6 = {
@@ -315,6 +357,8 @@
 			files = (
 				CA55E34818A05467006C8371 /* NSDictionary+Helpers.m in Sources */,
 				CACE17081893392D0035F4F6 /* Chelsea.xcdatamodeld in Sources */,
+				CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */,
+				CAB3C2AF18EF407700C88E3F /* ChatTableViewController.m in Sources */,
 				CACE17051893392D0035F4F6 /* AppDelegate.m in Sources */,
 				CACE17011893392D0035F4F6 /* main.m in Sources */,
 				CA733D0C18985C4900CF73FF /* HomeViewControllerDataSource.m in Sources */,
@@ -364,7 +408,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -403,7 +446,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -469,7 +511,6 @@
 		CACE17251893392D0035F4F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Chelsea.app/Chelsea";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -492,7 +533,6 @@
 		CACE17261893392D0035F4F6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Chelsea.app/Chelsea";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
