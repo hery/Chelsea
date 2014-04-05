@@ -58,6 +58,12 @@ NSString * const DATEVERIFIED = @"20130203";
         NSLog(@"%i",(int)[FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString]);
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    UIViewController *destinationViewController = segue.destinationViewController;
+    destinationViewController.title = @"@Birch";
+}
+
 #pragma mark Foursquare API methods
 
 - (void)handleAuthenticationForURL:(NSURL *)url

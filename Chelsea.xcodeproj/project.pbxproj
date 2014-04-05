@@ -13,6 +13,7 @@
 		CA733D0C18985C4900CF73FF /* HomeViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = CA733D0B18985C4900CF73FF /* HomeViewControllerDataSource.m */; };
 		CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */; };
 		CAB3C2AF18EF407700C88E3F /* ChatTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB3C2AE18EF407700C88E3F /* ChatTableViewController.m */; };
+		CAB3C2B618EF511300C88E3F /* ChelseaWebSocketDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB3C2B518EF511300C88E3F /* ChelseaWebSocketDelegate.m */; };
 		CACE16F31893392D0035F4F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F21893392D0035F4F6 /* Foundation.framework */; };
 		CACE16F51893392D0035F4F6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F41893392D0035F4F6 /* CoreGraphics.framework */; };
 		CACE16F71893392D0035F4F6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F61893392D0035F4F6 /* UIKit.framework */; };
@@ -53,6 +54,8 @@
 		CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationTableViewController.m; path = "View Controllers/LocationTableViewController.m"; sourceTree = "<group>"; };
 		CAB3C2AD18EF407700C88E3F /* ChatTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatTableViewController.h; sourceTree = "<group>"; };
 		CAB3C2AE18EF407700C88E3F /* ChatTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatTableViewController.m; sourceTree = "<group>"; };
+		CAB3C2B418EF511300C88E3F /* ChelseaWebSocketDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChelseaWebSocketDelegate.h; path = Delegate/ChelseaWebSocketDelegate.h; sourceTree = "<group>"; };
+		CAB3C2B518EF511300C88E3F /* ChelseaWebSocketDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChelseaWebSocketDelegate.m; path = Delegate/ChelseaWebSocketDelegate.m; sourceTree = "<group>"; };
 		CACE16EF1893392D0035F4F6 /* Chelsea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chelsea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CACE16F21893392D0035F4F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CACE16F41893392D0035F4F6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -139,8 +142,17 @@
 			children = (
 				CACE17031893392D0035F4F6 /* AppDelegate.h */,
 				CACE17041893392D0035F4F6 /* AppDelegate.m */,
+				CAB3C2B418EF511300C88E3F /* ChelseaWebSocketDelegate.h */,
+				CAB3C2B518EF511300C88E3F /* ChelseaWebSocketDelegate.m */,
 			);
 			name = Delegate;
+			sourceTree = "<group>";
+		};
+		CAB3C2B018EF500300C88E3F /* Object */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Object;
 			sourceTree = "<group>";
 		};
 		CACE16E61893392D0035F4F6 = {
@@ -182,6 +194,7 @@
 				CAB3C2A918EF3ED900C88E3F /* Delegate */,
 				CAB3C2A818EF3ED200C88E3F /* Helpers */,
 				CAB3C2A718EF3EC900C88E3F /* Data Source */,
+				CAB3C2B018EF500300C88E3F /* Object */,
 				CAB3C2A618EF3E8000C88E3F /* View Controller */,
 				CACE16FB1893392D0035F4F6 /* Supporting Files */,
 			);
@@ -355,6 +368,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAB3C2B618EF511300C88E3F /* ChelseaWebSocketDelegate.m in Sources */,
 				CA55E34818A05467006C8371 /* NSDictionary+Helpers.m in Sources */,
 				CACE17081893392D0035F4F6 /* Chelsea.xcdatamodeld in Sources */,
 				CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */,

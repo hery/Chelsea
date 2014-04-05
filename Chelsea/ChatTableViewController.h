@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ChatTableViewController : UITableViewController
+@class SRWebSocket;
+
+@interface ChatTableViewController : UITableViewController <SRWebSocketDelegate>
+
+@property (nonatomic, strong) SRWebSocket *chelseaWebSocket;
 
 @end
