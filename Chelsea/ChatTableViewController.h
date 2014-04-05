@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class SRWebSocket;
+#import <SRWebSocket.h>
 
 @interface ChatTableViewController : UITableViewController <SRWebSocketDelegate>
 

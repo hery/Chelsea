@@ -22,11 +22,6 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        NSString *urlString = @"ws://localhost:8888/chat";
-        NSURL *url = [NSURL URLWithString:urlString];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        _chelseaWebSocket = [[SRWebSocket alloc] initWithURLRequest:request];
-        [_chelseaWebSocket open];
     }
     return self;
 }
@@ -40,6 +35,18 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    NSLog(@"Chat table view appeared");
+    NSString *urlString = @"ws://192.168.1.119:8888/chat";
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    _chelseaWebSocket = [[SRWebSocket alloc] initWithURLRequest:request];
+    _chelseaWebSocket.delegate = self;
+    [_chelseaWebSocket open];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,5 +77,28 @@
 }
 
 #pragma mark - WebSocket delegate
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket
+{
+    NSLog(@"Websocket opened.");
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
+{
+    NSLog(@"Websocket receveid message: %@", message);
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
+{
+    NSLog(@"Websocket failed with error: %@", error);
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean
+{
+    NSLog(@"Websocket closed with code %li, because <%@>. It was %@.",
+          code,
+          reason,
+          wasClean ? @"clean" : @"not clean");
+}
 
 @end
