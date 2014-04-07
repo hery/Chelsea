@@ -9,6 +9,8 @@
 #import "ChatTableViewController.h"
 #import <SRWebSocket.h>
 
+NSString * const serverAddress = @"ws://192.168.0.2:8888/chat";
+
 @interface ChatTableViewController ()
 
 @end
@@ -17,9 +19,9 @@
 
 #pragma mark - Object lifecyle
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)init
 {
-    self = [super initWithStyle:style];
+    self = [super init];
     if (self) {
         // Custom initialization
     }
@@ -40,13 +42,32 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    NSLog(@"Chat table view appeared");
-    NSString *urlString = @"ws://192.168.1.119:8888/chat";
+    
+    // WebSocket setup
+    NSLog(@"Trying to open socket...");
+    NSString *urlString = serverAddress;
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     _chelseaWebSocket = [[SRWebSocket alloc] initWithURLRequest:request];
     _chelseaWebSocket.delegate = self;
     [_chelseaWebSocket open];
+    
+    // Views setup
+    _inputTextField.frame = CGRectMake(0,
+                                       [UIScreen mainScreen].bounds.size.height-50,
+                                       [UIScreen mainScreen].bounds.size.width,
+                                       50);
+    _inputTextField.backgroundColor = [UIColor whiteColor];
+    _inputTextField.layer.borderWidth = 1;
+    _inputTextField.layer.borderColor = [UIColor grayColor].CGColor;
+    _inputTextField.delegate = self;
+    [self.view addSubview:_inputTextField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [_tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,7 +106,7 @@
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
 {
-    NSLog(@"Websocket receveid message: %@", message);
+    NSLog(@"Websocket received message: %@", message);
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
@@ -99,6 +120,45 @@
           code,
           reason,
           wasClean ? @"clean" : @"not clean");
+}
+
+#pragma mark - Notifications
+
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+    // Update textfield frame
+    NSDictionary *userInfoDictionary = [notification userInfo];
+    CGRect keyboardEndFrame = [userInfoDictionary[@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+    CGRect newFrameForInputTextField = _inputTextField.frame;
+    newFrameForInputTextField.origin.y = keyboardEndFrame.origin.y - newFrameForInputTextField.size.height;
+    _inputTextField.frame = newFrameForInputTextField;
+    
+    CGRect tableViewEndFrame = _tableView.frame;
+    tableViewEndFrame.origin.y = _inputTextField.frame.origin.y - _tableView.frame.size.height;
+    _tableView.frame = tableViewEndFrame;
+}
+
+- (void)keyboardDidHide:(NSNotification *)notification
+{
+    // Update textfield frame
+    NSDictionary *userInfoDictionary = [notification userInfo];
+    CGRect keyboardEndFrame = [userInfoDictionary[@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+    CGRect newFrameForInputTextField = _inputTextField.frame;
+    newFrameForInputTextField.origin.y = keyboardEndFrame.origin.y - newFrameForInputTextField.size.height;
+    _inputTextField.frame = newFrameForInputTextField;
+    
+    CGRect tableViewEndFrame = _tableView.frame;
+    tableViewEndFrame.origin.y = _inputTextField.frame.origin.y - _tableView.frame.size.height;
+    _tableView.frame = tableViewEndFrame;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [_inputTextField resignFirstResponder];
+    
+    // Handle message sending here
+    [_chelseaWebSocket send:_inputTextField.text];
+    return YES;
 }
 
 @end

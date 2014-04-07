@@ -19,16 +19,19 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - FSOAuth (1.0)
+  - Reveal-iOS-SDK (1.0.3)
   - SocketRocket (0.3.1-beta2)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - FSOAuth (~> 1.0)
+  - Reveal-iOS-SDK
   - SocketRocket (~> 0.3.1beta2)
 
 SPEC CHECKSUMS:
   AFNetworking: 0121f4b69be3fa58d1ab317866e036e12ac9651d
   FSOAuth: 8c590a8e7c716151b5d0f02b78e7b531ed64ff40
+  Reveal-iOS-SDK: f2525cb560a564fdc086316e89ec45ced6977fd3
   SocketRocket: 7ac946bcce46287a791dfff3c1f8daa692821dae
 
 COCOAPODS: 0.29.0

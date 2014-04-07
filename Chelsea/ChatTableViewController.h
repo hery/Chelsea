@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <SRWebSocket.h>
 
-@interface ChatTableViewController : UITableViewController <SRWebSocketDelegate>
+@interface ChatTableViewController : UIViewController <SRWebSocketDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *inputTextField;
 
 @property (nonatomic, strong) SRWebSocket *chelseaWebSocket;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
