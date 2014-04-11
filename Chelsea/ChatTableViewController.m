@@ -157,7 +157,12 @@ NSString * const serverAddress = @"ws://192.168.0.2:8888/chat";
     [_inputTextField resignFirstResponder];
     
     // Handle message sending here
-    [_chelseaWebSocket send:_inputTextField.text];
+    NSString *message = _inputTextField.text;
+    NSString *username = @"pandaPhone";
+    NSDictionary *packetDictionary = @{@"username":username, @"message":message};
+    NSData *jsonPacket = [NSJSONSerialization dataWithJSONObject:packetDictionary options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
+    [_chelseaWebSocket send:packetString];
     return YES;
 }
 

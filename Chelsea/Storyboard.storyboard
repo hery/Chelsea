@@ -136,7 +136,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="tBb-zH-fp8">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="tBb-zH-fp8">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="538"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -160,14 +160,25 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vcn-sm-cXF">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vcn-sm-cXF">
                                 <rect key="frame" x="0.0" y="538" width="320" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="uZo-fA-fen"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Vcn-sm-cXF" firstAttribute="top" secondItem="tBb-zH-fp8" secondAttribute="bottom" id="KpZ-TF-jIr"/>
+                            <constraint firstItem="Vcn-sm-cXF" firstAttribute="leading" secondItem="tBb-zH-fp8" secondAttribute="leading" id="U0N-KX-Fs8"/>
+                            <constraint firstItem="Vcn-sm-cXF" firstAttribute="leading" secondItem="Rrp-JC-whh" secondAttribute="leading" id="U2B-92-CZh"/>
+                            <constraint firstAttribute="bottom" secondItem="Vcn-sm-cXF" secondAttribute="bottom" id="Y6v-Zm-uLf"/>
+                            <constraint firstAttribute="trailing" secondItem="Vcn-sm-cXF" secondAttribute="trailing" id="a2Y-Kq-z1u"/>
+                            <constraint firstItem="Vcn-sm-cXF" firstAttribute="trailing" secondItem="tBb-zH-fp8" secondAttribute="trailing" id="p5c-h0-XbS"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="@User" id="Tqj-YL-jhy"/>
                     <connections>
