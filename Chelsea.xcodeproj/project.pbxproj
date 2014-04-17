@@ -11,6 +11,7 @@
 		CA0BD5E71897374B0047AAE0 /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA0BD5E61897374B0047AAE0 /* images.xcassets */; };
 		CA55E34818A05467006C8371 /* NSDictionary+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = CA55E34718A05467006C8371 /* NSDictionary+Helpers.m */; };
 		CA733D0C18985C4900CF73FF /* HomeViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = CA733D0B18985C4900CF73FF /* HomeViewControllerDataSource.m */; };
+		CA8894B618FF5C8C001A91C2 /* FoursquareHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8894B518FF5C8C001A91C2 /* FoursquareHTTPClient.m */; };
 		CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */; };
 		CAB3C2AF18EF407700C88E3F /* ChatTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB3C2AE18EF407700C88E3F /* ChatTableViewController.m */; };
 		CACE16F31893392D0035F4F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F21893392D0035F4F6 /* Foundation.framework */; };
@@ -49,6 +50,8 @@
 		CA55E34718A05467006C8371 /* NSDictionary+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Helpers.m"; sourceTree = "<group>"; };
 		CA733D0A18985C4900CF73FF /* HomeViewControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewControllerDataSource.h; sourceTree = "<group>"; };
 		CA733D0B18985C4900CF73FF /* HomeViewControllerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewControllerDataSource.m; sourceTree = "<group>"; };
+		CA8894B418FF5C8C001A91C2 /* FoursquareHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FoursquareHTTPClient.h; path = Singleton/FoursquareHTTPClient.h; sourceTree = "<group>"; };
+		CA8894B518FF5C8C001A91C2 /* FoursquareHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FoursquareHTTPClient.m; path = Singleton/FoursquareHTTPClient.m; sourceTree = "<group>"; };
 		CAB3C2AA18EF3FF700C88E3F /* LocationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationTableViewController.h; path = "View Controllers/LocationTableViewController.h"; sourceTree = "<group>"; };
 		CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationTableViewController.m; path = "View Controllers/LocationTableViewController.m"; sourceTree = "<group>"; };
 		CAB3C2AD18EF407700C88E3F /* ChatTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatTableViewController.h; sourceTree = "<group>"; };
@@ -103,6 +106,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CA8894B318FF5C60001A91C2 /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				CA8894B418FF5C8C001A91C2 /* FoursquareHTTPClient.h */,
+				CA8894B518FF5C8C001A91C2 /* FoursquareHTTPClient.m */,
+			);
+			name = Singleton;
+			sourceTree = "<group>";
+		};
 		CAB3C2A618EF3E8000C88E3F /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +198,7 @@
 		CACE16FA1893392D0035F4F6 /* Chelsea */ = {
 			isa = PBXGroup;
 			children = (
+				CA8894B318FF5C60001A91C2 /* Singleton */,
 				CAB3C2A918EF3ED900C88E3F /* Delegate */,
 				CAB3C2A818EF3ED200C88E3F /* Helpers */,
 				CAB3C2A718EF3EC900C88E3F /* Data Source */,
@@ -368,6 +381,7 @@
 				CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */,
 				CAB3C2AF18EF407700C88E3F /* ChatTableViewController.m in Sources */,
 				CACE17051893392D0035F4F6 /* AppDelegate.m in Sources */,
+				CA8894B618FF5C8C001A91C2 /* FoursquareHTTPClient.m in Sources */,
 				CACE17011893392D0035F4F6 /* main.m in Sources */,
 				CA733D0C18985C4900CF73FF /* HomeViewControllerDataSource.m in Sources */,
 				CACE172B18933B210035F4F6 /* HomeViewController.m in Sources */,

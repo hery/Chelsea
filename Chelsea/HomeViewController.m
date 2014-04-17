@@ -16,6 +16,7 @@
 
 #include "constants.h"
 
+// Singleton should store the base URL.
 NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/search";
 NSString * const DATEVERIFIED = @"20130203";
 
@@ -58,15 +59,17 @@ NSString * const DATEVERIFIED = @"20130203";
         NSLog(@"%i",(int)[FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString]);
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+#pragma mark - Tableview delegate methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIViewController *destinationViewController = segue.destinationViewController;
-    destinationViewController.title = @"@Birch";
+    NSLog(@"Check-in at %@", dataSource.venueNameArray[indexPath.row]);
 }
 
 #pragma mark Foursquare API methods
 
 - (void)handleAuthenticationForURL:(NSURL *)url
+// We just need to save the authentication token for subsequent requests.
 {
     NSDictionary *queryDictionary = [NSDictionary parseQueryString:[url query]];
     NSUserDefaults *standardUserDefault = [NSUserDefaults standardUserDefaults];
@@ -76,7 +79,7 @@ NSString * const DATEVERIFIED = @"20130203";
 
 - (void)searchVenuesForQueryString:(NSString *)queryString
 {
-    // Hard-coded locations should be replaced with user's location
+    // Hard-coded locations should be replaced with user's location.
     CGFloat latitude = 40.745176;
     CGFloat longitude = -73.997215;
     NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
