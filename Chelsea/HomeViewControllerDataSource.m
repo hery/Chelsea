@@ -13,14 +13,14 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.venueNameArray = [[NSMutableArray alloc] initWithObjects:nil];
+        self.venuesArray = [[NSMutableArray alloc] initWithObjects:nil];
     }
     return self;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_venueNameArray count];
+    return [_venuesArray count];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -31,8 +31,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    if ([_venueNameArray count] > 0)
-        cell.textLabel.text = _venueNameArray[indexPath.row];
+    if ([_venuesArray count] > 0)
+        cell.textLabel.text = _venuesArray[indexPath.row][@"name"];
     else
         cell.textLabel.text = @"nil";
     return cell;

@@ -11,14 +11,15 @@
 
 #import "HomeViewController.h"
 #import "HomeViewControllerDataSource.h"
+#import "FoursquareHTTPClient.h"
+#import "FoursquareHTTPClientDelegate.h"
 
 #import "NSDictionary+Helpers.h"
 
-#include "constants.h"
+#import "constants.h"
 
 // Singleton should store the base URL.
 NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/search";
-NSString * const DATEVERIFIED = @"20130203";
 
 @interface HomeViewController ()
 
@@ -50,20 +51,29 @@ NSString * const DATEVERIFIED = @"20130203";
     
     _venueTableView.delegate = self;
     [_venueTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
-        
+    
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString *foursquareAccessCodeString = [standardUserDefaults objectForKey:@"foursquareAccessCode"];
 
     // Todo: check token validity
     if (!foursquareAccessCodeString)
         NSLog(@"%i",(int)[FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString]);
+    
+    sharedFoursquareHTTPClient = [FoursquareHTTPClient sharedFoursquareHTTPClient];
+    FoursquareHTTPClientDelegate *delegate = [[FoursquareHTTPClientDelegate alloc] init];
+    delegate.dataSource = dataSource;
+    delegate.tableView = _venueTableView;
+    sharedFoursquareHTTPClient.delegate = delegate;
 }
 
 #pragma mark - Tableview delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Check-in at %@", dataSource.venueNameArray[indexPath.row]);
+    NSLog(@"Check-in at %@", dataSource.venuesArray[indexPath.row][@"name"]);
+    NSDictionary *additionalParameters = @{@"v":@"20140417",
+                                           @"venueId":dataSource.venuesArray[indexPath.row][@"id"]};
+    [sharedFoursquareHTTPClient performPOSTRequestForEndpointString:@"checkins/add" endpointConstant:FoursquareHTTPClientEndPointCheckIn additionalParameters:additionalParameters];
 }
 
 #pragma mark Foursquare API methods
@@ -77,53 +87,6 @@ NSString * const DATEVERIFIED = @"20130203";
     NSLog(@"New Foursqare access token: %@", [queryDictionary objectForKey:@"code"]);
 }
 
-- (void)searchVenuesForQueryString:(NSString *)queryString
-{
-    // Hard-coded locations should be replaced with user's location.
-    CGFloat latitude = 40.745176;
-    CGFloat longitude = -73.997215;
-    NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *fourquareAccessCode = [standardUserDefaults objectForKey:@"foursquareAccessCode"];
-    NSLog(@"Current access token: %@", fourquareAccessCode);
-    NSDictionary *parameters = @{@"oauth_token":fourquareAccessCode, @"ll":ll, @"query":queryString, @"limit":@5, @"v":DATEVERIFIED};
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
-    NSMutableArray *indexPathArray = [NSMutableArray new];
-    
-    [manager GET:searchEndPointURL parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Success!");
-        
-        NSArray *venuesArray = [[responseObject objectForKey:@"response"] objectForKey:@"venues"];
-        int i = 0;
-        
-        for (NSDictionary *venue in venuesArray) {
-            // Here we use the venue's name to populate the data source,
-            // But it'd be nice to save the venue's unique id to identify chat rooms.
-            [dataSource.venueNameArray addObject:[venue objectForKey:@"name"]];
-            NSLog(@"%@", venue[@"name"]);
-            [indexPathArray addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-            i++;
-        }
-        
-        // Sorting the array alphabetically here would be nice.
-        
-        [_venueTableView beginUpdates];
-        [_venueTableView insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationLeft];
-        [_venueTableView endUpdates];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Failure for:");
-        
-        NSLog(@"URL: %@", [[operation request] URL]);
-        NSLog(@"Error code: %li", (long)[error code]);
-        NSLog(@"Error message: %@", [error localizedDescription]);
-        
-        if ([[error localizedDescription] isEqualToString:@"Request failed: unauthorized (401)"])
-            NSLog(@"%i",(int)[FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString]);
-    }];
-}
-
 # pragma mark Search bar delegate methods 
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -131,11 +94,11 @@ NSString * const DATEVERIFIED = @"20130203";
     NSLog(@"Searching for venues...");
     // Wipe current results, if any.
     NSMutableArray *indexPathOfCurrentVenues = [[NSMutableArray alloc] init];
-    [dataSource.venueNameArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [dataSource.venuesArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [indexPathOfCurrentVenues addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
     }];
     
-    [dataSource.venueNameArray removeAllObjects];
+    [dataSource.venuesArray removeAllObjects];
     
     [_venueTableView beginUpdates];
     [_venueTableView deleteRowsAtIndexPaths:indexPathOfCurrentVenues withRowAnimation:UITableViewRowAnimationRight];
@@ -143,7 +106,14 @@ NSString * const DATEVERIFIED = @"20130203";
     
     [_venueSearchBar resignFirstResponder];
     NSString *queryString = [searchBar text];
-    [self searchVenuesForQueryString:queryString];
+    
+    // Hard-coded locations should be replaced with user's location.
+    CGFloat latitude = 40.745176;
+    CGFloat longitude = -73.997215;
+    NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
+    NSDictionary *parameters = @{@"ll":ll, @"query":queryString, @"limit":@5, @"v": @"20140417"};
+    
+    [sharedFoursquareHTTPClient performGETRequestForEndpointString:@"venues/search" endpointConstant:FoursquareHTTPClientEndpointSearch additionalParameters:parameters];
 }
 
 - (void)didReceiveMemoryWarning

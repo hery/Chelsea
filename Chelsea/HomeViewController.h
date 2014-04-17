@@ -9,16 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @class HomeViewControllerDataSource;
+@class FoursquareHTTPClient;
 
 @interface HomeViewController : UIViewController <UITableViewDelegate, UISearchBarDelegate> {
     HomeViewControllerDataSource *dataSource;
-    
+    FoursquareHTTPClient *sharedFoursquareHTTPClient;
 }
 
 @property (weak, nonatomic) IBOutlet UISearchBar *venueSearchBar;
 @property (weak, nonatomic) IBOutlet UITableView *venueTableView;
 
 - (void)handleAuthenticationForURL:(NSURL *)url;
-- (void)searchVenuesForQueryString:(NSString *)queryString;
 
 @end

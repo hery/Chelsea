@@ -10,6 +10,12 @@
 
 @protocol FoursquareHTTPClientDelegate;
 
+
+typedef NS_ENUM(NSInteger, FoursquareHTTPClientEndpoint) {
+    FoursquareHTTPClientEndpointSearch,
+    FoursquareHTTPClientEndPointCheckIn
+};
+
 @interface FoursquareHTTPClient : AFHTTPSessionManager
 
 @property (nonatomic, strong) id <FoursquareHTTPClientDelegate> delegate;
@@ -19,17 +25,17 @@
 - (instancetype)initWithBaseURL:(NSURL *)url;
 
 /** Handles <Search> request */
-- (void)performGETRequestForEndpoint:(NSString *)endpoint additionalParameters:(NSDictionary *)additionalParameters;
+- (void)performGETRequestForEndpointString:(NSString *)endpointString endpointConstant:(FoursquareHTTPClientEndpoint)endpointConstant additionalParameters:(NSDictionary *)additionalParameters;
 
 /** Handles <Check-In> request */
-- (void)performPOSTRequestForEndpoint:(NSString *)endpoint additionalParameters:(NSDictionary *)additionalParameters;
+- (void)performPOSTRequestForEndpointString:(NSString *)endpointString endpointConstant:(FoursquareHTTPClientEndpoint)endpointConstant additionalParameters:(NSDictionary *)additionalParameters;
 
 @end
 
 @protocol FoursquareHTTPClientDelegate <NSObject>;
 @optional
 
-- (void)foursquareHTTPClient:(FoursquareHTTPClient *)client didPerformRequestWithResponse:(NSDictionary *)response;
+- (void)foursquareHTTPClient:(FoursquareHTTPClient *)client didPerformRequestWithResponse:(NSDictionary *)response forEndpointConstant: (FoursquareHTTPClientEndpoint)endpointConstant;
 - (void)foursquareHTTPClient:(FoursquareHTTPClient *)client didFailWithError:(NSError *)error;
 
 @end

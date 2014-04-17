@@ -1,21 +1,21 @@
 PODS:
-  - AFNetworking (2.2.1):
+  - AFNetworking (2.2.2):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
     - AFNetworking/UIKit
-  - AFNetworking/NSURLConnection (2.2.1):
+  - AFNetworking/NSURLConnection (2.2.2):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.2.1):
+  - AFNetworking/NSURLSession (2.2.2):
     - AFNetworking/NSURLConnection
-  - AFNetworking/Reachability (2.2.1)
-  - AFNetworking/Security (2.2.1)
-  - AFNetworking/Serialization (2.2.1)
-  - AFNetworking/UIKit (2.2.1):
+  - AFNetworking/Reachability (2.2.2)
+  - AFNetworking/Security (2.2.2)
+  - AFNetworking/Serialization (2.2.2)
+  - AFNetworking/UIKit (2.2.2):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - FSOAuth (1.0)
@@ -29,9 +29,9 @@ DEPENDENCIES:
   - SocketRocket (~> 0.3.1beta2)
 
 SPEC CHECKSUMS:
-  AFNetworking: 0121f4b69be3fa58d1ab317866e036e12ac9651d
+  AFNetworking: dd8c1868e57451e3d17ebd3516f2a8c16f9646fe
   FSOAuth: 8c590a8e7c716151b5d0f02b78e7b531ed64ff40
-  Reveal-iOS-SDK: f2525cb560a564fdc086316e89ec45ced6977fd3
+  Reveal-iOS-SDK: 8e6a6f22a9520437e4a180fe1d4e99f43b75430e
   SocketRocket: 7ac946bcce46287a791dfff3c1f8daa692821dae
 
-COCOAPODS: 0.29.0
+COCOAPODS: 0.32.1

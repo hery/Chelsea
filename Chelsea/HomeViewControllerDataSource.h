@@ -10,6 +10,6 @@
 
 @interface HomeViewControllerDataSource : NSObject <UITableViewDataSource>
 
-@property (nonatomic, strong) NSMutableArray *venueNameArray;
+@property (nonatomic, strong) NSMutableArray *venuesArray;
 
 @end

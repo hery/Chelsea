@@ -9,6 +9,7 @@
 #import "FoursquareHTTPClient.h"
 
 NSString * const foursquareAPIBaseURLString = @"https://api.foursquare.com/v2/";
+NSString * const DATEVERIFIED = @"20140417";
 
 @implementation FoursquareHTTPClient
 
@@ -34,18 +35,31 @@ NSString * const foursquareAPIBaseURLString = @"https://api.foursquare.com/v2/";
 }
 
 // <Search>
-- (void)performGETRequestForEndpoint:(NSString *)endpoint additionalParameters:(NSDictionary *)additionalParameters
-{
-
-}
-
-// <Check-In>
-- (void)performPOSTRequestForEndpoint:(NSString *)endpoint additionalParameters:(NSDictionary *)additionalParameters
+- (void)performGETRequestForEndpointString:(NSString *)endpointString endpointConstant:(FoursquareHTTPClientEndpoint)endpointConstant additionalParameters:(NSDictionary *)additionalParameters
 {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:additionalParameters];
     [parameters setValue:_authToken forKey:@"oauth_token"];
-    [self GET:endpoint parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        [self.delegate foursquareHTTPClient:self didPerformRequestWithResponse:responseObject];
+    [parameters setValue:DATEVERIFIED forKey:@"v"];
+    NSLog(@"Request parameter dictionary: %@", parameters);
+
+    [self GET:endpointString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self.delegate foursquareHTTPClient:self didPerformRequestWithResponse:responseObject forEndpointConstant:endpointConstant];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self.delegate foursquareHTTPClient:self didFailWithError:error];
+    }];
+}
+
+// <Check-In>
+- (void)performPOSTRequestForEndpointString:(NSString *)endpointString endpointConstant:(FoursquareHTTPClientEndpoint)endpointConstant additionalParameters:(NSDictionary *)additionalParameters
+{
+    self.requestSerializer = [AFHTTPRequestSerializer serializer];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:additionalParameters];
+    [parameters setValue:_authToken forKey:@"oauth_token"];
+    [parameters setValue:DATEVERIFIED forKey:@"v"];
+    NSLog(@"Request parameter dictionary: %@", parameters);
+
+    [self POST:endpointString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self.delegate foursquareHTTPClient:self didPerformRequestWithResponse:responseObject forEndpointConstant:endpointConstant];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [self.delegate foursquareHTTPClient:self didFailWithError:error];
     }];

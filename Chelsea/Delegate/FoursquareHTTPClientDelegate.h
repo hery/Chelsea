@@ -7,7 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FoursquareHTTPClient.h"
 
-@interface FoursquareHTTPClientDelegate : NSObject
+@class HomeViewControllerDataSource;
+
+@interface FoursquareHTTPClientDelegate : NSObject <FoursquareHTTPClientDelegate>
+
+@property (nonatomic, strong) HomeViewControllerDataSource *dataSource;
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
