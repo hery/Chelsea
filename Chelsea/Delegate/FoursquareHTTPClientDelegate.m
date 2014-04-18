@@ -44,6 +44,8 @@
             NSLog(@"Check-In successful!");
             NSLog(@"Response: %@", response);
             
+            _venue = response[@"response"][@"checkin"][@"venue"];
+            
             UIAlertView *checkInSuccessAlertView = [[UIAlertView alloc] initWithTitle:@"Checked-In!" message:@"Choose a bunch of words to identify yourself" delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
             checkInSuccessAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
             [checkInSuccessAlertView show];
@@ -81,6 +83,19 @@
     [chelseaWebSocket open];
     
     // Check-In (ws) message setup
+    // Get user's uuid
+    NSUUID *identifierForVendor = [UIDevice currentDevice].identifierForVendor;
+    NSString *userUUID = [identifierForVendor UUIDString];
+    // Get user's chatId
+    NSString *chatId = [alertView textFieldAtIndex:0].text;
+    // Get FS venueId
+    NSString *venueId = _venue[@"id"];
+    // Package and send message
+    NSDictionary *packetDictionary = @{@"userId":userUUID, @"chatId":chatId, @"venueId": venueId};
+    NSError *error;
+    NSData *jsonPacket = [NSJSONSerialization dataWithJSONObject:packetDictionary options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
+    [chelseaWebSocket send:packetString];
     
     [self.navigationController pushViewController:locationTableViewController animated:YES];
 }

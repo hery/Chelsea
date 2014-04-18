@@ -19,4 +19,7 @@
 @property (nonatomic, strong) HomeViewControllerDataSource *dataSource;
 @property (nonatomic, strong) UITableView *tableView;
 
+/** Store venue where user checks-in to get a reference to its id when needed */
+@property (nonatomic, strong) NSDictionary *venue;
+
 @end
