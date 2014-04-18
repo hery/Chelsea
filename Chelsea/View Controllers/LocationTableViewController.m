@@ -67,4 +67,26 @@
     return cell;
 }
 
+#pragma mark - SRWebSocket Delegate Methods
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
+{
+    NSLog(@"Received message: %@", (NSString *)message);
+}
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket
+{
+    NSLog(@"Websocket opened for LocationTableViewController.");
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
+{
+    NSLog(@"Websocket could not open. Reason: %@", error);
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean
+{
+    NSLog(@"Websocket closed. Reason: %@. It %@.", reason, wasClean ? @"was clean" : @"was no clean");
+}
+
 @end

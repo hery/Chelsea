@@ -61,6 +61,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     
     sharedFoursquareHTTPClient = [FoursquareHTTPClient sharedFoursquareHTTPClient];
     FoursquareHTTPClientDelegate *delegate = [[FoursquareHTTPClientDelegate alloc] init];
+    delegate.navigationController = self.navigationController;
     delegate.dataSource = dataSource;
     delegate.tableView = _venueTableView;
     sharedFoursquareHTTPClient.delegate = delegate;
@@ -70,7 +71,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Check-in at %@", dataSource.venuesArray[indexPath.row][@"name"]);
+    NSLog(@"Check-in at: %@", dataSource.venuesArray[indexPath.row]);
     NSDictionary *additionalParameters = @{@"v":@"20140417",
                                            @"venueId":dataSource.venuesArray[indexPath.row][@"id"]};
     [sharedFoursquareHTTPClient performPOSTRequestForEndpointString:@"checkins/add" endpointConstant:FoursquareHTTPClientEndPointCheckIn additionalParameters:additionalParameters];
@@ -111,7 +112,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     CGFloat latitude = 40.745176;
     CGFloat longitude = -73.997215;
     NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
-    NSDictionary *parameters = @{@"ll":ll, @"query":queryString, @"limit":@5, @"v": @"20140417"};
+    NSDictionary *parameters = @{@"ll":ll, @"query":queryString, @"limit":@5, @"v": @"20140417", @"radius":@"1000", @"intent":@"checkin"};
     
     [sharedFoursquareHTTPClient performGETRequestForEndpointString:@"venues/search" endpointConstant:FoursquareHTTPClientEndpointSearch additionalParameters:parameters];
 }

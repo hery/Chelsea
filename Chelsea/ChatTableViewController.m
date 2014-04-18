@@ -7,9 +7,8 @@
 //
 
 #import "ChatTableViewController.h"
-#import <SRWebSocket.h>
 
-NSString * const serverAddress = @"ws://192.168.0.2:8888/chat";
+NSString * const socketServerAddress = @"ws://192.168.0.2:8888/chat";
 
 @interface ChatTableViewController ()
 
@@ -45,7 +44,7 @@ NSString * const serverAddress = @"ws://192.168.0.2:8888/chat";
     
     // WebSocket setup
     NSLog(@"Trying to open socket...");
-    NSString *urlString = serverAddress;
+    NSString *urlString = socketServerAddress;
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     _chelseaWebSocket = [[SRWebSocket alloc] initWithURLRequest:request];

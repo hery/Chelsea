@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "FoursquareHTTPClient.h"
 
+#import <SRWebSocket.h>
+
 @class HomeViewControllerDataSource;
 
-@interface FoursquareHTTPClientDelegate : NSObject <FoursquareHTTPClientDelegate>
+@interface FoursquareHTTPClientDelegate : NSObject <FoursquareHTTPClientDelegate, UIAlertViewDelegate>
 
+@property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) HomeViewControllerDataSource *dataSource;
 @property (nonatomic, strong) UITableView *tableView;
 

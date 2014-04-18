@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SRWebSocket.h>
 
-@interface LocationTableViewController : UITableViewController
+@interface LocationTableViewController : UITableViewController <SRWebSocketDelegate>
 
 @end
