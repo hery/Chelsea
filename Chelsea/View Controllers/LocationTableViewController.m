@@ -7,6 +7,8 @@
 //
 
 #import "LocationTableViewController.h"
+#import <AFHTTPRequestOperationManager.h>
+#import "constants.h"
 
 @interface LocationTableViewController ()
 
@@ -29,7 +31,13 @@
     NSLog(@"Location table view controller loaded.");
     NSLog(@"Location table view controller websocket: %@", _chelseaWebSocket);
     
-    // Send request to get list of users checked-in at this location.
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *requestURLString = [NSString stringWithFormat:@"%@users", chelseaBaseURL];
+    [manager GET:requestURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", responseObject);
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         NSLog(@"Error: %@", error);
+     }];
 }
 
 - (void)didReceiveMemoryWarning
