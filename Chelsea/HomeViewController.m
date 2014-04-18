@@ -112,7 +112,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     CGFloat latitude = 40.745176;
     CGFloat longitude = -73.997215;
     NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
-    NSDictionary *parameters = @{@"ll":ll, @"query":queryString, @"limit":@5, @"v": @"20140417", @"radius":@"1000", @"intent":@"checkin"};
+    NSDictionary *parameters = @{@"ll":ll, @"query":queryString, @"limit":@5, @"radius":@"1000", @"intent":@"checkin"};
     
     [sharedFoursquareHTTPClient performGETRequestForEndpointString:@"venues/search" endpointConstant:FoursquareHTTPClientEndpointSearch additionalParameters:parameters];
 }

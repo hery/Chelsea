@@ -46,6 +46,19 @@
             
             _venue = response[@"response"][@"checkin"][@"venue"];
             
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+            _locationTableViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"locationTableViewController"];
+            
+            // Websocket setup
+            NSString *urlString = socketServerAddress;
+            NSURL *url = [NSURL URLWithString:urlString];
+            NSURLRequest *request = [NSURLRequest requestWithURL:url];
+            _chelseaWebSocket = [[SRWebSocket alloc] initWithURLRequest:request];
+            _locationTableViewController.chelseaWebSocket = _chelseaWebSocket;
+            _chelseaWebSocket.delegate = _locationTableViewController;
+            NSLog(@"Opening websocket...");
+            [_chelseaWebSocket open];
+            
             UIAlertView *checkInSuccessAlertView = [[UIAlertView alloc] initWithTitle:@"Checked-In!" message:@"Choose a bunch of words to identify yourself" delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
             checkInSuccessAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
             [checkInSuccessAlertView show];
@@ -72,16 +85,6 @@
 {
     NSLog(@"You will be identified as %@.", [alertView textFieldAtIndex:0].text);
     
-    
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    LocationTableViewController *locationTableViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"locationTableViewController"];
-    
-    // Websocket setup
-    SRWebSocket *chelseaWebSocket = [SRWebSocket new];
-    locationTableViewController.chelseaWebSocket = chelseaWebSocket;
-    chelseaWebSocket.delegate = locationTableViewController;
-    [chelseaWebSocket open];
-    
     // Check-In (ws) message setup
     // Get user's uuid
     NSUUID *identifierForVendor = [UIDevice currentDevice].identifierForVendor;
@@ -91,13 +94,13 @@
     // Get FS venueId
     NSString *venueId = _venue[@"id"];
     // Package and send message
-    NSDictionary *packetDictionary = @{@"userId":userUUID, @"chatId":chatId, @"venueId": venueId};
+    NSDictionary *packetDictionary = @{@"userId":userUUID, @"chatId":chatId, @"venueId": venueId, @"type": @"setup"};
     NSError *error;
     NSData *jsonPacket = [NSJSONSerialization dataWithJSONObject:packetDictionary options:NSJSONWritingPrettyPrinted error:&error];
     NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
-    [chelseaWebSocket send:packetString];
+    [_chelseaWebSocket send:packetString];
     
-    [self.navigationController pushViewController:locationTableViewController animated:YES];
+    [self.navigationController pushViewController:_locationTableViewController animated:YES];
 }
 
 @end

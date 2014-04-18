@@ -12,6 +12,7 @@
 #import <SRWebSocket.h>
 
 @class HomeViewControllerDataSource;
+@class LocationTableViewController;
 
 @interface FoursquareHTTPClientDelegate : NSObject <FoursquareHTTPClientDelegate, UIAlertViewDelegate>
 
@@ -19,7 +20,10 @@
 @property (nonatomic, strong) HomeViewControllerDataSource *dataSource;
 @property (nonatomic, strong) UITableView *tableView;
 
+@property (nonatomic, strong) SRWebSocket *chelseaWebSocket;
 /** Store venue where user checks-in to get a reference to its id when needed */
 @property (nonatomic, strong) NSDictionary *venue;
+
+@property (nonatomic, strong) LocationTableViewController *locationTableViewController;
 
 @end

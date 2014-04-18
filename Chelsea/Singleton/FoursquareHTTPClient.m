@@ -40,9 +40,10 @@ NSString * const DATEVERIFIED = @"20140417";
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:additionalParameters];
     [parameters setValue:_authToken forKey:@"oauth_token"];
     [parameters setValue:DATEVERIFIED forKey:@"v"];
-    NSLog(@"Request parameter dictionary: %@", parameters);
+    NSDictionary *immutableParameters = [[NSDictionary alloc] initWithDictionary:parameters];
+    NSLog(@"Request parameter dictionary: %@", immutableParameters);
 
-    [self GET:endpointString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self GET:endpointString parameters:immutableParameters success:^(NSURLSessionDataTask *task, id responseObject) {
         [self.delegate foursquareHTTPClient:self didPerformRequestWithResponse:responseObject forEndpointConstant:endpointConstant];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [self.delegate foursquareHTTPClient:self didFailWithError:error];
@@ -56,9 +57,10 @@ NSString * const DATEVERIFIED = @"20140417";
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:additionalParameters];
     [parameters setValue:_authToken forKey:@"oauth_token"];
     [parameters setValue:DATEVERIFIED forKey:@"v"];
-    NSLog(@"Request parameter dictionary: %@", parameters);
+    NSDictionary *immutableParameters = [[NSDictionary alloc] initWithDictionary:parameters];
+    NSLog(@"Request parameter dictionary: %@", immutableParameters);
 
-    [self POST:endpointString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:endpointString parameters:immutableParameters success:^(NSURLSessionDataTask *task, id responseObject) {
         [self.delegate foursquareHTTPClient:self didPerformRequestWithResponse:responseObject forEndpointConstant:endpointConstant];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [self.delegate foursquareHTTPClient:self didFailWithError:error];

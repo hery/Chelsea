@@ -7,8 +7,7 @@
 //
 
 #import "ChatTableViewController.h"
-
-NSString * const socketServerAddress = @"ws://192.168.0.2:8888/chat";
+#import "constants.h"
 
 @interface ChatTableViewController ()
 
@@ -155,7 +154,6 @@ NSString * const socketServerAddress = @"ws://192.168.0.2:8888/chat";
 {
     [_inputTextField resignFirstResponder];
     
-    // Handle message sending here
     NSString *message = _inputTextField.text;
     NSString *username = @"pandaPhone";
     NSString *targetUsername = @"pandaPhone";
