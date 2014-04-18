@@ -26,12 +26,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"Location table view controller loaded.");
+    NSLog(@"Location table view controller websocket: %@", _chelseaWebSocket);
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    // Send request to get list of users checked-in at this location.
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,7 +44,7 @@
     destinationViewController.title = @"@playing piano on a snowboard";
 }
 
-#pragma mark - Table view data source
+#pragma mark - Tableview Datasource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -60,11 +58,17 @@
     return 10;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell" forIndexPath:indexPath];
     return cell;
+}
+
+#pragma mark - Tableview Delegate Methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
 #pragma mark - SRWebSocket Delegate Methods

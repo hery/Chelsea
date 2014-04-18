@@ -86,7 +86,7 @@
         <!--Location Table View Controller - @Location-->
         <scene sceneID="dRG-d9-Sf0">
             <objects>
-                <tableViewController id="ek3-uA-1fa" customClass="LocationTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="locationTableViewController" id="ek3-uA-1fa" customClass="LocationTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="cTC-fD-SFJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

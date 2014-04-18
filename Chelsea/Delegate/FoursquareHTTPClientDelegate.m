@@ -69,9 +69,19 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"You will be identified as %@.", [alertView textFieldAtIndex:0].text);
+    
+    
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    LocationTableViewController *locationTableViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"locationTableViewController"];
+    
+    // Websocket setup
     SRWebSocket *chelseaWebSocket = [SRWebSocket new];
-    LocationTableViewController *locationTableViewController = [LocationTableViewController new];
+    locationTableViewController.chelseaWebSocket = chelseaWebSocket;
     chelseaWebSocket.delegate = locationTableViewController;
+    [chelseaWebSocket open];
+    
+    // Check-In (ws) message setup
+    
     [self.navigationController pushViewController:locationTableViewController animated:YES];
 }
 

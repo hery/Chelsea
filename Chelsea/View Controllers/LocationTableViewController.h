@@ -11,4 +11,6 @@
 
 @interface LocationTableViewController : UITableViewController <SRWebSocketDelegate>
 
+@property (nonatomic, strong) SRWebSocket *chelseaWebSocket;
+
 @end
