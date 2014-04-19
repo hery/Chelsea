@@ -100,6 +100,8 @@
     NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
     [_chelseaWebSocket send:packetString];
     
+    NSLog(@"venue: %@", _venue);
+    _locationTableViewController.title = [NSString stringWithFormat:@"@ %@", _venue[@"name"]];
     [self.navigationController pushViewController:_locationTableViewController animated:YES];
 }
 

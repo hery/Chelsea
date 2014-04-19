@@ -60,6 +60,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
         NSLog(@"%i",(int)[FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString]);
     
     sharedFoursquareHTTPClient = [FoursquareHTTPClient sharedFoursquareHTTPClient];
+    sharedFoursquareHTTPClient.authToken = foursquareAccessCodeString;
     FoursquareHTTPClientDelegate *delegate = [[FoursquareHTTPClientDelegate alloc] init];
     delegate.navigationController = self.navigationController;
     delegate.dataSource = dataSource;
@@ -85,7 +86,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     NSDictionary *queryDictionary = [NSDictionary parseQueryString:[url query]];
     NSUserDefaults *standardUserDefault = [NSUserDefaults standardUserDefaults];
     [standardUserDefault setObject:[queryDictionary objectForKey:@"code"] forKey:@"foursquareAccessCode"];
-    NSLog(@"New Foursqare access token: %@", [queryDictionary objectForKey:@"code"]);
+    NSLog(@"New Foursquare access token: %@", [queryDictionary objectForKey:@"code"]);
 }
 
 # pragma mark Search bar delegate methods 

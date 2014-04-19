@@ -38,7 +38,9 @@ NSString * const DATEVERIFIED = @"20140417";
 - (void)performGETRequestForEndpointString:(NSString *)endpointString endpointConstant:(FoursquareHTTPClientEndpoint)endpointConstant additionalParameters:(NSDictionary *)additionalParameters
 {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:additionalParameters];
+    NSLog(@"Auth token for request: %@", _authToken);
     [parameters setValue:_authToken forKey:@"oauth_token"];
+    NSLog(@"Verified date for request: %@", DATEVERIFIED);
     [parameters setValue:DATEVERIFIED forKey:@"v"];
     NSDictionary *immutableParameters = [[NSDictionary alloc] initWithDictionary:parameters];
     NSLog(@"Request parameter dictionary: %@", immutableParameters);
@@ -55,6 +57,7 @@ NSString * const DATEVERIFIED = @"20140417";
 {
     self.requestSerializer = [AFHTTPRequestSerializer serializer];
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:additionalParameters];
+    NSLog(@"Auth token for request: %@", _authToken);
     [parameters setValue:_authToken forKey:@"oauth_token"];
     [parameters setValue:DATEVERIFIED forKey:@"v"];
     NSDictionary *immutableParameters = [[NSDictionary alloc] initWithDictionary:parameters];

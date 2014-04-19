@@ -35,6 +35,10 @@
     NSString *requestURLString = [NSString stringWithFormat:@"%@users", chelseaBaseURL];
     [manager GET:requestURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@", responseObject);
+        
+        _checkedInUsersArray = responseObject[@"response"];
+        [self.tableView reloadData];
+        
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          NSLog(@"Error: %@", error);
      }];
@@ -63,12 +67,13 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 10;
+    return _checkedInUsersArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell" forIndexPath:indexPath];
+    cell.textLabel.text = _checkedInUsersArray[indexPath.row][@"chatId"];
     return cell;
 }
 
