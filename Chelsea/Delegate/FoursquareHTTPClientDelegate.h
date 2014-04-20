@@ -12,7 +12,7 @@
 #import <SRWebSocket.h>
 
 @class HomeViewControllerDataSource;
-@class LocationTableViewController;
+@class ChatTableViewController;
 
 @interface FoursquareHTTPClientDelegate : NSObject <FoursquareHTTPClientDelegate, UIAlertViewDelegate>
 
@@ -24,6 +24,6 @@
 /** Store venue where user checks-in to get a reference to its id when needed */
 @property (nonatomic, strong) NSDictionary *venue;
 
-@property (nonatomic, strong) LocationTableViewController *locationTableViewController;
+@property (nonatomic, strong) ChatTableViewController *chatTableViewController;
 
 @end

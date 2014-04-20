@@ -64,9 +64,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="ek3-uA-1fa" kind="push" id="THq-7w-9KV"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -93,7 +90,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="UserCell" textLabel="aAM-kL-F0T" style="IBUITableViewCellStyleDefault" id="DDD-rA-OhI">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DDD-rA-OhI" id="FXF-Xr-BQz">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -108,9 +105,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="h4F-M1-WIc" kind="push" id="6IA-Mm-t3y"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -127,7 +121,7 @@
         <!--Chat Table View Controller - @User-->
         <scene sceneID="tRR-p0-bZc">
             <objects>
-                <viewController id="h4F-M1-WIc" customClass="ChatTableViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="chatTableViewController" id="h4F-M1-WIc" customClass="ChatTableViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="w14-tZ-G9z"/>
                         <viewControllerLayoutGuide type="bottom" id="zFa-q2-Qy1"/>
@@ -142,7 +136,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatCell" textLabel="L18-Dn-jZS" style="IBUITableViewCellStyleDefault" id="kyI-B2-DGq">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kyI-B2-DGq" id="9rs-0c-fh2">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>

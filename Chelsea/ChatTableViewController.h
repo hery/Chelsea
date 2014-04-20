@@ -16,4 +16,13 @@
 @property (nonatomic, strong) SRWebSocket *chelseaWebSocket;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+/** venue and checked-in users info */
+@property (nonatomic, strong) NSDictionary *venue;
+@property (nonatomic, strong) NSArray *checkedInUsersArray;
+
+/** user info */
+@property (nonatomic, strong) NSDictionary *chelseaUserInfo;
+
+@property (nonatomic, strong) NSMutableArray *messagesArray;
+
 @end

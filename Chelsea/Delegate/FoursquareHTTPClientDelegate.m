@@ -9,7 +9,7 @@
 #import "FoursquareHTTPClientDelegate.h"
 #import "FoursquareHTTPClient.h"
 #import "HomeViewControllerDataSource.h"
-#import "LocationTableViewController.h"
+#import "ChatTableViewController.h"
 
 #import <FSOAuth.h>
 
@@ -47,15 +47,15 @@
             _venue = response[@"response"][@"checkin"][@"venue"];
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-            _locationTableViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"locationTableViewController"];
+            _chatTableViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"chatTableViewController"];
             
             // Websocket setup
             NSString *urlString = socketServerAddress;
             NSURL *url = [NSURL URLWithString:urlString];
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
             _chelseaWebSocket = [[SRWebSocket alloc] initWithURLRequest:request];
-            _locationTableViewController.chelseaWebSocket = _chelseaWebSocket;
-            _chelseaWebSocket.delegate = _locationTableViewController;
+            _chatTableViewController.chelseaWebSocket = _chelseaWebSocket;
+            _chelseaWebSocket.delegate = _chatTableViewController;
             NSLog(@"Opening websocket...");
             [_chelseaWebSocket open];
             
@@ -100,9 +100,10 @@
     NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
     [_chelseaWebSocket send:packetString];
     
-    NSLog(@"venue: %@", _venue);
-    _locationTableViewController.title = [NSString stringWithFormat:@"@ %@", _venue[@"name"]];
-    [self.navigationController pushViewController:_locationTableViewController animated:YES];
+    _chatTableViewController.title = [NSString stringWithFormat:@"@ %@", _venue[@"name"]];
+    _chatTableViewController.venue = _venue;
+    _chatTableViewController.chelseaUserInfo = @{@"userId":userUUID, @"chatId":chatId};
+    [self.navigationController pushViewController:_chatTableViewController animated:YES];
 }
 
 @end

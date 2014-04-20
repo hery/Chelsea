@@ -41,15 +41,6 @@
 {
     [super viewDidAppear:animated];
     
-    // WebSocket setup
-    NSLog(@"Trying to open socket...");
-    NSString *urlString = socketServerAddress;
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    _chelseaWebSocket = [[SRWebSocket alloc] initWithURLRequest:request];
-    _chelseaWebSocket.delegate = self;
-    [_chelseaWebSocket open];
-    
     // Views setup
     _inputTextField.frame = CGRectMake(0,
                                        [UIScreen mainScreen].bounds.size.height-50,
@@ -85,13 +76,19 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 10;
+    return _messagesArray.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChatCell" forIndexPath:indexPath];
+    if (_messagesArray.count > 0) {
+        NSString *messageString = [[NSString alloc] initWithFormat:@"%@: %@",
+                                   _messagesArray[indexPath.row][@"userId"],
+                                   _messagesArray[indexPath.row][@"message"]];
+        cell.textLabel.text = messageString;
+    }
     return cell;
 }
 
@@ -105,6 +102,10 @@
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
 {
     NSLog(@"Websocket received message: %@", message);
+    [_messagesArray addObject:message];
+    [self.tableView reloadData];
+    
+    NSLog(@"New message array: %@", _messagesArray                                          );
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
@@ -153,14 +154,23 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [_inputTextField resignFirstResponder];
-    
     NSString *message = _inputTextField.text;
-    NSString *username = @"pandaPhone";
-    NSString *targetUsername = @"pandaPhone";
-    NSDictionary *packetDictionary = @{@"originUID":username, @"targetUID":targetUsername, @"message":message};
+    
+    NSLog(@"Setting up chat message...");
+    NSLog(@"User info: %@", _chelseaUserInfo);
+    NSLog(@"Venue: %@", _venue);
+    NSLog(@"Message: %@", message);
+    
+    NSDictionary *packetDictionary = @{@"userId":_chelseaUserInfo[@"userId"],
+                                       @"chatId":_chelseaUserInfo[@"chatId"],
+                                       @"venueId":_venue[@"id"],
+                                       @"message":message,
+                                       @"type":@"chat"};
+
     NSData *jsonPacket = [NSJSONSerialization dataWithJSONObject:packetDictionary 
                                                         options:NSJSONWritingPrettyPrinted error:nil];
     NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
+    NSLog(@"Sending <%@>", packetDictionary);
     [_chelseaWebSocket send:packetString];
     return YES;
 }
