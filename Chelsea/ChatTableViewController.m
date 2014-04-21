@@ -35,6 +35,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    _messagesArray = [[NSMutableArray alloc] init];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -85,8 +86,8 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChatCell" forIndexPath:indexPath];
     if (_messagesArray.count > 0) {
         NSString *messageString = [[NSString alloc] initWithFormat:@"%@: %@",
-                                   _messagesArray[indexPath.row][@"userId"],
-                                   _messagesArray[indexPath.row][@"message"]];
+                                   _messagesArray[indexPath.row][@"chatId"],
+                                   _messagesArray[indexPath.row][@"text"]];
         cell.textLabel.text = messageString;
     }
     return cell;
@@ -102,10 +103,12 @@
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
 {
     NSLog(@"Websocket received message: %@", message);
-    [_messagesArray addObject:message];
+    NSData *decodedDictionary = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:decodedDictionary options:NSJSONReadingMutableContainers error:nil];
+    [_messagesArray addObject:jsonDictionary];
     [self.tableView reloadData];
     
-    NSLog(@"New message array: %@", _messagesArray                                          );
+    NSLog(@"New message array: %@", _messagesArray);
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
@@ -164,7 +167,7 @@
     NSDictionary *packetDictionary = @{@"userId":_chelseaUserInfo[@"userId"],
                                        @"chatId":_chelseaUserInfo[@"chatId"],
                                        @"venueId":_venue[@"id"],
-                                       @"message":message,
+                                       @"text":message,
                                        @"type":@"chat"};
 
     NSData *jsonPacket = [NSJSONSerialization dataWithJSONObject:packetDictionary 
