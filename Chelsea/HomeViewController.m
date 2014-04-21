@@ -55,9 +55,13 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString *foursquareAccessCodeString = [standardUserDefaults objectForKey:@"foursquareAccessCode"];
 
+    NSLog(@"Current FS token: %@", foursquareAccessCodeString);
+    
     // Todo: check token validity
-    if (!foursquareAccessCodeString)
+    if (!foursquareAccessCodeString) {
+        NSLog(@"No valid token found. Reauthenticating...");
         NSLog(@"%i",(int)[FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString]);
+    }
     
     sharedFoursquareHTTPClient = [FoursquareHTTPClient sharedFoursquareHTTPClient];
     sharedFoursquareHTTPClient.authToken = foursquareAccessCodeString;
@@ -81,12 +85,16 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 #pragma mark Foursquare API methods
 
 - (void)handleAuthenticationForURL:(NSURL *)url
-// We just need to save the authentication token for subsequent requests.
 {
-    NSDictionary *queryDictionary = [NSDictionary parseQueryString:[url query]];
     NSUserDefaults *standardUserDefault = [NSUserDefaults standardUserDefaults];
-    [standardUserDefault setObject:[queryDictionary objectForKey:@"code"] forKey:@"foursquareAccessCode"];
-    NSLog(@"New Foursquare access token: %@", [queryDictionary objectForKey:@"code"]);
+    FSOAuthErrorCode *error = NULL;
+    NSString *accessCodeString = [FSOAuth accessCodeForFSOAuthURL:url error:error];
+    if (error == FSOAuthStatusSuccess) {
+        NSLog(@"FS auth succeeded. Token: %@", accessCodeString);
+        [standardUserDefault setObject:accessCodeString forKey:@"foursquareAccessCode"];
+    } else {
+        NSLog(@"Error getting FS token: %i", (int)error);
+    }
 }
 
 # pragma mark Search bar delegate methods 
