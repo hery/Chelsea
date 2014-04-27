@@ -8,6 +8,7 @@
 
 #import "ChatTableViewController.h"
 #import "constants.h"
+#import <RDRStickyKeyboardView.h>
 
 @interface ChatTableViewController ()
 
@@ -43,17 +44,12 @@
     [super viewDidAppear:animated];
     
     // Views setup
-    _inputTextField.frame = CGRectMake(0,
-                                       [UIScreen mainScreen].bounds.size.height-50,
-                                       [UIScreen mainScreen].bounds.size.width,
-                                       50);
-    _inputTextField.backgroundColor = [UIColor whiteColor];
-    _inputTextField.layer.borderWidth = 1;
-    _inputTextField.layer.borderColor = [UIColor grayColor].CGColor;
-    _inputTextField.delegate = self;
-    [self.view addSubview:_inputTextField];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    RDRStickyKeyboardView *stickyKeyboardView = [[RDRStickyKeyboardView alloc] initWithScrollView:_tableView];
+    stickyKeyboardView.frame = self.view.bounds;
+    stickyKeyboardView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    [self.view addSubview:stickyKeyboardView];
     
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -126,39 +122,10 @@
 
 #pragma mark - Notifications
 
-- (void)keyboardDidShow:(NSNotification *)notification
-{
-    // Update textfield frame
-    NSDictionary *userInfoDictionary = [notification userInfo];
-    CGRect keyboardEndFrame = [userInfoDictionary[@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
-    CGRect newFrameForInputTextField = _inputTextField.frame;
-    newFrameForInputTextField.origin.y = keyboardEndFrame.origin.y - newFrameForInputTextField.size.height;
-    _inputTextField.frame = newFrameForInputTextField;
-    
-    CGRect tableViewEndFrame = _tableView.frame;
-    tableViewEndFrame.origin.y = _inputTextField.frame.origin.y - _tableView.frame.size.height;
-    _tableView.frame = tableViewEndFrame;
-}
-
-- (void)keyboardDidHide:(NSNotification *)notification
-{
-    // Update textfield frame
-    NSDictionary *userInfoDictionary = [notification userInfo];
-    CGRect keyboardEndFrame = [userInfoDictionary[@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
-    CGRect newFrameForInputTextField = _inputTextField.frame;
-    newFrameForInputTextField.origin.y = keyboardEndFrame.origin.y - newFrameForInputTextField.size.height;
-    _inputTextField.frame = newFrameForInputTextField;
-    
-    CGRect tableViewEndFrame = _tableView.frame;
-    tableViewEndFrame.origin.y = _inputTextField.frame.origin.y - _tableView.frame.size.height;
-    _tableView.frame = tableViewEndFrame;
-}
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [_inputTextField resignFirstResponder];
-    NSString *message = _inputTextField.text;
-    
+    NSString *message = _stickyKeyboardView.inputView.textView.text;
+        
     NSLog(@"Setting up chat message...");
     NSLog(@"User info: %@", _chelseaUserInfo);
     NSLog(@"Venue: %@", _venue);

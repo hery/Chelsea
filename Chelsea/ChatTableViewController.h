@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <SRWebSocket.h>
 
+@class RDRStickyKeyboardView;
+
 @interface ChatTableViewController : UIViewController <SRWebSocketDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextField *inputTextField;
+// Replacing by sticky keyboard
+@property (nonatomic, strong) RDRStickyKeyboardView *stickyKeyboardView;
 
 @property (nonatomic, strong) SRWebSocket *chelseaWebSocket;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UITableView *tableView;
 
 /** venue and checked-in users info */
 @property (nonatomic, strong) NSDictionary *venue;
