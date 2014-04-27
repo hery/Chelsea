@@ -31,11 +31,6 @@
 {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     _messagesArray = [[NSMutableArray alloc] init];
 }
 
@@ -46,10 +41,14 @@
     // Views setup
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    RDRStickyKeyboardView *stickyKeyboardView = [[RDRStickyKeyboardView alloc] initWithScrollView:_tableView];
-    stickyKeyboardView.frame = self.view.bounds;
-    stickyKeyboardView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    [self.view addSubview:stickyKeyboardView];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"ChatCell"];
+    
+    _stickyKeyboardView = [[RDRStickyKeyboardView alloc] initWithScrollView:_tableView];
+    _stickyKeyboardView.frame = self.view.bounds;
+    _stickyKeyboardView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    
+    [_stickyKeyboardView.inputView.rightButton addTarget:self action:@selector(sendMessage) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_stickyKeyboardView];
     
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -122,10 +121,17 @@
 
 #pragma mark - Notifications
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
+//- (BOOL)textFieldShouldReturn:(UITextField *)textField
+- (void)sendMessage
 {
+    [_stickyKeyboardView.inputView.textView endEditing:YES];
+    
     NSString *message = _stickyKeyboardView.inputView.textView.text;
-        
+    if (!message)
+        message = @"Prout!";
+    
+    NSLog(@"%@", _stickyKeyboardView.inputView.textView.text);
+    
     NSLog(@"Setting up chat message...");
     NSLog(@"User info: %@", _chelseaUserInfo);
     NSLog(@"Venue: %@", _venue);
@@ -142,7 +148,7 @@
     NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
     NSLog(@"Sending <%@>", packetDictionary);
     [_chelseaWebSocket send:packetString];
-    return YES;
+//    return YES;
 }
 
 @end
