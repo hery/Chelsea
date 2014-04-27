@@ -7,9 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface HomeViewControllerDataSource : NSObject <UITableViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray *venuesArray;
+@property (nonatomic, assign) CLLocationDegrees currentLatitude;
+@property (nonatomic, assign) CLLocationDegrees currentLongitude;
 
 @end

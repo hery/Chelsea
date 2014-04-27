@@ -30,9 +30,28 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    if ([_venuesArray count] > 0)
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"venueCell" forIndexPath:indexPath];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"venueCell"];
+    }
+    
+    if ([_venuesArray count] > 0) {
         cell.textLabel.text = _venuesArray[indexPath.row][@"name"];
+        
+        NSString *addressString = _venuesArray[indexPath.row][@"location"][@"address"];
+        
+        NSString *latitudeString = _venuesArray[indexPath.row][@"location"][@"lat"];
+        NSString *longitudeString = _venuesArray[indexPath.row][@"location"][@"lng"];
+        CGFloat lat = [latitudeString floatValue];
+        CGFloat lng = [longitudeString floatValue];
+        
+        CLLocation *venueLocation = [[CLLocation alloc] initWithLatitude:lat longitude:lng];
+        CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:_currentLatitude longitude:_currentLongitude];
+        CLLocationDistance distanceToVenue = [venueLocation distanceFromLocation:userLocation];
+        NSString *formattedDistanceString = [NSString stringWithFormat:@"%.01f", distanceToVenue];
+        
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@m away)", addressString, formattedDistanceString];
+    }
     else
         cell.textLabel.text = @"nil";
     return cell;

@@ -50,7 +50,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     _venueTableView.dataSource = dataSource;
     
     _venueTableView.delegate = self;
-    [_venueTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    [_venueTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"venueCells"];
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString *foursquareAccessCodeString = [standardUserDefaults objectForKey:@"foursquareAccessCode"];
@@ -93,6 +93,8 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     if (abs(intervalSinceNow) < 15) {
         _currentLatitude = location.coordinate.latitude;
         _currentLongitude = location.coordinate.longitude;
+        dataSource.currentLatitude = _currentLatitude;
+        dataSource.currentLongitude = _currentLongitude;
     } else {
         // Do nothing to save power.
     }
@@ -106,6 +108,11 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     NSDictionary *additionalParameters = @{@"v":@"20140417",
                                            @"venueId":dataSource.venuesArray[indexPath.row][@"id"]};
     [sharedFoursquareHTTPClient performPOSTRequestForEndpointString:@"checkins/add" endpointConstant:FoursquareHTTPClientEndPointCheckIn additionalParameters:additionalParameters];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
 }
 
 #pragma mark Foursquare API methods
@@ -142,10 +149,17 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     
     [_venueSearchBar resignFirstResponder];
     NSString *queryString = [searchBar text];
+
+    CGFloat latitude, longitude;
     
-    // Hard-coded locations should be replaced with user's location.
-    CGFloat latitude = _currentLatitude;
-    CGFloat longitude = _currentLongitude;
+    latitude = _currentLatitude;
+    longitude = _currentLongitude;
+    
+    if (latitude == 0.0f || longitude == 0.0f) {
+        latitude = 40.745176;
+        longitude = -73.997215;
+    }
+    
     NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
     NSDictionary *parameters = @{@"ll":ll, @"query":queryString, @"limit":@5, @"radius":@"1000", @"intent":@"checkin"};
     

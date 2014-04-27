@@ -27,6 +27,8 @@
             NSArray *venuesArray = [[response objectForKey:@"response"] objectForKey:@"venues"];
             NSLog(@"Venues query got %li results.", venuesArray.count);
             
+            NSLog(@"Venue objects array: %@", venuesArray);
+            
             NSMutableArray *indexPathArray = [NSMutableArray new];
             [venuesArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 [_dataSource.venuesArray addObject:(NSDictionary *)obj];
