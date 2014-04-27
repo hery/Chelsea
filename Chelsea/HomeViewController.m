@@ -64,7 +64,6 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     }
     
     sharedFoursquareHTTPClient = [FoursquareHTTPClient sharedFoursquareHTTPClient];
-    sharedFoursquareHTTPClient.authToken = foursquareAccessCodeString;
     FoursquareHTTPClientDelegate *delegate = [[FoursquareHTTPClientDelegate alloc] init];
     delegate.navigationController = self.navigationController;
     delegate.dataSource = dataSource;
@@ -90,7 +89,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     FSOAuthErrorCode *error = NULL;
     NSString *accessCodeString = [FSOAuth accessCodeForFSOAuthURL:url error:error];
     if (error == FSOAuthStatusSuccess) {
-        NSLog(@"FS auth succeeded. Token: %@", accessCodeString);
+        NSLog(@"FS auth succeeded. Token: <%@>", accessCodeString);
         [standardUserDefault setObject:accessCodeString forKey:@"foursquareAccessCode"];
     } else {
         NSLog(@"Error getting FS token: %i", (int)error);

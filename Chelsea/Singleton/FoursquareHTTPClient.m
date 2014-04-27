@@ -29,7 +29,6 @@ NSString * const DATEVERIFIED = @"20140417";
     if (self) {
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.responseSerializer = [AFJSONResponseSerializer serializer];
-        _authToken = [[NSUserDefaults standardUserDefaults] valueForKey:@"foursquareAccessCode"];
     }
     return self;
 }
@@ -38,8 +37,12 @@ NSString * const DATEVERIFIED = @"20140417";
 - (void)performGETRequestForEndpointString:(NSString *)endpointString endpointConstant:(FoursquareHTTPClientEndpoint)endpointConstant additionalParameters:(NSDictionary *)additionalParameters
 {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:additionalParameters];
-    NSLog(@"Auth token for request: %@", _authToken);
-    [parameters setValue:_authToken forKey:@"oauth_token"];
+    
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *fsAuthToken = [standardUserDefaults objectForKey:@"foursquareAccessCode"];
+    
+    NSLog(@"Auth token for request: %@", fsAuthToken);
+    [parameters setValue:fsAuthToken forKey:@"oauth_token"];
     NSLog(@"Verified date for request: %@", DATEVERIFIED);
     [parameters setValue:DATEVERIFIED forKey:@"v"];
     NSDictionary *immutableParameters = [[NSDictionary alloc] initWithDictionary:parameters];
@@ -56,9 +59,13 @@ NSString * const DATEVERIFIED = @"20140417";
 - (void)performPOSTRequestForEndpointString:(NSString *)endpointString endpointConstant:(FoursquareHTTPClientEndpoint)endpointConstant additionalParameters:(NSDictionary *)additionalParameters
 {
     self.requestSerializer = [AFHTTPRequestSerializer serializer];
+    
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *fsAuthToken = [standardUserDefaults objectForKey:@"foursquareAccessCode"];
+    
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:additionalParameters];
-    NSLog(@"Auth token for request: %@", _authToken);
-    [parameters setValue:_authToken forKey:@"oauth_token"];
+    NSLog(@"Auth token for request: %@", fsAuthToken);
+    [parameters setValue:fsAuthToken forKey:@"oauth_token"];
     [parameters setValue:DATEVERIFIED forKey:@"v"];
     NSDictionary *immutableParameters = [[NSDictionary alloc] initWithDictionary:parameters];
     NSLog(@"Request parameter dictionary: %@", immutableParameters);

@@ -19,7 +19,6 @@ typedef NS_ENUM(NSInteger, FoursquareHTTPClientEndpoint) {
 @interface FoursquareHTTPClient : AFHTTPSessionManager
 
 @property (nonatomic, strong) id <FoursquareHTTPClientDelegate> delegate;
-@property (nonatomic, copy) NSString *authToken;
 
 + (FoursquareHTTPClient *)sharedFoursquareHTTPClient;
 - (instancetype)initWithBaseURL:(NSURL *)url;
