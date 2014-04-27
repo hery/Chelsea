@@ -69,6 +69,33 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     delegate.dataSource = dataSource;
     delegate.tableView = _venueTableView;
     sharedFoursquareHTTPClient.delegate = delegate;
+
+    [self startLocationUpdates];
+}
+
+#pragma mark - Core Location Methods
+
+- (void)startLocationUpdates
+{
+    if (nil == _locationManager)
+        _locationManager = [CLLocationManager new];
+    _locationManager.delegate = self;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    _locationManager.distanceFilter = 1000;
+    [_locationManager startUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    CLLocation *location = [locations lastObject];
+    NSDate *locationDate = location.timestamp;
+    NSTimeInterval intervalSinceNow = [locationDate timeIntervalSinceNow];
+    if (abs(intervalSinceNow) < 15) {
+        _currentLatitude = location.coordinate.latitude;
+        _currentLongitude = location.coordinate.longitude;
+    } else {
+        // Do nothing to save power.
+    }
 }
 
 #pragma mark - Tableview delegate methods
@@ -117,8 +144,8 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     NSString *queryString = [searchBar text];
     
     // Hard-coded locations should be replaced with user's location.
-    CGFloat latitude = 40.745176;
-    CGFloat longitude = -73.997215;
+    CGFloat latitude = _currentLatitude;
+    CGFloat longitude = _currentLongitude;
     NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
     NSDictionary *parameters = @{@"ll":ll, @"query":queryString, @"limit":@5, @"radius":@"1000", @"intent":@"checkin"};
     
