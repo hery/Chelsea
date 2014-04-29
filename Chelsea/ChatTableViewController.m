@@ -16,7 +16,7 @@
 
 @implementation ChatTableViewController
 
-#pragma mark - Object lifecyle
+#pragma mark - Object Lifecyle
 
 - (id)init
 {
@@ -32,6 +32,10 @@
     [super viewDidLoad];
     
     _messagesArray = [[NSMutableArray alloc] init];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:12/255.0f green:47/255.0f blue:100/255.0f alpha:1.0f];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -40,8 +44,10 @@
     
     // Views setup
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
+    self.tableView.separatorColor = [UIColor colorWithRed:0.887 green:0.887 blue:0.887 alpha:1];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"ChatCell"];
+    self.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height+30, 0, 0, 0);
     
     _stickyKeyboardView = [[RDRStickyKeyboardView alloc] initWithScrollView:_tableView];
     _stickyKeyboardView.frame = self.view.bounds;
@@ -61,7 +67,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table View Delegate
+
+#pragma mark - Table View Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -88,7 +96,7 @@
     return cell;
 }
 
-#pragma mark - WebSocket delegate
+#pragma mark - WebSocket Delegate
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket
 {
@@ -130,7 +138,7 @@
     if (!message)
         message = @"Prout!";
     
-    NSLog(@"%@", _stickyKeyboardView.inputView.textView.text);
+    _stickyKeyboardView.inputView.textView.text = @"";
     
     NSLog(@"Setting up chat message...");
     NSLog(@"User info: %@", _chelseaUserInfo);

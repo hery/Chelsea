@@ -43,6 +43,10 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     
     self.title = @"Check-In";
     
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:12/255.0f green:47/255.0f blue:100/255.0f alpha:1.0f];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    
     _venueSearchBar.delegate = self;
     
     // dataSource is nil if initialized in initializer. Why?
@@ -158,6 +162,8 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    [searchBar setText:@""];
+    
     NSLog(@"Searching for venues...");
     // Wipe current results, if any.
     NSMutableArray *indexPathOfCurrentVenues = [[NSMutableArray alloc] init];
