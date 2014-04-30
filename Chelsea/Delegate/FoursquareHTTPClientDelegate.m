@@ -61,7 +61,7 @@
             NSLog(@"Opening websocket...");
             [_chelseaWebSocket open];
             
-            UIAlertView *checkInSuccessAlertView = [[UIAlertView alloc] initWithTitle:@"Checked-In!" message:@"Choose a bunch of words to identify yourself" delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
+            UIAlertView *checkInSuccessAlertView = [[UIAlertView alloc] initWithTitle:@"Checked-In!" message:@"Choose a bunch of letters to identify yourself" delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
             checkInSuccessAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
             [checkInSuccessAlertView show];
         }

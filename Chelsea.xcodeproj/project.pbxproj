@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		86D0BA732A784A0DB6D3536E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF5D4ABF404420BAD18C064 /* libPods.a */; };
 		CA0BD5E71897374B0047AAE0 /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA0BD5E61897374B0047AAE0 /* images.xcassets */; };
+		CA377E8319107AA6008385E4 /* ChatTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA377E8219107AA6008385E4 /* ChatTableViewCell.m */; };
 		CA55E34818A05467006C8371 /* NSDictionary+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = CA55E34718A05467006C8371 /* NSDictionary+Helpers.m */; };
 		CA733D0C18985C4900CF73FF /* HomeViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = CA733D0B18985C4900CF73FF /* HomeViewControllerDataSource.m */; };
 		CA7398CF190064B60031AF10 /* constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CA7398CE190064B60031AF10 /* constants.m */; };
@@ -49,6 +50,8 @@
 		2FF5D4ABF404420BAD18C064 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE7D1172E2A94A54B513416A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		CA0BD5E61897374B0047AAE0 /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
+		CA377E8119107AA6008385E4 /* ChatTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatTableViewCell.h; path = Objects/ChatTableViewCell.h; sourceTree = "<group>"; };
+		CA377E8219107AA6008385E4 /* ChatTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatTableViewCell.m; path = Objects/ChatTableViewCell.m; sourceTree = "<group>"; };
 		CA55E34618A05467006C8371 /* NSDictionary+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Helpers.h"; sourceTree = "<group>"; };
 		CA55E34718A05467006C8371 /* NSDictionary+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Helpers.m"; sourceTree = "<group>"; };
 		CA733D0A18985C4900CF73FF /* HomeViewControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewControllerDataSource.h; sourceTree = "<group>"; };
@@ -168,6 +171,8 @@
 		CAB3C2B018EF500300C88E3F /* Object */ = {
 			isa = PBXGroup;
 			children = (
+				CA377E8119107AA6008385E4 /* ChatTableViewCell.h */,
+				CA377E8219107AA6008385E4 /* ChatTableViewCell.m */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -393,6 +398,7 @@
 				CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */,
 				CAB3C2AF18EF407700C88E3F /* ChatTableViewController.m in Sources */,
 				CACE17051893392D0035F4F6 /* AppDelegate.m in Sources */,
+				CA377E8319107AA6008385E4 /* ChatTableViewCell.m in Sources */,
 				CA7398CF190064B60031AF10 /* constants.m in Sources */,
 				CA8894B618FF5C8C001A91C2 /* FoursquareHTTPClient.m in Sources */,
 				CACE17011893392D0035F4F6 /* main.m in Sources */,

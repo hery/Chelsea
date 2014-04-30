@@ -9,6 +9,7 @@
 #import "ChatTableViewController.h"
 #import "constants.h"
 #import <RDRStickyKeyboardView.h>
+#import "ChatTableViewCell.h"
 
 @interface ChatTableViewController ()
 
@@ -46,7 +47,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
     self.tableView.separatorColor = [UIColor colorWithRed:0.887 green:0.887 blue:0.887 alpha:1];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"ChatCell"];
+    [self.tableView registerClass:[ChatTableViewCell class] forCellReuseIdentifier:@"ChatCell"];
     self.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height+30, 0, 0, 0);
     
     _stickyKeyboardView = [[RDRStickyKeyboardView alloc] initWithScrollView:_tableView];
@@ -69,6 +70,11 @@
 
 #pragma mark - Table View Delegate
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
+}
+
 #pragma mark - Table View Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -86,12 +92,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChatCell" forIndexPath:indexPath];
+    ChatTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChatCell" forIndexPath:indexPath];
     if (_messagesArray.count > 0) {
-        NSString *messageString = [[NSString alloc] initWithFormat:@"%@: %@",
-                                   _messagesArray[indexPath.row][@"chatId"],
-                                   _messagesArray[indexPath.row][@"text"]];
-        cell.textLabel.text = messageString;
+        cell.chatIdLabel.text = _messagesArray[indexPath.row][@"chatId"];
+        cell.messageLabel.text = _messagesArray[indexPath.row][@"text"];
     }
     return cell;
 }
@@ -109,9 +113,14 @@
     NSData *decodedDictionary = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:decodedDictionary options:NSJSONReadingMutableContainers error:nil];
     [_messagesArray addObject:jsonDictionary];
-    [self.tableView reloadData];
     
-    NSLog(@"New message array: %@", _messagesArray);
+    [self.tableView beginUpdates];
+    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_messagesArray.count-1 inSection:0]]
+                          withRowAnimation:UITableViewRowAnimationBottom];
+    [self.tableView endUpdates];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_messagesArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    
+//    NSLog(@"New message array: %@", _messagesArray);
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
@@ -156,7 +165,6 @@
     NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
     NSLog(@"Sending <%@>", packetDictionary);
     [_chelseaWebSocket send:packetString];
-//    return YES;
 }
 
 @end
