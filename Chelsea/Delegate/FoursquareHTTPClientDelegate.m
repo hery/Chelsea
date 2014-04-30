@@ -73,7 +73,6 @@
 - (void)foursquareHTTPClient:(FoursquareHTTPClient *)client didFailWithError:(NSError *)error
 {
     NSLog(@"Request failed. Reason: %@", error);
-    
     NSLog(@"Error code: %li", (long)[error code]);
     NSLog(@"Error message: %@", [error localizedDescription]);
 
@@ -85,6 +84,14 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    
+    if ([[alertView textFieldAtIndex:0].text isEqualToString:@""]) {
+        UIAlertView *emptyName = [[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"You can't use an empty description, try again." delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
+        emptyName.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [emptyName show];
+        return;
+    }
+    
     NSLog(@"You will be identified as %@.", [alertView textFieldAtIndex:0].text);
     
     // Check-In (ws) message setup
