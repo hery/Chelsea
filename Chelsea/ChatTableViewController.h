@@ -11,7 +11,7 @@
 
 @class RDRStickyKeyboardView;
 
-@interface ChatTableViewController : UIViewController <SRWebSocketDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface ChatTableViewController : UIViewController <SRWebSocketDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 // Replacing by sticky keyboard
 @property (nonatomic, strong) RDRStickyKeyboardView *stickyKeyboardView;

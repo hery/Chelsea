@@ -134,6 +134,9 @@
           code,
           reason,
           wasClean ? @"clean" : @"not clean");
+    
+    UIAlertView *sessionClosed = [[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"Your chat session closed. Check-in again to open a new one." delegate:self cancelButtonTitle:@"Ok!" otherButtonTitles:nil];
+    [sessionClosed show];
 }
 
 #pragma mark - Notifications
@@ -165,6 +168,16 @@
     NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
     NSLog(@"Sending <%@>", packetDictionary);
     [_chelseaWebSocket send:packetString];
+}
+
+#pragma mark - Alert View Delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"Title for alert view button: %@", [alertView buttonTitleAtIndex:buttonIndex]);
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Ok"]) { // expired session alert
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 @end

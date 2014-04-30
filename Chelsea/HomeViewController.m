@@ -41,6 +41,8 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    
     self.title = @"Check-In";
     
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
