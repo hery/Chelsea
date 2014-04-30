@@ -79,30 +79,6 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     [self startLocationUpdates];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    if (_venueSearchBar.text && _venueSearchBar.text.length > 0) {
-        CGFloat latitude, longitude;
-        
-        latitude = _currentLatitude;
-        longitude = _currentLongitude;
-        
-        if (latitude == 0.0f || longitude == 0.0f) {
-            latitude = 40.745176;
-            longitude = -73.997215;
-        }
-        
-        NSString *ll = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
-        NSDictionary *parameters = @{@"ll":ll, @"query":_venueSearchBar.text, @"limit":@5, @"radius":@"1000", @"intent":@"checkin"};
-
-        [sharedFoursquareHTTPClient performGETRequestForEndpointString:@"venues/search" endpointConstant:FoursquareHTTPClientEndpointSearch additionalParameters:parameters];
-
-    }
-    
-}
-
 #pragma mark - Core Location Methods
 
 - (void)startLocationUpdates
@@ -166,8 +142,6 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [searchBar setText:@""];
-    
     NSLog(@"Searching for venues...");
     // Wipe current results, if any.
     NSMutableArray *indexPathOfCurrentVenues = [[NSMutableArray alloc] init];

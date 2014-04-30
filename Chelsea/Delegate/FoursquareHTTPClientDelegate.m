@@ -27,17 +27,21 @@
             NSArray *venuesArray = [[response objectForKey:@"response"] objectForKey:@"venues"];
             NSLog(@"Venues query got %li results.", venuesArray.count);
             
-            NSLog(@"Venue objects array: %@", venuesArray);
-            
-            NSMutableArray *indexPathArray = [NSMutableArray new];
-            [venuesArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                [_dataSource.venuesArray addObject:(NSDictionary *)obj];
-                [indexPathArray addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
-            }];
-            
-            [_tableView beginUpdates];
-            [_tableView insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationLeft];
-            [_tableView endUpdates];
+            if (venuesArray.count > 0) {
+                NSLog(@"Venue objects array: %@", venuesArray);
+                
+                NSMutableArray *indexPathArray = [NSMutableArray new];
+                [venuesArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    [_dataSource.venuesArray addObject:(NSDictionary *)obj];
+                    [indexPathArray addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
+                }];
+                
+                [_tableView beginUpdates];
+                [_tableView insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationLeft];
+                [_tableView endUpdates];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"We can't find any venue with that name where you are. Get closer!" delegate:self cancelButtonTitle:@"Back" otherButtonTitles:nil] show];
+            }
             
             break;
         }
@@ -85,7 +89,10 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     
-    if ([[alertView textFieldAtIndex:0].text isEqualToString:@""]) {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Back"]) // `no result` alert view
+        return;
+    
+    if ([[alertView textFieldAtIndex:0].text isEqualToString:@""]) { // `description name` alert view
         UIAlertView *emptyName = [[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"You can't use an empty description, try again." delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
         emptyName.alertViewStyle = UIAlertViewStylePlainTextInput;
         [emptyName show];
