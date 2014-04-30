@@ -72,7 +72,17 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    [style setLineBreakMode:NSLineBreakByWordWrapping];
+    
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSParagraphStyleAttributeName:style};
+    
+    CGRect messageRect = [_messagesArray[indexPath.row][@"text"] boundingRectWithSize:CGSizeMake(320, MAXFLOAT)
+                                                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                                                            attributes:attributes
+                                                                               context:nil];
+    NSLog(@"Expected height: 40+%f (width is %f)", messageRect.size.height, messageRect.size.width);
+    return 40+messageRect.size.height;
 }
 
 #pragma mark - Table View Data Source
@@ -96,6 +106,7 @@
     if (_messagesArray.count > 0) {
         cell.chatIdLabel.text = _messagesArray[indexPath.row][@"chatId"];
         cell.messageLabel.text = _messagesArray[indexPath.row][@"text"];
+        [cell.messageLabel sizeToFit];
     }
     return cell;
 }
@@ -118,9 +129,8 @@
     [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_messagesArray.count-1 inSection:0]]
                           withRowAnimation:UITableViewRowAnimationBottom];
     [self.tableView endUpdates];
+//    [self.tableView reloadData]; // update rows height – does not seem necessary.
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_messagesArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-    
-//    NSLog(@"New message array: %@", _messagesArray);
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
@@ -175,7 +185,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"Title for alert view button: %@", [alertView buttonTitleAtIndex:buttonIndex]);
-    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Ok"]) { // expired session alert
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Ok!"]) { // expired session alert
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
