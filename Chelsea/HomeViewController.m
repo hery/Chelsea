@@ -136,6 +136,8 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     NSDictionary *additionalParameters = @{@"v":@"20140417",
                                            @"venueId":dataSource.venuesArray[indexPath.row][@"id"]};
     [sharedFoursquareHTTPClient performPOSTRequestForEndpointString:@"checkins/add" endpointConstant:FoursquareHTTPClientEndPointCheckIn additionalParameters:additionalParameters];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

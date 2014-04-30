@@ -41,7 +41,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="venueCell" textLabel="eAY-D3-3yW" detailTextLabel="Amy-ux-6RS" style="IBUITableViewCellStyleSubtitle" id="OZh-7c-D0y">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="venueCell" textLabel="eAY-D3-3yW" detailTextLabel="Amy-ux-6RS" style="IBUITableViewCellStyleSubtitle" id="OZh-7c-D0y">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OZh-7c-D0y" id="Ti1-WB-MLg">
