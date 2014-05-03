@@ -145,8 +145,12 @@
           reason,
           wasClean ? @"clean" : @"not clean");
     
-    UIAlertView *sessionClosed = [[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"Your chat session closed. Check-in again to open a new one." delegate:self cancelButtonTitle:@"Ok!" otherButtonTitles:nil];
-    [sessionClosed show];
+    if ([NSStringFromClass([self.navigationController.visibleViewController class]) isEqualToString:@"ChatTableViewController"])
+        [[[UIAlertView alloc] initWithTitle:@"Whoops!"
+                                    message:@"Your chat session closed. Check-in again to open a new one."
+                                   delegate:self
+                          cancelButtonTitle:@"Ok!"
+                          otherButtonTitles:nil] show];
 }
 
 #pragma mark - Notifications
@@ -184,6 +188,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    [_stickyKeyboardView resignFirstResponder];
     NSLog(@"Title for alert view button: %@", [alertView buttonTitleAtIndex:buttonIndex]);
     if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Ok!"]) { // expired session alert
         [self.navigationController popViewControllerAnimated:YES];

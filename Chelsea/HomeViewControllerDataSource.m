@@ -40,6 +40,9 @@
         
         NSString *addressString = _venuesArray[indexPath.row][@"location"][@"address"];
         
+        if (addressString.length < 1)
+            addressString = @"Near you";
+        
         NSString *latitudeString = _venuesArray[indexPath.row][@"location"][@"lat"];
         NSString *longitudeString = _venuesArray[indexPath.row][@"location"][@"lng"];
         CGFloat lat = [latitudeString floatValue];
