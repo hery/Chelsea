@@ -79,6 +79,22 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     [self startLocationUpdates];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    // Send an empty GET request to wake up heroku instance.
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://chelseatornado.herokuapp.com"]];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    [manager GET:@"/" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"Pong!");
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"Couldn't reach Chelsea Tornado. %@", [error localizedDescription]);
+    }];
+}
+
 #pragma mark - Core Location Methods
 
 - (void)startLocationUpdates
