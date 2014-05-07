@@ -28,4 +28,6 @@
 
 @property (nonatomic, strong) NSMutableArray *messagesArray;
 
+@property (nonatomic, assign) BOOL keepSocketAlive;
+
 @end

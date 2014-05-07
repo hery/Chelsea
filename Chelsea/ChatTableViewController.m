@@ -24,6 +24,7 @@
     self = [super init];
     if (self) {
         // Custom initialization
+        _keepSocketAlive = NO;
     }
     return self;
 }
@@ -37,6 +38,7 @@
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:12/255.0f green:47/255.0f blue:100/255.0f alpha:1.0f];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -116,6 +118,14 @@
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket
 {
     NSLog(@"Websocket opened.");
+    
+    /** Let's keep the session open for 5 minutes for now by pinging
+     *  the server every 50 seconds for 5 minutes. 
+     *  (server times out after 55 seconds of inactivity)
+     */
+    
+    _keepSocketAlive = YES;
+    [self pingServer];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
@@ -129,7 +139,6 @@
     [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_messagesArray.count-1 inSection:0]]
                           withRowAnimation:UITableViewRowAnimationBottom];
     [self.tableView endUpdates];
-//    [self.tableView reloadData]; // update rows height – does not seem necessary.
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_messagesArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
 }
 
@@ -155,7 +164,6 @@
 
 #pragma mark - Notifications
 
-//- (BOOL)textFieldShouldReturn:(UITextField *)textField
 - (void)sendMessage
 {
     [_stickyKeyboardView.inputView.textView endEditing:YES];
@@ -182,6 +190,20 @@
     NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
     NSLog(@"Sending <%@>", packetDictionary);
     [_chelseaWebSocket send:packetString];
+}
+
+- (void)pingServer
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(50 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"Ping.");
+        NSDictionary *packetDictionary = @{@"type":@"ping"};
+        NSData *jsonPacket = [NSJSONSerialization dataWithJSONObject:packetDictionary
+                                                             options:NSJSONWritingPrettyPrinted
+                                                               error:nil];
+        NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
+        [_chelseaWebSocket send:packetString];
+        if (_keepSocketAlive) [self pingServer];
+    });
 }
 
 #pragma mark - Alert View Delegate
