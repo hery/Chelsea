@@ -108,7 +108,23 @@
     if (_messagesArray.count > 0) {
         cell.chatIdLabel.text = _messagesArray[indexPath.row][@"chatId"];
         cell.messageLabel.text = _messagesArray[indexPath.row][@"text"];
-        [cell.messageLabel sizeToFit];
+//        [cell.messageLabel sizeToFit];
+        
+        NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [style setLineBreakMode:NSLineBreakByWordWrapping];
+        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSParagraphStyleAttributeName:style};
+        CGRect messageRect = [_messagesArray[indexPath.row][@"text"] boundingRectWithSize:CGSizeMake(320, MAXFLOAT)
+                                                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                                                               attributes:attributes
+                                                                                  context:nil];
+        NSLog(@"Expected label height: %f", messageRect.size.height);
+        NSLog(@"Returned label height: %f", cell.messageLabel.frame.size.height);
+        
+        // Compute label height manually, because sizeToFit and sizeThatFit won't work.
+        
+        CGRect newFrameForMessageLabel = cell.messageLabel.frame;
+        newFrameForMessageLabel.size.height = messageRect.size.height;
+        cell.messageLabel.frame = newFrameForMessageLabel;
     }
     return cell;
 }
@@ -119,8 +135,8 @@
 {
     NSLog(@"Websocket opened.");
     
-    /** Let's keep the session open for 5 minutes for now by pinging
-     *  the server every 50 seconds for 5 minutes. 
+    /** Let's keep the session open indefinitely by pinging
+     *  the server every 45 seconds.
      *  (server times out after 55 seconds of inactivity)
      */
     

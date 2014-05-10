@@ -20,7 +20,7 @@
         _chatIdLabel.text = @"";
         [self addSubview:_chatIdLabel];
         
-        _messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(20,_chatIdLabel.frame.origin.y+_chatIdLabel.frame.size.height, 300, 20)];
+        _messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, _chatIdLabel.frame.origin.y+_chatIdLabel.frame.size.height, 300, 20)];
         _messageLabel.text = @"";
         _messageLabel.font = [UIFont systemFontOfSize:14.0f];
         _messageLabel.numberOfLines = 0;
