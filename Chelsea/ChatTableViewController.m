@@ -161,6 +161,13 @@
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
 {
     NSLog(@"Websocket failed with error: %@", error);
+    
+    if ([NSStringFromClass([self.navigationController.visibleViewController class]) isEqualToString:@"ChatTableViewController"])
+        [[[UIAlertView alloc] initWithTitle:@"Whoops!"
+                                    message:@"Your chat session closed. Check-in again to open a new one."
+                                   delegate:self
+                          cancelButtonTitle:@"Ok!"
+                          otherButtonTitles:nil] show];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean
