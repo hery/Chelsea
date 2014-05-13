@@ -1,24 +1,25 @@
 PODS:
-  - AFNetworking (2.2.3):
+  - AFNetworking (2.2.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
     - AFNetworking/UIKit
-  - AFNetworking/NSURLConnection (2.2.3):
+  - AFNetworking/NSURLConnection (2.2.4):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.2.3):
+  - AFNetworking/NSURLSession (2.2.4):
     - AFNetworking/NSURLConnection
-  - AFNetworking/Reachability (2.2.3)
-  - AFNetworking/Security (2.2.3)
-  - AFNetworking/Serialization (2.2.3)
-  - AFNetworking/UIKit (2.2.3):
+  - AFNetworking/Reachability (2.2.4)
+  - AFNetworking/Security (2.2.4)
+  - AFNetworking/Serialization (2.2.4)
+  - AFNetworking/UIKit (2.2.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - FSOAuth (1.0)
+  - NewRelicAgent (3.311)
   - RDRStickyKeyboardView (0.0.2)
   - Reveal-iOS-SDK (1.0.4)
   - SocketRocket (0.3.1-beta2)
@@ -26,13 +27,15 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - FSOAuth (~> 1.0)
+  - NewRelicAgent (~> 3.311)
   - RDRStickyKeyboardView (~> 0.0)
   - Reveal-iOS-SDK
   - SocketRocket (~> 0.3.1beta2)
 
 SPEC CHECKSUMS:
-  AFNetworking: ae513199cca79e9d7af2708ccabe2ed075550c42
+  AFNetworking: 01aa7c3aa9a200b94943e54072a4373f14b3d219
   FSOAuth: 8c590a8e7c716151b5d0f02b78e7b531ed64ff40
+  NewRelicAgent: 0fd1363ad74e4150312cef4d986be868a20af15d
   RDRStickyKeyboardView: d05f78f153206ba3523c0bb3d6ce7e83f448d906
   Reveal-iOS-SDK: 9de027a2cb0812e9ae220d9047161f3a0ac2db74
   SocketRocket: 7ac946bcce46287a791dfff3c1f8daa692821dae

@@ -19,6 +19,8 @@ NSString * const FoursquareApplicationName = @"com.naveenium.foursquare";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [NewRelicAgent startWithApplicationToken:@"AA6a8c8c4a83167a48f12223b2035dfa6898f87afe"];
+    
     UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
     UINavigationController *nav = [mainStoryBoard instantiateInitialViewController];
     _homeViewController = (HomeViewController *)[nav topViewController];
