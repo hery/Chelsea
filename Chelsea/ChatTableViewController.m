@@ -9,6 +9,7 @@
 #import "ChatTableViewController.h"
 #import "constants.h"
 #import <RDRStickyKeyboardView.h>
+#import <AFHTTPSessionManager.h>
 #import "ChatTableViewCell.h"
 
 @interface ChatTableViewController ()
@@ -39,6 +40,28 @@
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:12/255.0f green:47/255.0f blue:100/255.0f alpha:1.0f];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     
+    // set up bar button item
+    UIBarButtonItem *numberOfUsersButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"0" style:UIBarButtonItemStyleBordered target:self action:@selector(showCheckedInUsers)];
+    numberOfUsersButtonItem.tintColor = [UIColor whiteColor];
+    [self.navigationItem setRightBarButtonItem:numberOfUsersButtonItem];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:chelseaBaseURL]];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager GET:@"/users" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"Response URL: %@", task.response.URL);
+        NSArray *checkedInUsersArray = responseObject[@"response"];
+        NSLog(@"Users request succeeded. Response: <%@>", responseObject);
+        self.navigationItem.rightBarButtonItem.title = [NSString stringWithFormat:@"%li %@", checkedInUsersArray.count, checkedInUsersArray.count > 1 ? @"users" : @"user"];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"Couldn't reach Chelsea Tornado. %@", [error localizedDescription]);
+    }];
+}
+
+- (void)showCheckedInUsers
+{
+    return;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -62,6 +85,12 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [_tableView reloadData];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [_chelseaWebSocket close];
 }
 
 - (void)didReceiveMemoryWarning
