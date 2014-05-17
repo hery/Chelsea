@@ -10,6 +10,7 @@
 #import <SRWebSocket.h>
 
 @class RDRStickyKeyboardView;
+@class TransitionAnimator;
 
 @interface ChatTableViewController : UIViewController <SRWebSocketDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 

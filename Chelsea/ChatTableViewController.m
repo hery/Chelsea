@@ -11,6 +11,7 @@
 #import <RDRStickyKeyboardView.h>
 #import <AFHTTPSessionManager.h>
 #import "ChatTableViewCell.h"
+#import "UsersTableViewController.h"
 
 @interface ChatTableViewController ()
 
@@ -51,17 +52,19 @@
     
     [manager GET:@"/users" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"Response URL: %@", task.response.URL);
-        NSArray *checkedInUsersArray = responseObject[@"response"];
+        _checkedInUsersArray = responseObject[@"response"];
         NSLog(@"Users request succeeded. Response: <%@>", responseObject);
-        self.navigationItem.rightBarButtonItem.title = [NSString stringWithFormat:@"%li %@", checkedInUsersArray.count, checkedInUsersArray.count > 1 ? @"users" : @"user"];
+        
+        NSString *str = [NSString stringWithFormat:@"%li \U0001F43C", _checkedInUsersArray.count];
+        NSData *data = [str dataUsingEncoding:NSNonLossyASCIIStringEncoding];
+        NSString *valueUnicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        data = [valueUnicode dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *emojiString = [[NSString alloc] initWithData:data encoding:NSNonLossyASCIIStringEncoding];
+        
+        self.navigationItem.rightBarButtonItem.title = emojiString;
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Couldn't reach Chelsea Tornado. %@", [error localizedDescription]);
     }];
-}
-
-- (void)showCheckedInUsers
-{
-    return;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -93,10 +96,25 @@
     [_chelseaWebSocket close];
 }
 
+- (void)dealloc
+{
+    NSLog(@"Killing the chat table view controller.");
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)showCheckedInUsers
+{
+    // todo: fix checked-in users view's frame
+    UsersTableViewController *usersTableViewController = [UsersTableViewController new];
+    usersTableViewController.users = _checkedInUsersArray;
+    [self.navigationController pushViewController:usersTableViewController animated:YES];
+    
+    return;
 }
 
 #pragma mark - Table View Delegate

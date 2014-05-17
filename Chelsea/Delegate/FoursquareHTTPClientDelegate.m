@@ -110,11 +110,13 @@
     // Get FS venueId
     NSString *venueId = _venue[@"id"];
     // Package and send message
-    NSDictionary *packetDictionary = @{@"userId":userUUID, @"chatId":chatId, @"venueId": venueId, @"type": @"setup"};
+    NSDictionary *packetDictionary = @{@"userId":userUUID, @"chatId":chatId, @"venueId": venueId, @"type": @"setup", @"text":[NSString stringWithFormat:@"%@ joined", chatId]};
     NSError *error;
     NSData *jsonPacket = [NSJSONSerialization dataWithJSONObject:packetDictionary options:NSJSONWritingPrettyPrinted error:&error];
     NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
     [_chelseaWebSocket send:packetString];
+    
+    // todo: check that the server properly received the setup message and push chat vc on success
     
     _chatTableViewController.title = [NSString stringWithFormat:@"@ %@", _venue[@"name"]];
     _chatTableViewController.venue = _venue;
