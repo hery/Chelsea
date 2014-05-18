@@ -22,7 +22,7 @@
 
 /** venue and checked-in users info */
 @property (nonatomic, strong) NSDictionary *venue;
-@property (nonatomic, strong) NSArray *checkedInUsersArray;
+@property (nonatomic, strong) NSMutableArray *checkedInUsersArray;
 
 /** user info */
 @property (nonatomic, strong) NSDictionary *chelseaUserInfo;

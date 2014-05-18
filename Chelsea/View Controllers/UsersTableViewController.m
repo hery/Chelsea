@@ -54,6 +54,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"Users: %@", _users);
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"userCell" forIndexPath:indexPath];
     cell.textLabel.text = _users[indexPath.row][@"chatId"];
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:28.0f];

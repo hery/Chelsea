@@ -6,5 +6,5 @@ NSString * const CallbackURIString = @"chelsea://foursquare";
 //NSString * const chelseaBaseURL = @"http://chelseatornado.herokuapp.com/";
 
 // Local
-NSString * const socketServerAddress = @"ws://192.168.1.144:5000/chat";
-NSString * const chelseaBaseURL = @"http://192.168.1.144:5000";
+NSString * const socketServerAddress = @"ws://192.168.2.169:5000/chat";
+NSString * const chelseaBaseURL = @"http://192.168.2.169:5000";

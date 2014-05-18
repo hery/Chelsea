@@ -48,19 +48,17 @@
     
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:chelseaBaseURL]];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingMutableContainers];
     
     [manager GET:@"/users" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"Response URL: %@", task.response.URL);
         _checkedInUsersArray = responseObject[@"response"];
         NSLog(@"Users request succeeded. Response: <%@>", responseObject);
-        
-        NSString *str = [NSString stringWithFormat:@"%li \U0001F43C", _checkedInUsersArray.count];
+        NSString *str = [NSString stringWithFormat:@"%li \U0001F43C", (unsigned long)_checkedInUsersArray.count];
         NSData *data = [str dataUsingEncoding:NSNonLossyASCIIStringEncoding];
         NSString *valueUnicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         data = [valueUnicode dataUsingEncoding:NSUTF8StringEncoding];
         NSString *emojiString = [[NSString alloc] initWithData:data encoding:NSNonLossyASCIIStringEncoding];
-        
         self.navigationItem.rightBarButtonItem.title = emojiString;
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Couldn't reach Chelsea Tornado. %@", [error localizedDescription]);
@@ -121,6 +119,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([_messagesArray[indexPath.row][@"type"] isEqualToString:@"setup"])
+        return 40;
+    
     NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     [style setLineBreakMode:NSLineBreakByWordWrapping];
     
@@ -153,9 +154,13 @@
 {
     ChatTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChatCell" forIndexPath:indexPath];
     if (_messagesArray.count > 0) {
-        cell.chatIdLabel.text = _messagesArray[indexPath.row][@"chatId"];
-        cell.messageLabel.text = _messagesArray[indexPath.row][@"text"];
-//        [cell.messageLabel sizeToFit];
+        if ([_messagesArray[indexPath.row][@"type"] isEqualToString:@"chat"]) {
+            cell.chatIdLabel.text = _messagesArray[indexPath.row][@"chatId"];
+            cell.messageLabel.text = _messagesArray[indexPath.row][@"text"];
+        } else {
+            cell.chatIdLabel.text = _messagesArray[indexPath.row][@"text"];
+            cell.messageLabel.text = @"";
+        }
         
         NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
         [style setLineBreakMode:NSLineBreakByWordWrapping];
@@ -194,6 +199,7 @@
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
 {
     NSLog(@"Websocket received message: %@", message);
+        
     NSData *decodedDictionary = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:decodedDictionary options:NSJSONReadingMutableContainers error:nil];
     [_messagesArray addObject:jsonDictionary];
@@ -203,6 +209,18 @@
                           withRowAnimation:UITableViewRowAnimationBottom];
     [self.tableView endUpdates];
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_messagesArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    
+    if ([jsonDictionary[@"type"] isEqualToString:@"setup"]) {
+        // todo: if value for key `text` is `userX left`, remove appropriate user object from _checkedInUsersArray
+        [_checkedInUsersArray addObject:jsonDictionary];
+        
+        NSString *str = [NSString stringWithFormat:@"%li \U0001F43C", (unsigned long)_checkedInUsersArray.count];
+        NSData *data = [str dataUsingEncoding:NSNonLossyASCIIStringEncoding];
+        NSString *valueUnicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        data = [valueUnicode dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *emojiString = [[NSString alloc] initWithData:data encoding:NSNonLossyASCIIStringEncoding];
+        self.navigationItem.rightBarButtonItem.title = emojiString;
+    }
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
@@ -220,7 +238,7 @@
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean
 {
     NSLog(@"Websocket closed with code %li, because <%@>. It was %@.",
-          code,
+          (long)code,
           reason,
           wasClean ? @"clean" : @"not clean");
     

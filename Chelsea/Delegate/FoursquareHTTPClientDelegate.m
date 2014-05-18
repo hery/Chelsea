@@ -25,7 +25,7 @@
         case FoursquareHTTPClientEndpointSearch:
         {
             NSArray *venuesArray = [[response objectForKey:@"response"] objectForKey:@"venues"];
-            NSLog(@"Venues query got %li results.", venuesArray.count);
+            NSLog(@"Venues query got %li results.", (unsigned long)venuesArray.count);
             
             if (venuesArray.count > 0) {
                 NSLog(@"Venue objects array: %@", venuesArray);
