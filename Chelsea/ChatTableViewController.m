@@ -211,8 +211,19 @@
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_messagesArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     
     if ([jsonDictionary[@"type"] isEqualToString:@"setup"]) {
-        // todo: if value for key `text` is `userX left`, remove appropriate user object from _checkedInUsersArray
-        [_checkedInUsersArray addObject:jsonDictionary];
+        if ([jsonDictionary[@"text"] rangeOfString:@"joined"].location != NSNotFound) {
+            [_checkedInUsersArray addObject:jsonDictionary];
+        } else if ([jsonDictionary[@"text"] rangeOfString:@"left"].location != NSNotFound) {
+            __block NSUInteger indexForUserToRemove = 0;
+            [_checkedInUsersArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([obj[@"userId"] isEqualToString:jsonDictionary[@"userId"]]) {
+                    indexForUserToRemove = idx;
+                    *stop = YES;
+                }
+            }];
+            NSLog(@"Removing %@", _checkedInUsersArray[indexForUserToRemove][@"chatId"]);
+            [_checkedInUsersArray removeObjectAtIndex:indexForUserToRemove];
+        }
         
         NSString *str = [NSString stringWithFormat:@"%li \U0001F43C", (unsigned long)_checkedInUsersArray.count];
         NSData *data = [str dataUsingEncoding:NSNonLossyASCIIStringEncoding];
