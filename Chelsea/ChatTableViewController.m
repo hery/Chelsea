@@ -95,6 +95,9 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    NSLog(@"View will disappear.");
+    
     if ([NSStringFromClass([self.navigationController.topViewController class]) isEqualToString:@"HomeViewController"]) {
         [_chelseaWebSocket close];
     }
@@ -116,6 +119,7 @@
     // todo: fix checked-in users view's frame
     UsersTableViewController *usersTableViewController = [UsersTableViewController new];
     usersTableViewController.users = _checkedInUsersArray;
+    usersTableViewController.title = [NSString stringWithFormat:@"@ %@", _venue[@"name"]];
     [self.navigationController pushViewController:usersTableViewController animated:YES];
     
     return;
