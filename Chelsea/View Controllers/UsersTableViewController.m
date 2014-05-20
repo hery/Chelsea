@@ -27,11 +27,11 @@
 {
     [super viewDidLoad];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"userCell"];
+    self.tableView.separatorInset = UIEdgeInsetsMake(20, 0, 20, 0);
 }
 
 - (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
+{       [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
@@ -59,6 +59,13 @@
     cell.textLabel.text = _users[indexPath.row][@"chatId"];
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:28.0f];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+    selectedCell.textLabel.textColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - Table view delegate

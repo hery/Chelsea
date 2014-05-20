@@ -69,6 +69,10 @@
 {
     [super viewDidAppear:animated];
     
+    if (_chelseaWebSocket.readyState == SR_CLOSED || _chelseaWebSocket.readyState == SR_CLOSING) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
     // Views setup
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
     self.tableView.separatorColor = [UIColor colorWithRed:0.887 green:0.887 blue:0.887 alpha:1];
@@ -88,10 +92,12 @@
     [_tableView reloadData];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
-    [_chelseaWebSocket close];
+    [super viewWillDisappear:animated];
+    if ([NSStringFromClass([self.navigationController.topViewController class]) isEqualToString:@"HomeViewController"]) {
+        [_chelseaWebSocket close];
+    }
 }
 
 - (void)dealloc
@@ -159,8 +165,11 @@
             cell.messageLabel.text = _messagesArray[indexPath.row][@"text"];
         } else {
             cell.chatIdLabel.text = _messagesArray[indexPath.row][@"text"];
+            cell.chatIdLabel.textColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
             cell.messageLabel.text = @"";
         }
+        
+        // todo: make chatIdLabel multi-line as well.
         
         NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
         [style setLineBreakMode:NSLineBreakByWordWrapping];
