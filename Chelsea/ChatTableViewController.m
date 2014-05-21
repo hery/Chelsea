@@ -95,9 +95,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
     NSLog(@"View will disappear.");
-    
     if ([NSStringFromClass([self.navigationController.topViewController class]) isEqualToString:@"HomeViewController"]) {
         [_chelseaWebSocket close];
     }

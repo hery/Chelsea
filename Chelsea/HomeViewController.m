@@ -75,8 +75,6 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     delegate.dataSource = dataSource;
     delegate.tableView = _venueTableView;
     sharedFoursquareHTTPClient.delegate = delegate;
-
-    [self startLocationUpdates];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -122,6 +120,11 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     }
 }
 
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    [[[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"CheckChat couldn't find your location. Did you make sure to turn it on?" delegate:nil cancelButtonTitle:@"Back" otherButtonTitles:nil] show];
+}
+
 #pragma mark - Tableview delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -155,6 +158,12 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 }
 
 # pragma mark Search bar delegate methods 
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    [self startLocationUpdates];
+    return YES;
+}
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
