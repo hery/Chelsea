@@ -29,9 +29,9 @@ NSString * const FoursquareApplicationName = @"com.naveenium.foursquare";
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([sourceApplication isEqualToString:FoursquareApplicationName])
+    if ([[url scheme] isEqualToString:@"chelsea"])
     {
-        NSLog(@"%@", url);
+        NSLog(@"Application delegate received request with URL: %@", url);
         [_homeViewController handleAuthenticationForURL:url];
     }
     return NO;

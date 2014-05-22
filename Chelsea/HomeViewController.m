@@ -58,17 +58,6 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     _venueTableView.delegate = self;
     [_venueTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"venueCells"];
     
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *foursquareAccessCodeString = [standardUserDefaults objectForKey:@"foursquareAccessCode"];
-
-    NSLog(@"Current FS token: %@", foursquareAccessCodeString);
-    
-    // Todo: check token validity
-    if (!foursquareAccessCodeString) {
-        NSLog(@"No valid token found. Reauthenticating...");
-        NSLog(@"%i",(int)[FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString]);
-    }
-    
     sharedFoursquareHTTPClient = [FoursquareHTTPClient sharedFoursquareHTTPClient];
     FoursquareHTTPClientDelegate *delegate = [[FoursquareHTTPClientDelegate alloc] init];
     delegate.navigationController = self.navigationController;
@@ -140,21 +129,6 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80;
-}
-
-#pragma mark Foursquare API methods
-
-- (void)handleAuthenticationForURL:(NSURL *)url
-{
-    NSUserDefaults *standardUserDefault = [NSUserDefaults standardUserDefaults];
-    FSOAuthErrorCode *error = NULL;
-    NSString *accessCodeString = [FSOAuth accessCodeForFSOAuthURL:url error:error];
-    if (error == FSOAuthStatusSuccess) {
-        NSLog(@"FS auth succeeded. Token: <%@>", accessCodeString);
-        [standardUserDefault setObject:accessCodeString forKey:@"foursquareAccessCode"];
-    } else {
-        NSLog(@"Error getting FS token: %i", (int)error);
-    }
 }
 
 # pragma mark Search bar delegate methods 
