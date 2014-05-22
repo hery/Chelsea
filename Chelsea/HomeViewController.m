@@ -40,10 +40,11 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
+
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     
     self.title = @"Check-In";
+    self.navigationItem.hidesBackButton = YES;
     
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:12/255.0f green:47/255.0f blue:100/255.0f alpha:1.0f];
@@ -57,7 +58,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     
     _venueTableView.delegate = self;
     [_venueTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"venueCells"];
-    
+
     sharedFoursquareHTTPClient = [FoursquareHTTPClient sharedFoursquareHTTPClient];
     FoursquareHTTPClientDelegate *delegate = [[FoursquareHTTPClientDelegate alloc] init];
     delegate.navigationController = self.navigationController;
@@ -129,6 +130,24 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80;
+}
+
+#pragma mark Foursquare API methods
+
+- (void)handleAuthenticationForURL:(NSURL *)url
+{
+    NSUserDefaults *standardUserDefault = [NSUserDefaults standardUserDefaults];
+    NSString *accessCodeString = [url fragment];
+    NSArray *accessCodeArray = [accessCodeString componentsSeparatedByString:@"="];
+    accessCodeString = accessCodeArray[1];
+    if (accessCodeString) { // todo: do a more accurate check here
+        NSLog(@"FS auth succeeded. Token: <%@>", accessCodeString);
+        [standardUserDefault setObject:accessCodeString forKey:@"foursquareAccessCode"];
+        [_loginWebView removeFromSuperview];
+        NSLog(@"%@", self.view.subviews);
+    } else {
+        NSLog(@"Error getting FS token.");
+    }
 }
 
 # pragma mark Search bar delegate methods 

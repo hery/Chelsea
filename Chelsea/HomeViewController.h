@@ -12,16 +12,20 @@
 @class HomeViewControllerDataSource;
 @class FoursquareHTTPClient;
 
-@interface HomeViewController : UIViewController <UITableViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate> {
+
+@interface HomeViewController : UIViewController <UITableViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate, UIWebViewDelegate> {
     HomeViewControllerDataSource *dataSource;
     FoursquareHTTPClient *sharedFoursquareHTTPClient;
 }
 
+@property (nonatomic, strong) UIWebView *loginWebView;
 @property (weak, nonatomic) IBOutlet UISearchBar *venueSearchBar;
 @property (weak, nonatomic) IBOutlet UITableView *venueTableView;
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, assign) CLLocationDegrees currentLatitude;
 @property (nonatomic, assign) CLLocationDegrees currentLongitude;
+
+- (void)handleAuthenticationForURL:(NSURL *)url;
 
 @end

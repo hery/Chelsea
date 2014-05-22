@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class HomeViewController;
+@class LoginViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -18,7 +18,7 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (strong, nonatomic) HomeViewController *homeViewController;
+@property (strong, nonatomic) LoginViewController *loginViewController;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "HomeViewController.h"
+#import "LoginViewController.h"
 
 NSString * const FoursquareApplicationName = @"com.naveenium.foursquare";
 
@@ -21,9 +22,27 @@ NSString * const FoursquareApplicationName = @"com.naveenium.foursquare";
 {
     [NewRelicAgent startWithApplicationToken:@"AA6a8c8c4a83167a48f12223b2035dfa6898f87afe"];
     
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
+    
     UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
     UINavigationController *nav = [mainStoryBoard instantiateInitialViewController];
-    _homeViewController = (HomeViewController *)[nav topViewController];
+    
+    HomeViewController *homeViewController = [mainStoryBoard instantiateViewControllerWithIdentifier:@"homeViewController"];
+    _loginViewController = [mainStoryBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
+    
+    
+    NSUserDefaults *standardUserDefault = [NSUserDefaults standardUserDefaults];
+    NSString *foursquareAccessCodeString = [standardUserDefault objectForKey:@"foursquareAccessCode"];
+
+    if (foursquareAccessCodeString) {
+        [nav pushViewController:homeViewController animated:NO];
+    } else {
+        [nav pushViewController:_loginViewController animated:NO];
+    }
+    
+    self.window.rootViewController = nav;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
@@ -32,10 +51,10 @@ NSString * const FoursquareApplicationName = @"com.naveenium.foursquare";
     if ([[url scheme] isEqualToString:@"chelsea"])
     {
         NSLog(@"Application delegate received request with URL: %@", url);
-        [_homeViewController handleAuthenticationForURL:url];
+        [_loginViewController handleAuthenticationForURL:url];
     }
     return NO;
-    }
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
