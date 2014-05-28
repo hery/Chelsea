@@ -11,6 +11,7 @@
 		CA0BD5E71897374B0047AAE0 /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA0BD5E61897374B0047AAE0 /* images.xcassets */; };
 		CA377E8319107AA6008385E4 /* ChatTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA377E8219107AA6008385E4 /* ChatTableViewCell.m */; };
 		CA55E34818A05467006C8371 /* NSDictionary+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = CA55E34718A05467006C8371 /* NSDictionary+Helpers.m */; };
+		CA64AFD519368B70000B07A7 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA64AFD419368B70000B07A7 /* ProfileViewController.m */; };
 		CA733D0C18985C4900CF73FF /* HomeViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = CA733D0B18985C4900CF73FF /* HomeViewControllerDataSource.m */; };
 		CA7398CF190064B60031AF10 /* constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CA7398CE190064B60031AF10 /* constants.m */; };
 		CA8894B618FF5C8C001A91C2 /* FoursquareHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8894B518FF5C8C001A91C2 /* FoursquareHTTPClient.m */; };
@@ -56,6 +57,8 @@
 		CA377E8219107AA6008385E4 /* ChatTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatTableViewCell.m; path = Objects/ChatTableViewCell.m; sourceTree = "<group>"; };
 		CA55E34618A05467006C8371 /* NSDictionary+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Helpers.h"; sourceTree = "<group>"; };
 		CA55E34718A05467006C8371 /* NSDictionary+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Helpers.m"; sourceTree = "<group>"; };
+		CA64AFD319368B70000B07A7 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileViewController.h; path = "View Controllers/ProfileViewController.h"; sourceTree = "<group>"; };
+		CA64AFD419368B70000B07A7 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileViewController.m; path = "View Controllers/ProfileViewController.m"; sourceTree = "<group>"; };
 		CA733D0A18985C4900CF73FF /* HomeViewControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewControllerDataSource.h; sourceTree = "<group>"; };
 		CA733D0B18985C4900CF73FF /* HomeViewControllerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewControllerDataSource.m; sourceTree = "<group>"; };
 		CA7398CE190064B60031AF10 /* constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = constants.m; path = Chelsea/constants.m; sourceTree = "<group>"; };
@@ -145,6 +148,8 @@
 				CAA6D0051926A19300CF7093 /* UsersTableViewController.m */,
 				CACCB68A192D8A650006D440 /* LoginViewController.h */,
 				CACCB68B192D8A650006D440 /* LoginViewController.m */,
+				CA64AFD319368B70000B07A7 /* ProfileViewController.h */,
+				CA64AFD419368B70000B07A7 /* ProfileViewController.m */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -407,6 +412,7 @@
 				CACE17081893392D0035F4F6 /* Chelsea.xcdatamodeld in Sources */,
 				CAA6D0061926A19300CF7093 /* UsersTableViewController.m in Sources */,
 				CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */,
+				CA64AFD519368B70000B07A7 /* ProfileViewController.m in Sources */,
 				CACCB68C192D8A650006D440 /* LoginViewController.m in Sources */,
 				CAB3C2AF18EF407700C88E3F /* ChatTableViewController.m in Sources */,
 				CACE17051893392D0035F4F6 /* AppDelegate.m in Sources */,

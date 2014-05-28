@@ -117,7 +117,22 @@
     // todo: fix checked-in users view's frame
     UsersTableViewController *usersTableViewController = [UsersTableViewController new];
     usersTableViewController.users = _checkedInUsersArray;
-    usersTableViewController.title = [NSString stringWithFormat:@"@ %@", _venue[@"name"]];
+    
+    NSString *str;
+    if (_checkedInUsersArray.count <= 1) {
+        str  = [NSString stringWithFormat:@"\U0001F43C"];
+    } else if (_checkedInUsersArray.count == 2) {
+        str  = [NSString stringWithFormat:@"\U0001F43C \U0001F43C"];
+    } else {
+        str  = [NSString stringWithFormat:@"\U0001F43C \U0001F43C \U0001F43C"];
+    }
+    
+    NSData *data = [str dataUsingEncoding:NSNonLossyASCIIStringEncoding];
+    NSString *valueUnicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    data = [valueUnicode dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *emojiString = [[NSString alloc] initWithData:data encoding:NSNonLossyASCIIStringEncoding];
+    
+    usersTableViewController.title = emojiString;
     [self.navigationController pushViewController:usersTableViewController animated:YES];
     
     return;

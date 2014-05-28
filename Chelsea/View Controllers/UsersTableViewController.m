@@ -7,6 +7,7 @@
 //
 
 #import "UsersTableViewController.h"
+#import "ProfileViewController.h"
 
 @interface UsersTableViewController ()
 
@@ -66,6 +67,10 @@
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     selectedCell.textLabel.textColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    ProfileViewController *profileViewController = [ProfileViewController new];
+    profileViewController.user = _users[indexPath.row];
+    [self.navigationController pushViewController:profileViewController animated:YES];
 }
 
 #pragma mark - Table view delegate
