@@ -23,6 +23,8 @@
 @property (nonatomic, strong) SRWebSocket *chelseaWebSocket;
 /** Store venue where user checks-in to get a reference to its id when needed */
 @property (nonatomic, strong) NSDictionary *venue;
+/** Store checked-in user to for profile view */
+@property (nonatomic, strong) NSDictionary *checkedInUser;
 
 @property (nonatomic, strong) ChatTableViewController *chatTableViewController;
 

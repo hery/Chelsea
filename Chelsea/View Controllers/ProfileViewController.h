@@ -11,5 +11,6 @@
 @interface ProfileViewController : UIViewController
 
 @property (nonatomic, strong) NSDictionary *user;
+@property (nonatomic, strong) UIImageView *profilePicture;
 
 @end

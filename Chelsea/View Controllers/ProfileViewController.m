@@ -7,6 +7,7 @@
 //
 
 #import "ProfileViewController.h"
+#import <AFHTTPSessionManager.h>
 
 @interface ProfileViewController ()
 
@@ -29,6 +30,55 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = _user[@"chatId"];
+    NSLog(@"Current user: %@", _user);
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0]}];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    
+    _profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+    _profilePicture.center = self.view.center;
+    
+    static const CGFloat profilePictureOffset = 30.0f;
+    CGRect adjustedFrameForProfilePicture = _profilePicture.frame;
+    adjustedFrameForProfilePicture.origin.y -= profilePictureOffset;
+    _profilePicture.frame = adjustedFrameForProfilePicture;
+    
+    _profilePicture.backgroundColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
+    [self.view addSubview:_profilePicture];
+    
+    UILabel *realNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
+    realNameLabel.center = _profilePicture.center;
+    
+    CGRect adjustFrameForRealNameLabel = realNameLabel.frame;
+    adjustFrameForRealNameLabel.origin.y += _profilePicture.frame.size.height/2 + 30; // 30 = margin
+    realNameLabel.frame = adjustFrameForRealNameLabel;
+    
+    realNameLabel.text = [NSString stringWithFormat:@"%@ %@", _user[@"user"][@"firstName"], _user[@"user"][@"lastName"]];
+    realNameLabel.backgroundColor = [UIColor whiteColor];
+    realNameLabel.textColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
+    realNameLabel.textAlignment = NSTextAlignmentCenter;
+    realNameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:28.0f];
+    [self.view addSubview:realNameLabel];
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] init];
+    manager.responseSerializer = [AFImageResponseSerializer serializer];
+    NSString *urlString = [NSString stringWithFormat:@"%@300x300%@", _user[@"user"][@"photo"][@"prefix"], _user[@"user"][@"photo"][@"suffix"]];
+    urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+    [manager GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        _profilePicture.image = responseObject;
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"Couldn't get profile picture.");
+        NSLog(@"Request URL: %@", task.response.URL);
+    }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

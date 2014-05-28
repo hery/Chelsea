@@ -51,6 +51,7 @@
             NSLog(@"Response: %@", response);
             
             _venue = response[@"response"][@"checkin"][@"venue"];
+            _checkedInUser =  response[@"response"][@"checkin"][@"user"];
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             _chatTableViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"chatTableViewController"];
@@ -110,7 +111,7 @@
     // Get FS venueId
     NSString *venueId = _venue[@"id"];
     // Package and send message
-    NSDictionary *packetDictionary = @{@"userId":userUUID, @"chatId":chatId, @"venueId": venueId, @"type": @"setup", @"text":[NSString stringWithFormat:@"%@ joined", chatId]};
+    NSDictionary *packetDictionary = @{@"userId":userUUID, @"user":_checkedInUser, @"chatId":chatId, @"venueId": venueId, @"type": @"setup", @"text":[NSString stringWithFormat:@"%@ joined", chatId]};
     NSError *error;
     NSData *jsonPacket = [NSJSONSerialization dataWithJSONObject:packetDictionary options:NSJSONWritingPrettyPrinted error:&error];
     NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
