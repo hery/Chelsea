@@ -70,7 +70,8 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+    _venueTableView.userInteractionEnabled = YES;
+
     // Send an empty GET request to wake up heroku instance.
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://chelseatornado.herokuapp.com"]];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -119,6 +120,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    tableView.userInteractionEnabled = NO;
     NSLog(@"Check-in at: %@", dataSource.venuesArray[indexPath.row]);
     NSDictionary *additionalParameters = @{@"v":@"20140417",
                                            @"venueId":dataSource.venuesArray[indexPath.row][@"id"]};
