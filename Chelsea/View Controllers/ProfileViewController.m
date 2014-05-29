@@ -36,22 +36,24 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0]}];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
-    _profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+    static const CGFloat profilePictureRadius = 250;
+
+    _profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, profilePictureRadius, profilePictureRadius)];
     _profilePicture.center = self.view.center;
     
-    static const CGFloat profilePictureOffset = 30.0f;
+    static const CGFloat profilePictureOffset = 50.0f;
     CGRect adjustedFrameForProfilePicture = _profilePicture.frame;
     adjustedFrameForProfilePicture.origin.y -= profilePictureOffset;
     _profilePicture.frame = adjustedFrameForProfilePicture;
-    
-    _profilePicture.backgroundColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
+    _profilePicture.backgroundColor = [UIColor whiteColor];
+        
     [self.view addSubview:_profilePicture];
     
     UILabel *realNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
     realNameLabel.center = _profilePicture.center;
     
     CGRect adjustFrameForRealNameLabel = realNameLabel.frame;
-    adjustFrameForRealNameLabel.origin.y += _profilePicture.frame.size.height/2 + 30; // 30 = margin
+    adjustFrameForRealNameLabel.origin.y += _profilePicture.frame.size.height/2 + 50; // 30 = margin
     realNameLabel.frame = adjustFrameForRealNameLabel;
     
     realNameLabel.text = [NSString stringWithFormat:@"%@ %@", _user[@"user"][@"firstName"], _user[@"user"][@"lastName"]];
@@ -66,11 +68,55 @@
     NSString *urlString = [NSString stringWithFormat:@"%@300x300%@", _user[@"user"][@"photo"][@"prefix"], _user[@"user"][@"photo"][@"suffix"]];
     urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@""];
     [manager GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        _profilePicture.image = responseObject;
+        UIImage *profilePicture = responseObject;
+        
+        static UIImage *maskImage = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            
+            UIGraphicsBeginImageContextWithOptions(CGSizeMake(profilePictureRadius, profilePictureRadius), NO, 0.0f);
+            CGContextRef ctx = UIGraphicsGetCurrentContext();
+            CGContextSaveGState(ctx);
+            
+            CGRect rect = CGRectMake(0, 0, profilePictureRadius, profilePictureRadius);
+            CGContextSetFillColorWithColor(ctx, [UIColor whiteColor].CGColor);
+            CGContextFillRect(ctx, rect);
+            
+            CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
+            CGContextFillEllipseInRect(ctx, rect);
+            
+            CGContextRestoreGState(ctx);
+            maskImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+        });
+        
+        CGImageRef imageReference = profilePicture.CGImage;
+        CGImageRef maskReference = maskImage.CGImage;
+        
+        CGImageRef imageMask = CGImageMaskCreate(CGImageGetWidth(maskReference),
+                                                 CGImageGetHeight(maskReference),
+                                                 CGImageGetBitsPerComponent(maskReference),
+                                                 CGImageGetBitsPerPixel(maskReference),
+                                                 CGImageGetBytesPerRow(maskReference),
+                                                 CGImageGetDataProvider(maskReference),
+                                                 NULL, // Decode is null
+                                                 NO // Should interpolate
+                                                 );
+        
+        CGImageRef maskedReference = CGImageCreateWithMask(imageReference, imageMask);
+        CGImageRelease(imageMask);
+        
+        UIImage *maskedImage = [UIImage imageWithCGImage:maskedReference];
+        CGImageRelease(maskedReference);
+        
+        _profilePicture.image = maskedImage;
+        
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Couldn't get profile picture.");
         NSLog(@"Request URL: %@", task.response.URL);
     }];
+    
+    // todo: add a button for private messaging
 }
 
 - (void)viewWillDisappear:(BOOL)animated
