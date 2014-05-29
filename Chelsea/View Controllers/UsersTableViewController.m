@@ -86,6 +86,8 @@
         NSLog(@"AL-%li > PL-%i: Pushing In-App Purchases VC.", selectedUserAL, PL);
         InAppPurchaseViewController *inAppPurchaseViewController = [InAppPurchaseViewController new];
         inAppPurchaseViewController.inAppPurchaseType = InAppPurchaseTypeALPL;
+        inAppPurchaseViewController.userAL = selectedUserAL;
+        inAppPurchaseViewController.userPL = PL;
         [self.navigationController pushViewController:inAppPurchaseViewController animated:YES];
     } else {
         NSLog(@"AL-%li <= PL-%i: Pushing In-App Purchases VC.", selectedUserAL, PL);

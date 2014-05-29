@@ -28,17 +28,37 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
+    [self.view addSubview:_tableView];
+    self.title = @"In-App Purchases";
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"itemCell"];
     
     switch (_inAppPurchaseType) {
         case InAppPurchaseTypeALPL:
         {
             NSLog(@"Loading AL and PL purchase view...");
+            // Let's populate the table view with hard-coded data for now.
+            // todo: get items from in-app purchases.
+            _purchaseItemsArray = @[@"PL-1", @"PL-2", @"AL-1", @"AL-2", @"AL-3"];
             break;
         }
             
         default:
             break;
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [[[UIAlertView alloc] initWithTitle:@"Whoops!"
+                                message:[NSString stringWithFormat:@"You cannot view this user's profile, because your Peek Level (PL) is too low. Since this user is AL-%li, you need to be at least PL-%li.",
+                                                    (long)_userAL, (long)_userAL]
+                               delegate:self
+                      cancelButtonTitle:@"Ok"
+                      otherButtonTitles:nil] show];
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,12 +69,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return _purchaseItemsArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [UITableViewCell new];
+    UITableViewCell *itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell" forIndexPath:indexPath];
+    itemCell.textLabel.text = _purchaseItemsArray[indexPath.row];
+    return itemCell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 /*
