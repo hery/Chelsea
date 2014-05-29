@@ -8,6 +8,7 @@
 
 #import "UsersTableViewController.h"
 #import "ProfileViewController.h"
+#import "InAppPurchaseViewController.h"
 
 @interface UsersTableViewController ()
 
@@ -68,9 +69,30 @@
     selectedCell.textLabel.textColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    ProfileViewController *profileViewController = [ProfileViewController new];
-    profileViewController.user = _users[indexPath.row];
-    [self.navigationController pushViewController:profileViewController animated:YES];
+    /**
+     *  Check for AL and PL level here from in-app purchases.
+     *  If AL > PL: push in-app purchases view.
+     *  Else (AL <= PL): view profile view.
+     */
+    
+    NSDictionary *selectedUser = _users[indexPath.row];
+    NSInteger selectedUserAL = [(NSNumber *)selectedUser[@"userAL"] integerValue];
+    NSLog(@"The selected user has AL-%li.", (long)selectedUserAL);
+    
+    // todo: get this user's PL from in-app purchases. Default to 0.
+    int PL = 0;
+    
+    if (selectedUserAL > PL) {
+        NSLog(@"AL-%li > PL-%i: Pushing In-App Purchases VC.", selectedUserAL, PL);
+        InAppPurchaseViewController *inAppPurchaseViewController = [InAppPurchaseViewController new];
+        inAppPurchaseViewController.inAppPurchaseType = InAppPurchaseTypeALPL;
+        [self.navigationController pushViewController:inAppPurchaseViewController animated:YES];
+    } else {
+        NSLog(@"AL-%li <= PL-%i: Pushing In-App Purchases VC.", selectedUserAL, PL);
+        ProfileViewController *profileViewController = [ProfileViewController new];
+        profileViewController.user = selectedUser;
+        [self.navigationController pushViewController:profileViewController animated:YES];
+    }
 }
 
 #pragma mark - Table view delegate

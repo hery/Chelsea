@@ -10,7 +10,6 @@
 
 @protocol FoursquareHTTPClientDelegate;
 
-
 typedef NS_ENUM(NSInteger, FoursquareHTTPClientEndpoint) {
     FoursquareHTTPClientEndpointSearch,
     FoursquareHTTPClientEndPointCheckIn

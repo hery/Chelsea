@@ -110,8 +110,17 @@
     NSString *chatId = [alertView textFieldAtIndex:0].text;
     // Get FS venueId
     NSString *venueId = _venue[@"id"];
+    // We need the user's anonymity level here. Let's start with 1 to implement in-app purchase page.
+    // todo: fetch actual AL form in-app purchases data.
+    NSNumber *AL = [NSNumber numberWithInt:1];
     // Package and send message
-    NSDictionary *packetDictionary = @{@"userId":userUUID, @"user":_checkedInUser, @"chatId":chatId, @"venueId": venueId, @"type": @"setup", @"text":[NSString stringWithFormat:@"%@ joined", chatId]};
+    NSDictionary *packetDictionary = @{@"userId":userUUID,
+                                       @"userAL":AL,
+                                       @"user":_checkedInUser,
+                                       @"chatId":chatId,
+                                       @"venueId": venueId,
+                                       @"type": @"setup",
+                                       @"text":[NSString stringWithFormat:@"%@ joined", chatId]};
     NSError *error;
     NSData *jsonPacket = [NSJSONSerialization dataWithJSONObject:packetDictionary options:NSJSONWritingPrettyPrinted error:&error];
     NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];

@@ -13,4 +13,7 @@
 @property (nonatomic, strong) NSDictionary *user;
 @property (nonatomic, strong) UIImageView *profilePicture;
 
+@property (nonatomic, assign) NSUInteger AL;
+@property (nonatomic, assign) NSUInteger PL;
+
 @end
