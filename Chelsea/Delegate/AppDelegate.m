@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "HomeViewController.h"
 #import "LoginViewController.h"
+#import <StoreKit/StoreKit.h>
+#import "TransactionObserver.h"
 
 NSString * const FoursquareApplicationName = @"com.naveenium.foursquare";
 
@@ -43,6 +45,9 @@ NSString * const FoursquareApplicationName = @"com.naveenium.foursquare";
     
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
+    
+    TransactionObserver *observer = [TransactionObserver sharedTransactionObserver];
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:observer];
     return YES;
 }
 

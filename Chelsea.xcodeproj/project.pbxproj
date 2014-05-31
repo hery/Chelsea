@@ -40,6 +40,8 @@
 		CAEF403919379E1500C69802 /* ChatTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAEF403819379E1500C69802 /* ChatTableViewController.m */; };
 		CAEF403B1937D50400C69802 /* inAppPurchasesALPL.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAEF403A1937D50400C69802 /* inAppPurchasesALPL.plist */; };
 		CAEF403D193952A100C69802 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAEF403C193952A100C69802 /* StoreKit.framework */; };
+		CAEF4040193A54E800C69802 /* InAppPurchaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CAEF403F193A54E800C69802 /* InAppPurchaseTableViewCell.m */; };
+		CAEF4043193A71E200C69802 /* TransactionObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = CAEF4042193A71E200C69802 /* TransactionObserver.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +104,10 @@
 		CAEF403819379E1500C69802 /* ChatTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatTableViewController.m; path = "View Controllers/ChatTableViewController.m"; sourceTree = "<group>"; };
 		CAEF403A1937D50400C69802 /* inAppPurchasesALPL.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = inAppPurchasesALPL.plist; sourceTree = "<group>"; };
 		CAEF403C193952A100C69802 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		CAEF403E193A54E800C69802 /* InAppPurchaseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InAppPurchaseTableViewCell.h; path = Objects/InAppPurchaseTableViewCell.h; sourceTree = "<group>"; };
+		CAEF403F193A54E800C69802 /* InAppPurchaseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InAppPurchaseTableViewCell.m; path = Objects/InAppPurchaseTableViewCell.m; sourceTree = "<group>"; };
+		CAEF4041193A71E200C69802 /* TransactionObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionObserver.h; path = Singleton/TransactionObserver.h; sourceTree = "<group>"; };
+		CAEF4042193A71E200C69802 /* TransactionObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TransactionObserver.m; path = Singleton/TransactionObserver.m; sourceTree = "<group>"; };
 		CAFBA2731894C0220057FAF5 /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -139,6 +145,8 @@
 			children = (
 				CA8894B418FF5C8C001A91C2 /* FoursquareHTTPClient.h */,
 				CA8894B518FF5C8C001A91C2 /* FoursquareHTTPClient.m */,
+				CAEF4041193A71E200C69802 /* TransactionObserver.h */,
+				CAEF4042193A71E200C69802 /* TransactionObserver.m */,
 			);
 			name = Singleton;
 			sourceTree = "<group>";
@@ -198,6 +206,8 @@
 			children = (
 				CA377E8119107AA6008385E4 /* ChatTableViewCell.h */,
 				CA377E8219107AA6008385E4 /* ChatTableViewCell.m */,
+				CAEF403E193A54E800C69802 /* InAppPurchaseTableViewCell.h */,
+				CAEF403F193A54E800C69802 /* InAppPurchaseTableViewCell.m */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -426,6 +436,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAEF4043193A71E200C69802 /* TransactionObserver.m in Sources */,
 				CACE17081893392D0035F4F6 /* Chelsea.xcdatamodeld in Sources */,
 				CAA6D0061926A19300CF7093 /* UsersTableViewController.m in Sources */,
 				CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */,
@@ -435,6 +446,7 @@
 				CAEF403019379DE600C69802 /* NSDictionary+Helpers.m in Sources */,
 				CAEF403619379E0B00C69802 /* HomeViewController.m in Sources */,
 				CA377E8319107AA6008385E4 /* ChatTableViewCell.m in Sources */,
+				CAEF4040193A54E800C69802 /* InAppPurchaseTableViewCell.m in Sources */,
 				CA7398CF190064B60031AF10 /* constants.m in Sources */,
 				CAEF402A19379D8300C69802 /* InAppPurchaseViewController.m in Sources */,
 				CAEF403919379E1500C69802 /* ChatTableViewController.m in Sources */,

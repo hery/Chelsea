@@ -7,6 +7,7 @@
 //
 
 #import "InAppPurchaseViewController.h"
+#import "InAppPurchaseTableViewCell.h"
 
 @interface InAppPurchaseViewController ()
 
@@ -35,12 +36,11 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     self.tableView.backgroundColor = [UIColor whiteColor];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"itemCell"];
+    [self.tableView registerClass:[InAppPurchaseTableViewCell class] forCellReuseIdentifier:@"itemCell"];
     
     switch (_inAppPurchaseType) {
         case InAppPurchaseTypeALPL:
         {
-            _purchaseItemsArray = @[@"Anonymity Level 1 (AL-1)"];
             NSLog(@"Loading AL and PL purchase view...");
             NSURL *url = [[NSBundle mainBundle] URLForResource:@"inAppPurchasesALPL"
                                                  withExtension:@"plist"];
@@ -73,25 +73,55 @@
 
 #pragma mark - Table View
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60.0f;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _purchaseItemsArray.count;
+    return _products.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell" forIndexPath:indexPath];
-    if (!itemCell) {
-        itemCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"itemCell"];
+    InAppPurchaseTableViewCell *itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell" forIndexPath:indexPath];
+    
+    if (itemCell == nil) {
+        itemCell = [[InAppPurchaseTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"itemCell"];
     }
-    itemCell.textLabel.text = _purchaseItemsArray[indexPath.row];
-    itemCell.detailTextLabel.text = @"$0.99";
+
+    SKProduct *product = _products[indexPath.row];
+    
+    itemCell.titleLabel.text = [product localizedTitle];
+    itemCell.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:23.0f];
+    // todo: use text kit to make text size flexible
+    // (con) multiple text size could be confusing
+    itemCell.titleLabel.textColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
+    
+    itemCell.subtitleLabel.text = product.localizedDescription;
+    itemCell.subtitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
+    itemCell.subtitleLabel.textColor = [UIColor blackColor];
+
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+    [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [numberFormatter setLocale:product.priceLocale];
+    NSString *formattedPrice = [numberFormatter stringFromNumber:product.price];
+    itemCell.priceLabel.text = formattedPrice;
+    itemCell.priceLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
+    itemCell.priceLabel.textColor = [UIColor blackColor];
+    
     return itemCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    tableView.userInteractionEnabled = NO;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:_products[indexPath.row]];
+    payment.quantity = 1;
+    [[SKPaymentQueue defaultQueue] addPayment:payment];
 }
 
 #pragma mark - Store Kit
@@ -110,6 +140,7 @@
 {
     self.products = response.products;
     NSLog(@"Got Store Kit products: %@", self.products);
+    [self.tableView reloadData];
     
     for (NSString *invalidIdentifier in response.invalidProductIdentifiers) {
         // Handle any invalid product identifiers.
