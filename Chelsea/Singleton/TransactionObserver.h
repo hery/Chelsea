@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <StoreKit/StoreKit.h>
 
-@interface TransactionObserver : NSObject
+@interface TransactionObserver : NSObject <SKPaymentTransactionObserver>
 
 + (TransactionObserver *)sharedTransactionObserver;
 
