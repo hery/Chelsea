@@ -14,6 +14,8 @@
 
 @implementation InAppPurchaseViewController
 
+#pragma mark - App Lifecycle
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -38,10 +40,12 @@
     switch (_inAppPurchaseType) {
         case InAppPurchaseTypeALPL:
         {
+            _purchaseItemsArray = @[@"Anonymity Level 1 (AL-1)"];
             NSLog(@"Loading AL and PL purchase view...");
-            // Let's populate the table view with hard-coded data for now.
-            // todo: get items from in-app purchases.
-            _purchaseItemsArray = @[@"PL-1", @"PL-2", @"AL-1", @"AL-2", @"AL-3"];
+            NSURL *url = [[NSBundle mainBundle] URLForResource:@"inAppPurchasesALPL"
+                                                 withExtension:@"plist"];
+            NSArray *productIdentifiers = [NSArray arrayWithContentsOfURL:url];
+            [self validateProductIdentifiers:productIdentifiers];
             break;
         }
             
@@ -67,6 +71,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Table View
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return _purchaseItemsArray.count;
@@ -75,7 +81,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *itemCell = [tableView dequeueReusableCellWithIdentifier:@"itemCell" forIndexPath:indexPath];
+    if (!itemCell) {
+        itemCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"itemCell"];
+    }
     itemCell.textLabel.text = _purchaseItemsArray[indexPath.row];
+    itemCell.detailTextLabel.text = @"$0.99";
     return itemCell;
 }
 
@@ -84,15 +94,28 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - Store Kit
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)validateProductIdentifiers:(NSArray *)productIdentifiers
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    NSLog(@"Validating products identifiers: <%@>", productIdentifiers);
+    SKProductsRequest *productsRequest = [[SKProductsRequest alloc]
+                                          initWithProductIdentifiers:[NSSet setWithArray:productIdentifiers]];
+    productsRequest.delegate = self;
+    [productsRequest start];
 }
-*/
+
+- (void)productsRequest:(SKProductsRequest *)request
+     didReceiveResponse:(SKProductsResponse *)response
+{
+    self.products = response.products;
+    NSLog(@"Got Store Kit products: %@", self.products);
+    
+    for (NSString *invalidIdentifier in response.invalidProductIdentifiers) {
+        // Handle any invalid product identifiers.
+        NSLog(@"Invalid product: %@", invalidIdentifier);
+    }
+    
+}
 
 @end
