@@ -8,6 +8,9 @@
 
 #import "InAppPurchaseViewController.h"
 #import "InAppPurchaseTableViewCell.h"
+#import "TransactionObserver.h"
+
+#import "ProfileViewController.h"
 
 @interface InAppPurchaseViewController ()
 
@@ -52,17 +55,28 @@
         default:
             break;
     }
+    
+    TransactionObserver *transactionObserver = [TransactionObserver sharedTransactionObserver];
+    transactionObserver.aLpLViewController = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [[[UIAlertView alloc] initWithTitle:@"Whoops!"
-                                message:[NSString stringWithFormat:@"You cannot view this user's profile, because your Peek Level (PL) is too low. Since this user is AL-%li, you need to be at least PL-%li.",
-                                                    (long)_userAL, (long)_userAL]
-                               delegate:self
-                      cancelButtonTitle:@"Ok"
-                      otherButtonTitles:nil] show];
+    
+    if (_userAL > _userPL) {
+        
+        self.tableView.userInteractionEnabled = YES;
+        
+        [[[UIAlertView alloc] initWithTitle:@"Whoops!"
+                                    message:[NSString stringWithFormat:@"You cannot view this user's profile, because your Peek Level (PL) is too low. Since this user is AL-%li, you need to be at least PL-%li.",
+                                                        (long)_userAL, (long)_userAL]
+                                   delegate:self
+                          cancelButtonTitle:@"Ok"
+                          otherButtonTitles:nil] show];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -143,10 +157,70 @@
     [self.tableView reloadData];
     
     for (NSString *invalidIdentifier in response.invalidProductIdentifiers) {
-        // Handle any invalid product identifiers.
         NSLog(@"Invalid product: %@", invalidIdentifier);
     }
+}
+
+#pragma mark - Instance Methods
+
+- (void)completedPurchaseForLevelWithTransaction:(SKPaymentTransaction *)transaction
+{
+    // todo: validate receipt data with App Store
     
+    NSString *transactionProductID = transaction.payment.productIdentifier;
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"inAppPurchasesALPL"
+                                         withExtension:@"plist"];
+    NSArray *productIdentifiers = [NSArray arrayWithContentsOfURL:url];
+    NSUInteger productIndex = [productIdentifiers indexOfObject:transactionProductID];
+    
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    switch (productIndex) {
+        case 0: // AL-1
+        {
+            NSLog(@"Anonymity Level 1 (AL-1) acquired!");
+            [standardDefaults setValue:@1 forKey:@"al"];
+            break;
+        }
+        case 1: // AL-2
+        {
+            NSLog(@"Anonymity Level 2 (AL-2) acquired!");
+            [standardDefaults setValue:@2 forKey:@"al"];
+            break;
+        }
+        case 2: // AL-3
+        {
+            NSLog(@"Anonymity Level 3 (AL-3) acquired!");
+            [standardDefaults setValue:@3 forKey:@"al"];
+            break;
+        }
+        case 3: // PL-1
+        {
+            NSLog(@"Peek Level 1 (PL-1) acquired!");
+            [standardDefaults setValue:@1 forKey:@"pl"];
+            _userPL = 1;
+            break;
+        }
+        case 4: // PL -2
+        {
+            NSLog(@"Peek Level 2 (AL-2) acquired!");
+            [standardDefaults setValue:@2 forKey:@"pl"];
+            _userPL = 2;
+            break;
+        }
+            
+        default:
+            break;
+    }
+    
+    ProfileViewController *profileViewController = [ProfileViewController new];
+    profileViewController.user = _selectedUser;
+    [self.navigationController pushViewController:profileViewController animated:YES];
+    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+}
+
+- (void)failedTransaction:(SKPaymentTransaction *)transaction
+{
+    self.tableView.userInteractionEnabled = YES;
 }
 
 @end

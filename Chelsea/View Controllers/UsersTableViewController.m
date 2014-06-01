@@ -79,13 +79,13 @@
     NSInteger selectedUserAL = [(NSNumber *)selectedUser[@"userAL"] integerValue];
     NSLog(@"The selected user has AL-%li.", (long)selectedUserAL);
     
-    // todo: get this user's PL from in-app purchases. Default to 0.
-    int PL = 0;
+    int PL = [[[NSUserDefaults standardUserDefaults] valueForKey:@"pl"] integerValue];
     
     if (selectedUserAL > PL) {
         NSLog(@"AL-%li > PL-%i: Pushing In-App Purchases VC.", selectedUserAL, PL);
         InAppPurchaseViewController *inAppPurchaseViewController = [InAppPurchaseViewController new];
         inAppPurchaseViewController.inAppPurchaseType = InAppPurchaseTypeALPL;
+        inAppPurchaseViewController.selectedUser = selectedUser;
         inAppPurchaseViewController.userAL = selectedUserAL;
         inAppPurchaseViewController.userPL = PL;
         [self.navigationController pushViewController:inAppPurchaseViewController animated:YES];

@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
 
+@class InAppPurchaseViewController;
+
 @interface TransactionObserver : NSObject <SKPaymentTransactionObserver>
+
+@property (nonatomic, strong) InAppPurchaseViewController *aLpLViewController;
 
 + (TransactionObserver *)sharedTransactionObserver;
 

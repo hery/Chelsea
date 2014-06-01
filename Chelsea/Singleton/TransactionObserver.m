@@ -7,6 +7,7 @@
 //
 
 #import "TransactionObserver.h"
+#import "InAppPurchaseViewController.h"
 
 @implementation TransactionObserver
 
@@ -28,12 +29,24 @@
                 // Call the appropriate custom method.
             case SKPaymentTransactionStatePurchased:
             {
+                NSURL *url = [[NSBundle mainBundle] URLForResource:@"inAppPurchasesALPL"
+                                                     withExtension:@"plist"];
+                NSArray *productIdentifiers = [NSArray arrayWithContentsOfURL:url];
+
+                if ([productIdentifiers containsObject:transaction.payment.productIdentifier]) {
+                    NSLog(@"Got AL/PL transaction.");
+                }
+                
                 NSLog(@"Completed purchase for %@", transaction.payment.productIdentifier);
+                [_aLpLViewController completedPurchaseForLevelWithTransaction:transaction];
+                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 break;
             }
             case SKPaymentTransactionStateFailed:
             {
                 NSLog(@"Transaction failed for %@", transaction.payment.productIdentifier);
+                [_aLpLViewController failedTransaction:transaction];
+                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 break;
             }
             case SKPaymentTransactionStateRestored:
