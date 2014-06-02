@@ -68,9 +68,15 @@
         
         self.tableView.userInteractionEnabled = YES;
         
+        NSString *insufficientLevelMessageString;
+        if (_userAL == 3) {
+            insufficientLevelMessageString = @"This user is anonymous (AL-3)."; }
+        else {
+            insufficientLevelMessageString = [NSString stringWithFormat:@"You cannot view this user's profile, because your Peek Level (PL) is too low. Since this user is AL-%li, you need to be at least PL-%li.", (long)_userAL, (long)_userAL];
+        }
+        
         [[[UIAlertView alloc] initWithTitle:@"Whoops!"
-                                    message:[NSString stringWithFormat:@"You cannot view this user's profile, because your Peek Level (PL) is too low. Since this user is AL-%li, you need to be at least PL-%li.",
-                                                        (long)_userAL, (long)_userAL]
+                                    message:insufficientLevelMessageString
                                    delegate:self
                           cancelButtonTitle:@"Ok"
                           otherButtonTitles:nil] show];
@@ -198,7 +204,7 @@
         }
         case 2: // AL-3
         {
-            feedbackString = @"Anonymity Level 3 (AL-3) acquired! Please exit the venue and check-in again to apply it.";
+            feedbackString = @"Anonymity Level 3 (AL-3) acquired! You've obtained complete anonymity.";
             NSLog(@"Anonymity Level 3 (AL-3) acquired!");
             newAL = 3;
             break;
