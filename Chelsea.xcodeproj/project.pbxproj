@@ -15,6 +15,7 @@
 		CA8894B618FF5C8C001A91C2 /* FoursquareHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8894B518FF5C8C001A91C2 /* FoursquareHTTPClient.m */; };
 		CA8894B918FF684C001A91C2 /* FoursquareHTTPClientDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8894B818FF684C001A91C2 /* FoursquareHTTPClientDelegate.m */; };
 		CAA6D0061926A19300CF7093 /* UsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA6D0051926A19300CF7093 /* UsersTableViewController.m */; };
+		CAAD363E193B73EB00C375AB /* UserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CAAD363D193B73EB00C375AB /* UserTableViewCell.m */; };
 		CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */; };
 		CACCB68C192D8A650006D440 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACCB68B192D8A650006D440 /* LoginViewController.m */; };
 		CACE16F31893392D0035F4F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F21893392D0035F4F6 /* Foundation.framework */; };
@@ -69,6 +70,8 @@
 		CA8894B818FF684C001A91C2 /* FoursquareHTTPClientDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FoursquareHTTPClientDelegate.m; path = Delegate/FoursquareHTTPClientDelegate.m; sourceTree = "<group>"; };
 		CAA6D0041926A19300CF7093 /* UsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UsersTableViewController.h; path = "View Controllers/UsersTableViewController.h"; sourceTree = "<group>"; };
 		CAA6D0051926A19300CF7093 /* UsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UsersTableViewController.m; path = "View Controllers/UsersTableViewController.m"; sourceTree = "<group>"; };
+		CAAD363C193B73EB00C375AB /* UserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserTableViewCell.h; path = Chelsea/Objects/UserTableViewCell.h; sourceTree = "<group>"; };
+		CAAD363D193B73EB00C375AB /* UserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserTableViewCell.m; path = Chelsea/Objects/UserTableViewCell.m; sourceTree = "<group>"; };
 		CAB3C2AA18EF3FF700C88E3F /* LocationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationTableViewController.h; path = "View Controllers/LocationTableViewController.h"; sourceTree = "<group>"; };
 		CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationTableViewController.m; path = "View Controllers/LocationTableViewController.m"; sourceTree = "<group>"; };
 		CACCB68A192D8A650006D440 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = "View Controllers/LoginViewController.h"; sourceTree = "<group>"; };
@@ -215,6 +218,8 @@
 		CACE16E61893392D0035F4F6 = {
 			isa = PBXGroup;
 			children = (
+				CAAD363C193B73EB00C375AB /* UserTableViewCell.h */,
+				CAAD363D193B73EB00C375AB /* UserTableViewCell.m */,
 				CA7398CE190064B60031AF10 /* constants.m */,
 				CACE16FA1893392D0035F4F6 /* Chelsea */,
 				CACE17171893392D0035F4F6 /* ChelseaTests */,
@@ -449,6 +454,7 @@
 				CAEF4040193A54E800C69802 /* InAppPurchaseTableViewCell.m in Sources */,
 				CA7398CF190064B60031AF10 /* constants.m in Sources */,
 				CAEF402A19379D8300C69802 /* InAppPurchaseViewController.m in Sources */,
+				CAAD363E193B73EB00C375AB /* UserTableViewCell.m in Sources */,
 				CAEF403919379E1500C69802 /* ChatTableViewController.m in Sources */,
 				CA8894B618FF5C8C001A91C2 /* FoursquareHTTPClient.m in Sources */,
 				CAEF403319379DF700C69802 /* HomeViewControllerDataSource.m in Sources */,

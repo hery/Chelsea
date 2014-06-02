@@ -80,6 +80,9 @@
     NSLog(@"Request failed. Reason: %@", error);
     NSLog(@"Error code: %li", (long)[error code]);
     NSLog(@"Error message: %@", [error localizedDescription]);
+    
+    [[[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"Check your internet connection!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+    _tableView.userInteractionEnabled = YES;
 
     if ([[error localizedDescription] isEqualToString:@"Request failed: unauthorized (401)"])
         NSLog(@"%i",(int)[FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString]);
@@ -112,7 +115,10 @@
     NSString *venueId = _venue[@"id"];
     // We need the user's anonymity level here. Let's start with 1 to implement in-app purchase page.
     // todo: fetch actual AL form in-app purchases data.
-    NSNumber *AL = [NSNumber numberWithInt:1];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSInteger alLevel = [[standardUserDefaults valueForKey:@"al"] integerValue];
+    NSNumber *AL = [NSNumber numberWithInt:alLevel];
+    NSLog(@"Checking AL: %@", AL);
     // Package and send message
     NSDictionary *packetDictionary = @{@"userId":userUUID,
                                        @"userAL":AL,

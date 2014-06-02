@@ -63,7 +63,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+    NSLog(@"AL,PL = %li, %li", _userAL, _userPL);
     if (_userAL > _userPL) {
         
         self.tableView.userInteractionEnabled = YES;
@@ -74,7 +74,7 @@
                                    delegate:self
                           cancelButtonTitle:@"Ok"
                           otherButtonTitles:nil] show];
-    } else {
+    } else if (_generic) {} else                                {
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
@@ -174,37 +174,48 @@
     NSUInteger productIndex = [productIdentifiers indexOfObject:transactionProductID];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *feedbackString;
+
+    NSInteger previousPL = [[standardDefaults valueForKey:@"pl"] integerValue];
+    NSInteger newPL = 0;
+    NSInteger previousAL = [[standardDefaults valueForKey:@"al"] integerValue];
+    NSInteger newAL = 0;
+    
     switch (productIndex) {
         case 0: // AL-1
         {
-            NSLog(@"Anonymity Level 1 (AL-1) acquired!");
-            [standardDefaults setValue:@1 forKey:@"al"];
+            feedbackString = @"Anonymity Level 1 (AL-1) acquired!";
+            NSLog(@"Anonymity Level 1 (AL-1) acquired! Please exit the venue and check-in again to apply it.");
+            newAL = 1;
             break;
         }
         case 1: // AL-2
         {
+            feedbackString = @"Anonymity Level 2 (AL-2) acquired! Please exit the venue and check-in again to apply it.";
             NSLog(@"Anonymity Level 2 (AL-2) acquired!");
-            [standardDefaults setValue:@2 forKey:@"al"];
+            newAL = 2;
             break;
         }
         case 2: // AL-3
         {
+            feedbackString = @"Anonymity Level 3 (AL-3) acquired! Please exit the venue and check-in again to apply it.";
             NSLog(@"Anonymity Level 3 (AL-3) acquired!");
-            [standardDefaults setValue:@3 forKey:@"al"];
+            newAL = 3;
             break;
         }
         case 3: // PL-1
         {
+            feedbackString = @"Peek Level 1 (PL-1) acquired!";
             NSLog(@"Peek Level 1 (PL-1) acquired!");
-            [standardDefaults setValue:@1 forKey:@"pl"];
-            _userPL = 1;
+            newPL = 1;
+
             break;
         }
         case 4: // PL -2
         {
+            feedbackString = @"Peek Level 2 (PL-2) acquired!";
             NSLog(@"Peek Level 2 (AL-2) acquired!");
-            [standardDefaults setValue:@2 forKey:@"pl"];
-            _userPL = 2;
+            newPL = 2;
             break;
         }
             
@@ -212,9 +223,22 @@
             break;
     }
     
-    ProfileViewController *profileViewController = [ProfileViewController new];
-    profileViewController.user = _selectedUser;
-    [self.navigationController pushViewController:profileViewController animated:YES];
+    if (previousPL < newPL && productIndex >= 3) {
+        [standardDefaults setValue:[NSNumber numberWithInteger:newPL] forKey:@"pl"];
+        _userPL = newPL;
+    } else if (previousAL < newAL && productIndex < 3) {
+        [standardDefaults setValue:[NSNumber numberWithInteger:newAL] forKey:@"al"];
+    }
+    
+    if (!_generic) {
+        ProfileViewController *profileViewController = [ProfileViewController new];
+        profileViewController.user = _selectedUser;
+        [self.navigationController pushViewController:profileViewController animated:YES];
+    } else {
+        [[[UIAlertView alloc] initWithTitle:@"Woot!" message:feedbackString delegate:self cancelButtonTitle:@"All right!" otherButtonTitles:nil] show];
+    }
+    
+    _tableView.userInteractionEnabled = YES;
     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
 }
 

@@ -26,6 +26,4 @@
 @property (nonatomic, assign) CLLocationDegrees currentLatitude;
 @property (nonatomic, assign) CLLocationDegrees currentLongitude;
 
-- (void)handleAuthenticationForURL:(NSURL *)url;
-
 @end

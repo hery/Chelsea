@@ -125,31 +125,12 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     NSDictionary *additionalParameters = @{@"v":@"20140417",
                                            @"venueId":dataSource.venuesArray[indexPath.row][@"id"]};
     [sharedFoursquareHTTPClient performPOSTRequestForEndpointString:@"checkins/add" endpointConstant:FoursquareHTTPClientEndPointCheckIn additionalParameters:additionalParameters];
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80;
-}
-
-#pragma mark Foursquare API methods
-
-- (void)handleAuthenticationForURL:(NSURL *)url
-{
-    NSUserDefaults *standardUserDefault = [NSUserDefaults standardUserDefaults];
-    NSString *accessCodeString = [url fragment];
-    NSArray *accessCodeArray = [accessCodeString componentsSeparatedByString:@"="];
-    accessCodeString = accessCodeArray[1];
-    if (accessCodeString) { // todo: do a more accurate check here
-        NSLog(@"FS auth succeeded. Token: <%@>", accessCodeString);
-        [standardUserDefault setObject:accessCodeString forKey:@"foursquareAccessCode"];
-        [_loginWebView removeFromSuperview];
-        NSLog(@"%@", self.view.subviews);
-    } else {
-        NSLog(@"Error getting FS token.");
-    }
 }
 
 # pragma mark Search bar delegate methods 

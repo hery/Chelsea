@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, InAppPurchaseType) {
 @property (nonatomic, strong) NSDictionary *selectedUser;
 @property (nonatomic, assign) NSInteger userAL;
 @property (nonatomic, assign) NSInteger userPL;
+@property (nonatomic, assign) BOOL generic;
 
 - (void)completedPurchaseForLevelWithTransaction:(SKPaymentTransaction *)transaction;
 - (void)failedTransaction:(SKPaymentTransaction *)transaction;
