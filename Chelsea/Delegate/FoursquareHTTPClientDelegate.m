@@ -114,7 +114,6 @@
     // Get FS venueId
     NSString *venueId = _venue[@"id"];
     // We need the user's anonymity level here. Let's start with 1 to implement in-app purchase page.
-    // todo: fetch actual AL form in-app purchases data.
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger alLevel = [[standardUserDefaults valueForKey:@"al"] integerValue];
     NSNumber *AL = [NSNumber numberWithInt:alLevel];
