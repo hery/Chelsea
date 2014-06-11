@@ -73,7 +73,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     _venueTableView.userInteractionEnabled = YES;
 
     // Send an empty GET request to wake up heroku instance.
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://chelseatornado.herokuapp.com"]];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:chelseaBaseURL]];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     
