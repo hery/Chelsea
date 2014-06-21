@@ -14,8 +14,6 @@
 #import "FoursquareHTTPClient.h"
 #import "FoursquareHTTPClientDelegate.h"
 
-#import "NSDictionary+Helpers.h"
-
 #import "constants.h"
 
 // Singleton should store the base URL.

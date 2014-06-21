@@ -35,7 +35,6 @@
 		CAE1D325190D69F500BB2696 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE1D324190D69F500BB2696 /* CoreLocation.framework */; };
 		CAEF402A19379D8300C69802 /* InAppPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAEF402919379D8300C69802 /* InAppPurchaseViewController.m */; };
 		CAEF402D19379DD100C69802 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CAEF402C19379DD100C69802 /* AppDelegate.m */; };
-		CAEF403019379DE600C69802 /* NSDictionary+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = CAEF402F19379DE600C69802 /* NSDictionary+Helpers.m */; };
 		CAEF403319379DF700C69802 /* HomeViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = CAEF403219379DF700C69802 /* HomeViewControllerDataSource.m */; };
 		CAEF403619379E0B00C69802 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAEF403519379E0B00C69802 /* HomeViewController.m */; };
 		CAEF403919379E1500C69802 /* ChatTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAEF403819379E1500C69802 /* ChatTableViewController.m */; };
@@ -63,15 +62,15 @@
 		CA377E8219107AA6008385E4 /* ChatTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatTableViewCell.m; path = Objects/ChatTableViewCell.m; sourceTree = "<group>"; };
 		CA64AFD319368B70000B07A7 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileViewController.h; path = "View Controllers/ProfileViewController.h"; sourceTree = "<group>"; };
 		CA64AFD419368B70000B07A7 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileViewController.m; path = "View Controllers/ProfileViewController.m"; sourceTree = "<group>"; };
-		CA7398CE190064B60031AF10 /* constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = constants.m; path = Chelsea/constants.m; sourceTree = "<group>"; };
+		CA7398CE190064B60031AF10 /* constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = constants.m; sourceTree = "<group>"; };
 		CA8894B418FF5C8C001A91C2 /* FoursquareHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FoursquareHTTPClient.h; path = Singleton/FoursquareHTTPClient.h; sourceTree = "<group>"; };
 		CA8894B518FF5C8C001A91C2 /* FoursquareHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FoursquareHTTPClient.m; path = Singleton/FoursquareHTTPClient.m; sourceTree = "<group>"; };
 		CA8894B718FF684C001A91C2 /* FoursquareHTTPClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FoursquareHTTPClientDelegate.h; path = Delegate/FoursquareHTTPClientDelegate.h; sourceTree = "<group>"; };
 		CA8894B818FF684C001A91C2 /* FoursquareHTTPClientDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FoursquareHTTPClientDelegate.m; path = Delegate/FoursquareHTTPClientDelegate.m; sourceTree = "<group>"; };
 		CAA6D0041926A19300CF7093 /* UsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UsersTableViewController.h; path = "View Controllers/UsersTableViewController.h"; sourceTree = "<group>"; };
 		CAA6D0051926A19300CF7093 /* UsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UsersTableViewController.m; path = "View Controllers/UsersTableViewController.m"; sourceTree = "<group>"; };
-		CAAD363C193B73EB00C375AB /* UserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserTableViewCell.h; path = Chelsea/Objects/UserTableViewCell.h; sourceTree = "<group>"; };
-		CAAD363D193B73EB00C375AB /* UserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserTableViewCell.m; path = Chelsea/Objects/UserTableViewCell.m; sourceTree = "<group>"; };
+		CAAD363C193B73EB00C375AB /* UserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserTableViewCell.h; path = Objects/UserTableViewCell.h; sourceTree = "<group>"; };
+		CAAD363D193B73EB00C375AB /* UserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserTableViewCell.m; path = Objects/UserTableViewCell.m; sourceTree = "<group>"; };
 		CAB3C2AA18EF3FF700C88E3F /* LocationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationTableViewController.h; path = "View Controllers/LocationTableViewController.h"; sourceTree = "<group>"; };
 		CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationTableViewController.m; path = "View Controllers/LocationTableViewController.m"; sourceTree = "<group>"; };
 		CACCB68A192D8A650006D440 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = "View Controllers/LoginViewController.h"; sourceTree = "<group>"; };
@@ -97,8 +96,6 @@
 		CAEF402919379D8300C69802 /* InAppPurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InAppPurchaseViewController.m; path = "View Controllers/InAppPurchaseViewController.m"; sourceTree = "<group>"; };
 		CAEF402B19379DD100C69802 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Delegate/AppDelegate.h; sourceTree = "<group>"; };
 		CAEF402C19379DD100C69802 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Delegate/AppDelegate.m; sourceTree = "<group>"; };
-		CAEF402E19379DE600C69802 /* NSDictionary+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Helpers.h"; path = "Helpers/NSDictionary+Helpers.h"; sourceTree = "<group>"; };
-		CAEF402F19379DE600C69802 /* NSDictionary+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Helpers.m"; path = "Helpers/NSDictionary+Helpers.m"; sourceTree = "<group>"; };
 		CAEF403119379DF700C69802 /* HomeViewControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewControllerDataSource.h; path = "Data Sources/HomeViewControllerDataSource.h"; sourceTree = "<group>"; };
 		CAEF403219379DF700C69802 /* HomeViewControllerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeViewControllerDataSource.m; path = "Data Sources/HomeViewControllerDataSource.m"; sourceTree = "<group>"; };
 		CAEF403419379E0B00C69802 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = "View Controllers/HomeViewController.h"; sourceTree = "<group>"; };
@@ -184,15 +181,6 @@
 			name = "Data Source";
 			sourceTree = "<group>";
 		};
-		CAB3C2A818EF3ED200C88E3F /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				CAEF402E19379DE600C69802 /* NSDictionary+Helpers.h */,
-				CAEF402F19379DE600C69802 /* NSDictionary+Helpers.m */,
-			);
-			name = Helpers;
-			sourceTree = "<group>";
-		};
 		CAB3C2A918EF3ED900C88E3F /* Delegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +195,8 @@
 		CAB3C2B018EF500300C88E3F /* Object */ = {
 			isa = PBXGroup;
 			children = (
+				CAAD363C193B73EB00C375AB /* UserTableViewCell.h */,
+				CAAD363D193B73EB00C375AB /* UserTableViewCell.m */,
 				CA377E8119107AA6008385E4 /* ChatTableViewCell.h */,
 				CA377E8219107AA6008385E4 /* ChatTableViewCell.m */,
 				CAEF403E193A54E800C69802 /* InAppPurchaseTableViewCell.h */,
@@ -218,9 +208,6 @@
 		CACE16E61893392D0035F4F6 = {
 			isa = PBXGroup;
 			children = (
-				CAAD363C193B73EB00C375AB /* UserTableViewCell.h */,
-				CAAD363D193B73EB00C375AB /* UserTableViewCell.m */,
-				CA7398CE190064B60031AF10 /* constants.m */,
 				CACE16FA1893392D0035F4F6 /* Chelsea */,
 				CACE17171893392D0035F4F6 /* ChelseaTests */,
 				CACE16F11893392D0035F4F6 /* Frameworks */,
@@ -258,7 +245,6 @@
 			children = (
 				CA8894B318FF5C60001A91C2 /* Singleton */,
 				CAB3C2A918EF3ED900C88E3F /* Delegate */,
-				CAB3C2A818EF3ED200C88E3F /* Helpers */,
 				CAB3C2A718EF3EC900C88E3F /* Data Source */,
 				CAB3C2B018EF500300C88E3F /* Object */,
 				CAB3C2A618EF3E8000C88E3F /* View Controller */,
@@ -271,6 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				CACE172718933A100035F4F6 /* Storyboard.storyboard */,
+				CA7398CE190064B60031AF10 /* constants.m */,
 				CAFBA2731894C0220057FAF5 /* constants.h */,
 				CACE17061893392D0035F4F6 /* Chelsea.xcdatamodeld */,
 				CA0BD5E61897374B0047AAE0 /* images.xcassets */,
@@ -448,7 +435,6 @@
 				CAEF402D19379DD100C69802 /* AppDelegate.m in Sources */,
 				CA64AFD519368B70000B07A7 /* ProfileViewController.m in Sources */,
 				CACCB68C192D8A650006D440 /* LoginViewController.m in Sources */,
-				CAEF403019379DE600C69802 /* NSDictionary+Helpers.m in Sources */,
 				CAEF403619379E0B00C69802 /* HomeViewController.m in Sources */,
 				CA377E8319107AA6008385E4 /* ChatTableViewCell.m in Sources */,
 				CAEF4040193A54E800C69802 /* InAppPurchaseTableViewCell.m in Sources */,
