@@ -92,6 +92,8 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Ok"]) // `no internet connection` alert view
+        return;
     
     if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Back"]) // `no result` alert view
         return;
