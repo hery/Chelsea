@@ -29,6 +29,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.navigationController setNavigationBarHidden:YES];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     [_loginWebView setNeedsDisplay];
     self.title = @"Sign In";
@@ -44,6 +45,12 @@
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [_loginWebView loadRequest:request];
     [self.view addSubview:_loginWebView];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [[[UIAlertView alloc] initWithTitle:@"End User License Agreement" message:@"By logging in into CheckChat, I agree that I am prohibited from posting or transmitting any unlawful, threatening, libelous, defamatory, obscene, scandalous, inflammatory, pornographic or profane material." delegate:self cancelButtonTitle:@"Got it!" otherButtonTitles:nil] show];
 }
 
 - (void)didReceiveMemoryWarning
