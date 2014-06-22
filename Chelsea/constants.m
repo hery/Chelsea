@@ -4,9 +4,9 @@ NSString * const CallbackURIString = @"chelsea://foursquare";
 #pragma mark - Dev
 
 // Local
- NSString * const ClientId = @"LCA3DRLO4NTMHA4WNCE5F05LUT2GILRCW2LLZAT2CFGWG2ZH";
- NSString * const socketServerAddress = @"ws://192.168.2.63:5000/chat";
- NSString * const chelseaBaseURL = @"http://192.168.2.63:5000";
+// NSString * const ClientId = @"LCA3DRLO4NTMHA4WNCE5F05LUT2GILRCW2LLZAT2CFGWG2ZH";
+// NSString * const socketServerAddress = @"ws://192.168.2.63:5000/chat";
+// NSString * const chelseaBaseURL = @"http://192.168.2.63:5000";
 
 // Remote
 // NSString * const ClientId = @"LCA3DRLO4NTMHA4WNCE5F05LUT2GILRCW2LLZAT2CFGWG2ZH";
@@ -15,6 +15,6 @@ NSString * const CallbackURIString = @"chelsea://foursquare";
 
 #pragma mark - Prod
 
-//NSString * const ClientId = @"VHJUB1ERQQTC1EVKRD20GMDAEIXK2X5BFGJ332C3XT242X5B";
-//NSString * const socketServerAddress = @"ws://checkchat-pgbpryxb4fwbt5isyxkq.herokuapp.com/chat";
-//NSString * const chelseaBaseURL = @"http://checkchat-pgbpryxb4fwbt5isyxkq.herokuapp.com/";
+NSString * const ClientId = @"VHJUB1ERQQTC1EVKRD20GMDAEIXK2X5BFGJ332C3XT242X5B";
+NSString * const socketServerAddress = @"ws://checkchat-pgbpryxb4fwbt5isyxkq.herokuapp.com/chat";
+NSString * const chelseaBaseURL = @"http://checkchat-pgbpryxb4fwbt5isyxkq.herokuapp.com/";

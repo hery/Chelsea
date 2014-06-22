@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Hery Ratsimihah. All rights reserved.
 //
 
-#import <FSOAuth.h>
 #import <AFHTTPRequestOperationManager.h>
 
 #import "HomeViewController.h"

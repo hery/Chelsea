@@ -11,8 +11,6 @@
 #import "HomeViewControllerDataSource.h"
 #import "ChatTableViewController.h"
 
-#import <FSOAuth.h>
-
 #import "constants.h"
 
 @implementation FoursquareHTTPClientDelegate
@@ -85,7 +83,7 @@
     _tableView.userInteractionEnabled = YES;
 
     if ([[error localizedDescription] isEqualToString:@"Request failed: unauthorized (401)"])
-        NSLog(@"%i",(int)[FSOAuth authorizeUserUsingClientId:ClientId callbackURIString:CallbackURIString]);
+        NSLog(@"%@", [error localizedDescription]);
 }
 
 #pragma mark - Alert View Delegate Methods
