@@ -8,10 +8,12 @@
 
 #import "ChatTableViewController.h"
 #import "constants.h"
-#import <RDRStickyKeyboardView.h>
-#import <AFHTTPSessionManager.h>
 #import "ChatTableViewCell.h"
 #import "UsersTableViewController.h"
+
+#import <RDRStickyKeyboardView.h>
+#import <AFHTTPRequestOperationManager.h>
+#import <AFHTTPSessionManager.h>
 
 @interface ChatTableViewController ()
 
@@ -168,14 +170,23 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:chelseaBaseURL]];
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:chelseaBaseURL]];
         manager.requestSerializer = [AFJSONRequestSerializer serializer];
         manager.responseSerializer = [AFJSONResponseSerializer serializer];
         
-        [manager GET:@"/flag" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSLog(@"%@", responseObject);
-        } failure:^(NSURLSessionDataTask *task, NSError *error) {
-            NSLog(@"Couldn't reach Chelsea Tornado. %@", [error localizedDescription]);
+        NSLog(@"Flagged <%@:%@>",
+              _messagesArray[indexPath.row][@"chatId"],
+              _messagesArray[indexPath.row][@"text"]);
+        
+        NSDictionary *parameters = @{@"message": _messagesArray[indexPath.row], @"foo": @"bar"};
+        
+        [_messagesArray removeObjectAtIndex:indexPath.row];
+        [self.tableView reloadData];
+        
+        [manager POST:@"/flag" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            // Flag completion block
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error flagging content. %@", [error localizedDescription]);
         }];
     }
 }
