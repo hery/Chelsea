@@ -132,6 +132,12 @@
     itemCell.priceLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f];
     itemCell.priceLabel.textColor = [UIColor blackColor];
     
+    NSLog(@"Setting up in-app purchase:");
+    NSLog(@"    Title: %@", [product localizedTitle]);
+    NSLog(@"    Description: %@", [product localizedDescription]);
+    NSLog(@"    Price: %@", formattedPrice);
+    NSLog(@"----");
+    
     return itemCell;
 }
 

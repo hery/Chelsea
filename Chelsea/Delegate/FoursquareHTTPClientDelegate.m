@@ -101,7 +101,7 @@
         emptyName.alertViewStyle = UIAlertViewStylePlainTextInput;
         [emptyName show];
         return;
-    }
+}
     
     NSLog(@"You will be identified as %@.", [alertView textFieldAtIndex:0].text);
     
@@ -116,7 +116,11 @@
     // We need the user's anonymity level here. Let's start with 1 to implement in-app purchase page.
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger alLevel = [[standardUserDefaults valueForKey:@"al"] integerValue];
-    NSNumber *AL = [NSNumber numberWithInt:alLevel];
+    if (![standardUserDefaults valueForKey:@"al"]) {
+        alLevel = 1;
+        [standardUserDefaults setValue:@"1" forKey:@"al"];
+    }
+    NSNumber *AL = [NSNumber numberWithInteger:alLevel];
     NSLog(@"Checking AL: %@", AL);
     // Package and send message
     NSDictionary *packetDictionary = @{@"userId":userUUID,
