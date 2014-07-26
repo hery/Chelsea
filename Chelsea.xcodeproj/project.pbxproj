@@ -14,6 +14,8 @@
 		CA7398CF190064B60031AF10 /* constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CA7398CE190064B60031AF10 /* constants.m */; };
 		CA8894B618FF5C8C001A91C2 /* FoursquareHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8894B518FF5C8C001A91C2 /* FoursquareHTTPClient.m */; };
 		CA8894B918FF684C001A91C2 /* FoursquareHTTPClientDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8894B818FF684C001A91C2 /* FoursquareHTTPClientDelegate.m */; };
+		CAA462301984039F0083D435 /* ProfileSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA4622F1984039F0083D435 /* ProfileSetupViewController.m */; };
+		CAA462331984069E0083D435 /* ChelseaTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA462321984069E0083D435 /* ChelseaTextField.m */; };
 		CAA6D0061926A19300CF7093 /* UsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA6D0051926A19300CF7093 /* UsersTableViewController.m */; };
 		CAAD363E193B73EB00C375AB /* UserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CAAD363D193B73EB00C375AB /* UserTableViewCell.m */; };
 		CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */; };
@@ -65,6 +67,10 @@
 		CA8894B518FF5C8C001A91C2 /* FoursquareHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FoursquareHTTPClient.m; path = Singleton/FoursquareHTTPClient.m; sourceTree = "<group>"; };
 		CA8894B718FF684C001A91C2 /* FoursquareHTTPClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FoursquareHTTPClientDelegate.h; path = Delegate/FoursquareHTTPClientDelegate.h; sourceTree = "<group>"; };
 		CA8894B818FF684C001A91C2 /* FoursquareHTTPClientDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FoursquareHTTPClientDelegate.m; path = Delegate/FoursquareHTTPClientDelegate.m; sourceTree = "<group>"; };
+		CAA4622E1984039F0083D435 /* ProfileSetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileSetupViewController.h; path = "View Controllers/ProfileSetupViewController.h"; sourceTree = "<group>"; };
+		CAA4622F1984039F0083D435 /* ProfileSetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileSetupViewController.m; path = "View Controllers/ProfileSetupViewController.m"; sourceTree = "<group>"; };
+		CAA462311984069E0083D435 /* ChelseaTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChelseaTextField.h; path = Objects/ChelseaTextField.h; sourceTree = "<group>"; };
+		CAA462321984069E0083D435 /* ChelseaTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChelseaTextField.m; path = Objects/ChelseaTextField.m; sourceTree = "<group>"; };
 		CAA6D0041926A19300CF7093 /* UsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UsersTableViewController.h; path = "View Controllers/UsersTableViewController.h"; sourceTree = "<group>"; };
 		CAA6D0051926A19300CF7093 /* UsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UsersTableViewController.m; path = "View Controllers/UsersTableViewController.m"; sourceTree = "<group>"; };
 		CAAD363C193B73EB00C375AB /* UserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserTableViewCell.h; path = Objects/UserTableViewCell.h; sourceTree = "<group>"; };
@@ -164,6 +170,8 @@
 				CA64AFD419368B70000B07A7 /* ProfileViewController.m */,
 				CAEF402819379D8300C69802 /* InAppPurchaseViewController.h */,
 				CAEF402919379D8300C69802 /* InAppPurchaseViewController.m */,
+				CAA4622E1984039F0083D435 /* ProfileSetupViewController.h */,
+				CAA4622F1984039F0083D435 /* ProfileSetupViewController.m */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -197,6 +205,8 @@
 				CA377E8219107AA6008385E4 /* ChatTableViewCell.m */,
 				CAEF403E193A54E800C69802 /* InAppPurchaseTableViewCell.h */,
 				CAEF403F193A54E800C69802 /* InAppPurchaseTableViewCell.m */,
+				CAA462311984069E0083D435 /* ChelseaTextField.h */,
+				CAA462321984069E0083D435 /* ChelseaTextField.m */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -435,11 +445,13 @@
 				CA7398CF190064B60031AF10 /* constants.m in Sources */,
 				CAEF402A19379D8300C69802 /* InAppPurchaseViewController.m in Sources */,
 				CAAD363E193B73EB00C375AB /* UserTableViewCell.m in Sources */,
+				CAA462301984039F0083D435 /* ProfileSetupViewController.m in Sources */,
 				CAEF403919379E1500C69802 /* ChatTableViewController.m in Sources */,
 				CA8894B618FF5C8C001A91C2 /* FoursquareHTTPClient.m in Sources */,
 				CAEF403319379DF700C69802 /* HomeViewControllerDataSource.m in Sources */,
 				CACE17011893392D0035F4F6 /* main.m in Sources */,
 				CA8894B918FF684C001A91C2 /* FoursquareHTTPClientDelegate.m in Sources */,
+				CAA462331984069E0083D435 /* ChelseaTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,7 +575,7 @@
 				GCC_PREFIX_HEADER = "Chelsea/Chelsea-Prefix.pch";
 				INFOPLIST_FILE = "Chelsea/Chelsea-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "D4CB6269-6DD9-4308-B4B1-BD673025EA47";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -576,12 +588,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: mune LLC (BAW4CQS39A)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chelsea/Chelsea-Prefix.pch";
 				INFOPLIST_FILE = "Chelsea/Chelsea-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "D4CB6269-6DD9-4308-B4B1-BD673025EA47";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

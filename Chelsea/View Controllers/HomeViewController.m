@@ -12,6 +12,7 @@
 #import "HomeViewControllerDataSource.h"
 #import "FoursquareHTTPClient.h"
 #import "FoursquareHTTPClientDelegate.h"
+#import "ProfileSetupViewController.h"
 
 #import "constants.h"
 
@@ -62,6 +63,14 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     delegate.dataSource = dataSource;
     delegate.tableView = _venueTableView;
     sharedFoursquareHTTPClient.delegate = delegate;
+    
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    if ([standardUserDefaults boolForKey:@"profileSetup"] == YES) {
+        return;
+    } else {
+        ProfileSetupViewController *profileSetupViewController = [ProfileSetupViewController new];
+        [self.navigationController presentViewController:profileSetupViewController animated:NO completion:nil];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated

@@ -17,3 +17,5 @@
     #import <CoreData/CoreData.h>
 #endif
 
+#define CHELSEA_COLOR [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
+

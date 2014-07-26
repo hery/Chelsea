@@ -33,7 +33,6 @@ NSString * const FoursquareApplicationName = @"com.naveenium.foursquare";
     HomeViewController *homeViewController = [mainStoryBoard instantiateViewControllerWithIdentifier:@"homeViewController"];
     _loginViewController = [mainStoryBoard instantiateViewControllerWithIdentifier:@"loginViewController"];
     
-    
     NSUserDefaults *standardUserDefault = [NSUserDefaults standardUserDefaults];
     NSString *foursquareAccessCodeString = [standardUserDefault objectForKey:@"foursquareAccessCode"];
 
