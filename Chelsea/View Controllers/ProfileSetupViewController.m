@@ -9,7 +9,7 @@
 #import "ProfileSetupViewController.h"
 #import "ChelseaTextField.h"
 
-static const CGFloat topMargin = 50.0f;
+static const CGFloat topMargin = 30.0f;
 static const CGFloat leftMargin = 10.0f;
 static const CGFloat verticalSeparator = 10.0f;
 
@@ -34,10 +34,33 @@ static const CGFloat verticalSeparator = 10.0f;
     // Do any additional setup after loading the view.
     self.view.backgroundColor = CHELSEA_COLOR;
     
-    CGFloat verticalCount = 0.0f;
+    CGFloat verticalCount = topMargin;
+    
+    headerViewTopMargin = verticalCount;
+    
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(10,
+                                                                  -50,
+                                                                 [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
+                                                                  50)];
+    
+    UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 50, 50)];
+    logoImageView.image = [UIImage imageNamed:@"logo"];
+    logoImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [headerView addSubview:logoImageView];
+    
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(50 + leftMargin, 0, headerView.frame.size.width - 50 - leftMargin, 50)];
+    headerLabel.textColor = [UIColor whiteColor];
+    headerLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:28.0f];
+    headerLabel.text = @"Let's set you up";
+    headerLabel.textAlignment = NSTextAlignmentCenter;
+    [headerView addSubview:headerLabel];
+    
+    [self.view addSubview:headerView];
+    
+    verticalCount += headerView.frame.size.height + verticalSeparator;
     
     chatIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(-[UIScreen mainScreen].bounds.size.width,
-                                                                     topMargin,
+                                                                     verticalCount,
                                                                      [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                      10)];
     chatIdLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0f];
@@ -47,7 +70,7 @@ static const CGFloat verticalSeparator = 10.0f;
     [chatIdLabel sizeToFit];
     [self.view addSubview:chatIdLabel];
     
-    verticalCount += chatIdLabel.frame.origin.y + chatIdLabel.frame.size.height + verticalSeparator;
+    verticalCount += chatIdLabel.frame.size.height + verticalSeparator;
     
     chatIdTextField = [[ChelseaTextField alloc] initWithFrame:CGRectMake(-[UIScreen mainScreen].bounds.size.width,
                                                                                            verticalCount,
@@ -104,10 +127,12 @@ static const CGFloat verticalSeparator = 10.0f;
     
     verticalCount += profilePictureImageView.frame.size.height + verticalSeparator;
     
-    UIButton *playButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMargin,
-                                                                     verticalCount,
+    playButtonTopMargin = verticalCount - 10.0f; // Special offset for this guy.
+    
+    playButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMargin,
+                                                                      [UIScreen mainScreen].bounds.size.height,
                                                                      [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
-                                                                     50)];
+                                                                     75)];
     playButton.backgroundColor = [UIColor clearColor];
     [playButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:28.0f]];
     [playButton setTitle:@"Let's do it!" forState:UIControlStateNormal];
@@ -118,7 +143,7 @@ static const CGFloat verticalSeparator = 10.0f;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [UIView animateWithDuration:0.7f delay:0.5f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:0.7f delay:1.0f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         CGRect chatIdLabelFrame = chatIdLabel.frame;
         chatIdLabelFrame.origin.x = leftMargin;
         chatIdLabel.frame = chatIdLabelFrame;
@@ -142,6 +167,18 @@ static const CGFloat verticalSeparator = 10.0f;
         CGRect profilePictureFrame = profilePictureImageView.frame;
         profilePictureFrame.origin.x = leftMargin;
         profilePictureImageView.frame = profilePictureFrame;
+    } completion:nil];
+    
+    [UIView animateWithDuration:0.7f delay:0.4f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        CGRect headerViewFrame = headerView.frame;
+        headerViewFrame.origin.y = headerViewTopMargin;
+        headerView.frame = headerViewFrame;
+    } completion:nil];
+    
+    [UIView animateWithDuration:0.7f delay:1.5f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        CGRect playButtonFrame = playButton.frame;
+        playButtonFrame.origin.y = playButtonTopMargin;
+        playButton.frame = playButtonFrame;
     } completion:nil];
 }
 

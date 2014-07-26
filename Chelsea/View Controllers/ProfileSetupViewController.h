@@ -16,6 +16,11 @@
     ChelseaTextField *realNameTextField;
     UILabel *profilePictureLabel;
     UIImageView *profilePictureImageView;
+    UIView *headerView;
+    UIButton *playButton;
+    
+    CGFloat headerViewTopMargin;
+    CGFloat playButtonTopMargin;
 }
 
 @end
