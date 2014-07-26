@@ -78,6 +78,7 @@ static const CGFloat verticalSeparator = 10.0f;
                                                                                            50)];
     chatIdTextField.placeholder = @"Pandaman";
     chatIdTextField.delegate = self;
+    chatIdTextField.layer.cornerRadius = 5.0f;
     [self.view addSubview:chatIdTextField];
     
     verticalCount += chatIdTextField.frame.size.height + verticalSeparator;
@@ -101,6 +102,7 @@ static const CGFloat verticalSeparator = 10.0f;
                                                                                              50)];
     realNameTextField.delegate = self;
     realNameTextField.placeholder = @"John Smith";
+    realNameTextField.layer.cornerRadius = 5.0f;
     [self.view addSubview:realNameTextField];
     
     verticalCount += realNameTextField.frame.size.height + verticalSeparator;
@@ -123,6 +125,7 @@ static const CGFloat verticalSeparator = 10.0f;
                                                                            [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                             150)];
     profilePictureImageView.backgroundColor = [UIColor whiteColor];
+    profilePictureImageView.layer.cornerRadius = 5.0f;
     [self.view addSubview:profilePictureImageView];
     
     verticalCount += profilePictureImageView.frame.size.height + verticalSeparator;
@@ -135,7 +138,7 @@ static const CGFloat verticalSeparator = 10.0f;
                                                                      75)];
     playButton.backgroundColor = [UIColor clearColor];
     [playButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:28.0f]];
-    [playButton setTitle:@"Let's do it!" forState:UIControlStateNormal];
+    [playButton setTitle:@"Done here!" forState:UIControlStateNormal];
     [playButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:playButton];
 }
