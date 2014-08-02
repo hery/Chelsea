@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class ChelseaTextField;
 
-@interface ProfileSetupViewController : UIViewController <UITextFieldDelegate> {
+@interface ProfileSetupViewController : UIViewController <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     UILabel *chatIdLabel;
     ChelseaTextField *chatIdTextField;
     UILabel *realNameLabel;

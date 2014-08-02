@@ -34,10 +34,10 @@ static const CGFloat verticalSeparator = 10.0f;
     // Do any additional setup after loading the view.
     self.view.backgroundColor = CHELSEA_COLOR;
     
+    NSLog(@"Loaded profile setup view view controller.");
     CGFloat verticalCount = topMargin;
     
     headerViewTopMargin = verticalCount;
-    
     headerView = [[UIView alloc] initWithFrame:CGRectMake(10,
                                                                   -50,
                                                                  [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
@@ -90,7 +90,7 @@ static const CGFloat verticalSeparator = 10.0f;
     realNameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0f];
     realNameLabel.numberOfLines = 0;
     realNameLabel.textColor = [UIColor whiteColor];
-    realNameLabel.text = @"Real name: for those with a higher peek level.";
+    realNameLabel.text = @"Real Name: for those with a higher peek level. Let's be playful!";
     [realNameLabel sizeToFit];
     [self.view addSubview:realNameLabel];
     
@@ -101,7 +101,7 @@ static const CGFloat verticalSeparator = 10.0f;
                                                                                             [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                                              50)];
     realNameTextField.delegate = self;
-    realNameTextField.placeholder = @"John Smith";
+    realNameTextField.placeholder = @"Johnny Appleseed";
     realNameTextField.layer.cornerRadius = 5.0f;
     [self.view addSubview:realNameTextField];
     
@@ -114,8 +114,9 @@ static const CGFloat verticalSeparator = 10.0f;
     profilePictureLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0f];
     profilePictureLabel.numberOfLines = 0;
     profilePictureLabel.textColor = [UIColor whiteColor];
-    profilePictureLabel.text = @"Your picture: also for those with a higher peek level.";
+    profilePictureLabel.text = @"Your Picture: also for those with a higher peek level. We dare you.";
     [profilePictureLabel sizeToFit];
+    
     [self.view addSubview:profilePictureLabel];
 
     verticalCount += profilePictureLabel.frame.size.height + verticalSeparator;
@@ -124,8 +125,14 @@ static const CGFloat verticalSeparator = 10.0f;
                                                                             verticalCount,
                                                                            [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                             150)];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped)];
+    [profilePictureImageView addGestureRecognizer:tapGestureRecognizer];
+    profilePictureImageView.image = [UIImage imageNamed:@"profilePicturePlaceholder"];
+    profilePictureImageView.contentMode = UIViewContentModeScaleAspectFill;
+    profilePictureImageView.clipsToBounds = YES;
     profilePictureImageView.backgroundColor = [UIColor whiteColor];
     profilePictureImageView.layer.cornerRadius = 5.0f;
+    profilePictureImageView.userInteractionEnabled = YES;
     [self.view addSubview:profilePictureImageView];
     
     verticalCount += profilePictureImageView.frame.size.height + verticalSeparator;
@@ -141,6 +148,23 @@ static const CGFloat verticalSeparator = 10.0f;
     [playButton setTitle:@"Done here!" forState:UIControlStateNormal];
     [playButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:playButton];
+}
+
+- (void)tapped
+{
+    NSLog(@"Tapped picture. Should load camera.");
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO) {
+        return;
+    }
+    
+    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
+    // Default mediaType is images only, which is what we want.
+    cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
+    cameraUI.allowsEditing = NO;
+    cameraUI.delegate = self;
+    
+    [self presentViewController:cameraUI animated:YES completion:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
