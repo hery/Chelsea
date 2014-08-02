@@ -128,7 +128,7 @@ static const CGFloat verticalSeparator = 10.0f;
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped)];
     [profilePictureImageView addGestureRecognizer:tapGestureRecognizer];
     profilePictureImageView.image = [UIImage imageNamed:@"profilePicturePlaceholder"];
-    profilePictureImageView.contentMode = UIViewContentModeScaleAspectFill;
+    profilePictureImageView.contentMode = UIViewContentModeScaleAspectFit;
     profilePictureImageView.clipsToBounds = YES;
     profilePictureImageView.backgroundColor = [UIColor whiteColor];
     profilePictureImageView.layer.cornerRadius = 5.0f;
@@ -165,6 +165,39 @@ static const CGFloat verticalSeparator = 10.0f;
     cameraUI.delegate = self;
     
     [self presentViewController:cameraUI animated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImage *originalImage, *editedImage, *imageToSave;
+    editedImage = (UIImage *) [info objectForKey:
+                               UIImagePickerControllerEditedImage];
+    originalImage = (UIImage *) [info objectForKey:
+                                 UIImagePickerControllerOriginalImage];
+    
+    if (editedImage) {
+        imageToSave = editedImage;
+    } else {
+        imageToSave = originalImage;
+    }
+    
+    NSLog(@"Original image size: %@", NSStringFromCGSize(imageToSave.size));
+    // On iPhone 5S:
+    //   in portrait: {2448, 3264}
+    //   in landscape: {3264, 2448}
+    
+    CGSize newSize = profilePictureImageView.frame.size;
+    UIGraphicsBeginImageContext(newSize);
+    [imageToSave drawInRect:CGRectMake(0 , 0, newSize.width, newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    profilePictureImageView.image = newImage;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
