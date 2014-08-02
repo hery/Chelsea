@@ -128,7 +128,7 @@ static const CGFloat verticalSeparator = 10.0f;
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped)];
     [profilePictureImageView addGestureRecognizer:tapGestureRecognizer];
     profilePictureImageView.image = [UIImage imageNamed:@"profilePicturePlaceholder"];
-    profilePictureImageView.contentMode = UIViewContentModeScaleAspectFit;
+    profilePictureImageView.contentMode = UIViewContentModeCenter;
     profilePictureImageView.clipsToBounds = YES;
     profilePictureImageView.backgroundColor = [UIColor whiteColor];
     profilePictureImageView.layer.cornerRadius = 5.0f;
@@ -181,12 +181,11 @@ static const CGFloat verticalSeparator = 10.0f;
         imageToSave = originalImage;
     }
     
-    NSLog(@"Original image size: %@", NSStringFromCGSize(imageToSave.size));
-    // On iPhone 5S:
-    //   in portrait: {2448, 3264}
-    //   in landscape: {3264, 2448}
+    CGFloat scalingRatio = imageToSave.size.width / profilePictureImageView.frame.size.width;
+    CGFloat newSizeWidth = imageToSave.size.width / scalingRatio;
+    CGFloat newSizeHeight = imageToSave.size.height / scalingRatio;
+    CGSize newSize = CGSizeMake(newSizeWidth, newSizeHeight);
     
-    CGSize newSize = profilePictureImageView.frame.size;
     UIGraphicsBeginImageContext(newSize);
     [imageToSave drawInRect:CGRectMake(0 , 0, newSize.width, newSize.height)];
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
