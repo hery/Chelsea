@@ -147,6 +147,7 @@ static const CGFloat verticalSeparator = 10.0f;
     [playButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:28.0f]];
     [playButton setTitle:@"Done here!" forState:UIControlStateNormal];
     [playButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [playButton addTarget:self action:@selector(doneHere) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:playButton];
 }
 
@@ -167,6 +168,14 @@ static const CGFloat verticalSeparator = 10.0f;
     [self presentViewController:cameraUI animated:YES completion:nil];
 }
 
+- (void)doneHere
+{
+    NSString *chatIdString = chatIdTextField.text;
+    NSString *realNameString = realNameTextField.text;
+    UIImage *profilePicture = profilePictureImageView.image;
+    NSLog(@"Hi %@! Or rather... %@. I've got your profile picture there %@.", chatIdString, realNameString, profilePicture);
+}
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *originalImage, *editedImage, *imageToSave;
@@ -180,6 +189,8 @@ static const CGFloat verticalSeparator = 10.0f;
     } else {
         imageToSave = originalImage;
     }
+    
+    NSLog(@"Profile picture container size %@", NSStringFromCGSize(profilePictureImageView.frame.size));
     
     CGFloat scalingRatio = imageToSave.size.width / profilePictureImageView.frame.size.width;
     CGFloat newSizeWidth = imageToSave.size.width / scalingRatio;
