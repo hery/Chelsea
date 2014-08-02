@@ -6,6 +6,12 @@
 // project.
 
 
+// AFAmazonS3Client
+#define COCOAPODS_POD_AVAILABLE_AFAmazonS3Client
+#define COCOAPODS_VERSION_MAJOR_AFAmazonS3Client 2
+#define COCOAPODS_VERSION_MINOR_AFAmazonS3Client 0
+#define COCOAPODS_VERSION_PATCH_AFAmazonS3Client 0
+
 // AFNetworking
 #define COCOAPODS_POD_AVAILABLE_AFNetworking
 #define COCOAPODS_VERSION_MAJOR_AFNetworking 2
@@ -48,11 +54,23 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 2
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 4
 
+// AFOnoResponseSerializer
+#define COCOAPODS_POD_AVAILABLE_AFOnoResponseSerializer
+#define COCOAPODS_VERSION_MAJOR_AFOnoResponseSerializer 1
+#define COCOAPODS_VERSION_MINOR_AFOnoResponseSerializer 0
+#define COCOAPODS_VERSION_PATCH_AFOnoResponseSerializer 0
+
 // NewRelicAgent
 #define COCOAPODS_POD_AVAILABLE_NewRelicAgent
 #define COCOAPODS_VERSION_MAJOR_NewRelicAgent 3
 #define COCOAPODS_VERSION_MINOR_NewRelicAgent 311
 #define COCOAPODS_VERSION_PATCH_NewRelicAgent 0
+
+// Ono
+#define COCOAPODS_POD_AVAILABLE_Ono
+#define COCOAPODS_VERSION_MAJOR_Ono 1
+#define COCOAPODS_VERSION_MINOR_Ono 1
+#define COCOAPODS_VERSION_PATCH_Ono 1
 
 // RDRStickyKeyboardView
 #define COCOAPODS_POD_AVAILABLE_RDRStickyKeyboardView

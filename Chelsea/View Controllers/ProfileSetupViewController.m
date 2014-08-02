@@ -174,6 +174,8 @@ static const CGFloat verticalSeparator = 10.0f;
     NSString *realNameString = realNameTextField.text;
     UIImage *profilePicture = profilePictureImageView.image;
     NSLog(@"Hi %@! Or rather... %@. I've got your profile picture there %@.", chatIdString, realNameString, profilePicture);
+    
+    // Save chatId and realName. Upload picture
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info

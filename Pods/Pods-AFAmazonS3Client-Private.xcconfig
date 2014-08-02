@@ -1,0 +1,5 @@
+#include "Pods-AFAmazonS3Client.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/AFAmazonS3Client" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFAmazonS3Client" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/AFOnoResponseSerializer" "${PODS_ROOT}/Headers/NewRelicAgent" "${PODS_ROOT}/Headers/Ono" "${PODS_ROOT}/Headers/RDRStickyKeyboardView" "${PODS_ROOT}/Headers/SocketRocket"
+OTHER_LDFLAGS = -ObjC
+PODS_ROOT = ${SRCROOT}
