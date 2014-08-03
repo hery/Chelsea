@@ -8,6 +8,11 @@
 
 #import "ProfileSetupViewController.h"
 #import "ChelseaTextField.h"
+#import "constants.h"
+
+#import <ONOXMLDocument.h>
+#import <AFAmazonS3Manager.h>
+#import <AFOnoResponseSerializer.h>
 
 static const CGFloat topMargin = 30.0f;
 static const CGFloat leftMargin = 10.0f;
@@ -174,8 +179,35 @@ static const CGFloat verticalSeparator = 10.0f;
     NSString *realNameString = realNameTextField.text;
     UIImage *profilePicture = profilePictureImageView.image;
     NSLog(@"Hi %@! Or rather... %@. I've got your profile picture there %@.", chatIdString, realNameString, profilePicture);
-    
-    // Save chatId and realName. Upload picture
+
+    // Save image to Amazon S3. Save URL for user dictionary.
+    NSData *pngImage = UIImagePNGRepresentation(profilePicture);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *imagePath =[documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", chatIdString]];
+    if ([pngImage writeToFile:imagePath atomically:NO]) {
+        NSLog(@"Successfully cached profile picture to %@.", imagePath);
+        AFAmazonS3Manager *s3Manager = [[AFAmazonS3Manager alloc] initWithAccessKeyID:AWSAccessKeyId secret:AWSSecretKey];
+        s3Manager.responseSerializer = [AFOnoResponseSerializer XMLResponseSerializer];
+        s3Manager.requestSerializer.region = AFAmazonS3USStandardRegion;
+        s3Manager.requestSerializer.bucket = @"checkchat";
+        [s3Manager.requestSerializer setValue:@"image/png" forHTTPHeaderField:@"Content-Type"];
+        
+        [s3Manager putObjectWithFile:imagePath
+                     destinationPath:@"profilePictures/test.png"
+                          parameters:nil
+                            progress:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+                                NSLog(@"%f%% Uploaded", (totalBytesWritten / (totalBytesExpectedToWrite * 1.0f) * 100));
+                            } success:^(id responseObject) {
+                                NSLog(@"Successfully uploaded profile picture to Amazon S3.");
+                                NSLog(@"Response: %@", responseObject);
+                            } failure:^(NSError *error) {
+                                NSLog(@"Failed uploading profile picture to Amazon S3.");
+                                NSLog(@"Error: %@", [error localizedDescription]);
+                            }];
+    } else {
+        NSLog(@"Failed caching profile picture.");
+    }
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
