@@ -62,17 +62,20 @@
             _chatTableViewController.chelseaWebSocket = _chelseaWebSocket;
             _chelseaWebSocket.delegate = _chatTableViewController;
             NSLog(@"Opening websocket...");
-            [_chelseaWebSocket open];
-            // watchOut: may need a delay here.
-            [self setUpWebsocket];
-            
-            UIAlertView *checkInSuccessAlertView = [[UIAlertView alloc] initWithTitle:@"Checked-In!" message:[NSString stringWithFormat:@"Welcome to %@", _venue[@"name"]] delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
-            checkInSuccessAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-            [checkInSuccessAlertView show];
+            [_chelseaWebSocket open];           
         }
         default:
             break;
     }
+}
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket
+{
+    [self setUpWebsocket];
+    
+    UIAlertView *checkInSuccessAlertView = [[UIAlertView alloc] initWithTitle:@"Checked-In!" message:[NSString stringWithFormat:@"Welcome to %@", _venue[@"name"]] delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
+    checkInSuccessAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [checkInSuccessAlertView show];
 }
 
 - (void)foursquareHTTPClient:(FoursquareHTTPClient *)client didFailWithError:(NSError *)error

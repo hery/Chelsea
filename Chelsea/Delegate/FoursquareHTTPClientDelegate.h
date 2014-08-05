@@ -14,7 +14,7 @@
 @class HomeViewControllerDataSource;
 @class ChatTableViewController;
 
-@interface FoursquareHTTPClientDelegate : NSObject <FoursquareHTTPClientDelegate, UIAlertViewDelegate>
+@interface FoursquareHTTPClientDelegate : NSObject <FoursquareHTTPClientDelegate, UIAlertViewDelegate, SRWebSocketDelegate>
 
 @property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) HomeViewControllerDataSource *dataSource;
