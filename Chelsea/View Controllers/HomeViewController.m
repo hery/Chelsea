@@ -127,11 +127,22 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     tableView.userInteractionEnabled = NO;
-    NSLog(@"Check-in at: %@", dataSource.venuesArray[indexPath.row]);
-    NSDictionary *additionalParameters = @{@"v":@"20140417",
-                                           @"venueId":dataSource.venuesArray[indexPath.row][@"id"]};
-    [sharedFoursquareHTTPClient performPOSTRequestForEndpointString:@"checkins/add" endpointConstant:FoursquareHTTPClientEndPointCheckIn additionalParameters:additionalParameters];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    _venue = dataSource.venuesArray[indexPath.row];
+    [[[UIAlertView alloc] initWithTitle:@"Check In Here?" message:[NSString stringWithFormat:@"Are you sure you want to check in at %@", dataSource.venuesArray[indexPath.row][@"name"]] delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
+        // Check In
+        NSLog(@"Checking-in at: %@", _venue);
+        NSDictionary *additionalParameters = @{@"v":@"20140417",
+                                               @"venueId":_venue[@"id"]};
+        [sharedFoursquareHTTPClient performPOSTRequestForEndpointString:@"checkins/add" endpointConstant:FoursquareHTTPClientEndPointCheckIn additionalParameters:additionalParameters];
+    } else {
+        _venueTableView.userInteractionEnabled = YES;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

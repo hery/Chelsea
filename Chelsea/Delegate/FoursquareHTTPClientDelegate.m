@@ -63,8 +63,10 @@
             _chelseaWebSocket.delegate = _chatTableViewController;
             NSLog(@"Opening websocket...");
             [_chelseaWebSocket open];
+            // watchOut: may need a delay here.
+            [self setUpWebsocket];
             
-            UIAlertView *checkInSuccessAlertView = [[UIAlertView alloc] initWithTitle:@"Checked-In!" message:@"Choose a bunch of letters to identify yourself" delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
+            UIAlertView *checkInSuccessAlertView = [[UIAlertView alloc] initWithTitle:@"Checked-In!" message:[NSString stringWithFormat:@"Welcome to %@", _venue[@"name"]] delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
             checkInSuccessAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
             [checkInSuccessAlertView show];
         }
@@ -86,35 +88,18 @@
         NSLog(@"%@", [error localizedDescription]);
 }
 
-#pragma mark - Alert View Delegate Methods
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)setUpWebsocket
 {
-    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Ok"]) // `no internet connection` alert view
-        return;
-    
-    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Back"]) // `no result` alert view
-        return;
-    
-    if ([[alertView textFieldAtIndex:0].text isEqualToString:@""]) { // `description name` alert view
-        UIAlertView *emptyName = [[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"You can't use an empty description, try again." delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
-        emptyName.alertViewStyle = UIAlertViewStylePlainTextInput;
-        [emptyName show];
-        return;
-}
-    
-    NSLog(@"You will be identified as %@.", [alertView textFieldAtIndex:0].text);
-    
     // Check-In (ws) message setup
     // Get user's uuid
     NSUUID *identifierForVendor = [UIDevice currentDevice].identifierForVendor;
     NSString *userUUID = [identifierForVendor UUIDString];
     // Get user's chatId
-    NSString *chatId = [alertView textFieldAtIndex:0].text;
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *chatId = [standardUserDefaults valueForKeyPath:@"chatId"];
     // Get FS venueId
     NSString *venueId = _venue[@"id"];
     // We need the user's anonymity level here. Let's start with 1 to implement in-app purchase page.
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger alLevel = [[standardUserDefaults valueForKey:@"al"] integerValue];
     if (![standardUserDefaults valueForKey:@"al"]) {
         alLevel = 1;
@@ -141,6 +126,24 @@
     _chatTableViewController.venue = _venue;
     _chatTableViewController.chelseaUserInfo = @{@"userId":userUUID, @"chatId":chatId};
     [self.navigationController pushViewController:_chatTableViewController animated:YES];
+}
+
+#pragma mark - Alert View Delegate Methods
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Ok"]) // `no internet connection` alert view
+        return;
+    
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Back"]) // `no result` alert view
+        return;
+    
+    if ([[alertView textFieldAtIndex:0].text isEqualToString:@""]) { // `description name` alert view
+        UIAlertView *emptyName = [[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"You can't use an empty description, try again." delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
+        emptyName.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [emptyName show];
+        return;
+    }
 }
 
 @end

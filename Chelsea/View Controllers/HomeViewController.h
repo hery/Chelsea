@@ -13,7 +13,7 @@
 @class FoursquareHTTPClient;
 
 
-@interface HomeViewController : UIViewController <UITableViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate, UIWebViewDelegate> {
+@interface HomeViewController : UIViewController <UITableViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate, UIAlertViewDelegate, UIWebViewDelegate> {
     HomeViewControllerDataSource *dataSource;
     FoursquareHTTPClient *sharedFoursquareHTTPClient;
 }
@@ -25,5 +25,6 @@
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, assign) CLLocationDegrees currentLatitude;
 @property (nonatomic, assign) CLLocationDegrees currentLongitude;
+@property (nonatomic, strong) NSDictionary *venue;
 
 @end
