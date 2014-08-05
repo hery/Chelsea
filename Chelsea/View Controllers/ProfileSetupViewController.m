@@ -235,9 +235,7 @@ static const CGFloat verticalSeparator = 10.0f;
     } else {
         imageToSave = originalImage;
     }
-    
-    NSLog(@"Profile picture container size %@", NSStringFromCGSize(profilePictureImageView.frame.size));
-    
+        
     CGFloat scalingRatio = imageToSave.size.width / profilePictureImageView.frame.size.width;
     CGFloat newSizeWidth = imageToSave.size.width / scalingRatio;
     CGFloat newSizeHeight = imageToSave.size.height / scalingRatio;
