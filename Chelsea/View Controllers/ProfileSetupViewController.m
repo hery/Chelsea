@@ -8,6 +8,7 @@
 
 #import "ProfileSetupViewController.h"
 #import "ChelseaTextField.h"
+#import "ChelseaHTTPClient.h"
 #import "constants.h"
 
 #import <ONOXMLDocument.h>
@@ -187,36 +188,59 @@ static const CGFloat verticalSeparator = 10.0f;
     NSString *imagePath =[documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", chatIdString]];
     
     if (![chatIdString isEqualToString:@""] && ![realNameString isEqualToString:@""]) {
-        if ([pngImage writeToFile:imagePath atomically:NO]) {
-            NSLog(@"Successfully cached profile picture to %@.", imagePath);
-
-            NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-            [standardUserDefaults setValue:chatIdString forKeyPath:@"chatId"];
-            [standardUserDefaults setValue:realNameString forKeyPath:@"realName"];
-            
-            AFAmazonS3Manager *s3Manager = [[AFAmazonS3Manager alloc] initWithAccessKeyID:AWSAccessKeyId secret:AWSSecretKey];
-            s3Manager.responseSerializer = [AFOnoResponseSerializer XMLResponseSerializer];
-            s3Manager.requestSerializer.region = AFAmazonS3USStandardRegion;
-            s3Manager.requestSerializer.bucket = @"checkchat";
-            [s3Manager.requestSerializer setValue:@"image/png" forHTTPHeaderField:@"Content-Type"];
-            
-            [s3Manager putObjectWithFile:imagePath
-                         destinationPath:@"profilePictures/test.png"
-                              parameters:nil
-                                progress:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-                                    NSLog(@"%f%% Uploaded", (totalBytesWritten / (totalBytesExpectedToWrite * 1.0f) * 100));
-                                } success:^(id responseObject) {
-                                    NSLog(@"Successfully uploaded profile picture to Amazon S3.");
-                                    NSLog(@"Response: %@", responseObject);
-                                    // Save URL here
-                                    [self dismissViewControllerAnimated:YES completion:nil];
-                                } failure:^(NSError *error) {
-                                    NSLog(@"Failed uploading profile picture to Amazon S3.");
-                                    NSLog(@"Error: %@", [error localizedDescription]);
-                                }];
-        } else {
-            NSLog(@"Failed caching profile picture.");
-        }
+        
+        // Check chatId string uniqueness
+        doneAlertView = [[UIAlertView alloc] initWithTitle:@"Please Wait" message:@"We are validating your anonymous chat identifier..." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [doneAlertView show];
+        
+        ChelseaHTTPClient *sharedChelseaHTTPClient = [ChelseaHTTPClient sharedChelseaHTTPClient];
+        NSDictionary *parameters = @{@"chatId": chatIdString,
+                                     @"realName": realNameString,
+                                     @"url":[NSString stringWithFormat:@"http://domain.com/%@", chatIdString]};
+        [sharedChelseaHTTPClient POST:@"/setup" parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+            // Post chatId and realName.
+            // Check for chatId uniqueness.
+            // If unique, complete setup and return success.
+            // On success, upload picture in background.
+            // Picture name/URL should be a hash/encryption of chatId.
+            NSLog(@"User setup successful. Response: %@", responseObject);
+            [doneAlertView dismissWithClickedButtonIndex:0 animated:YES];
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            NSLog(@"User setup error. %@", [error localizedDescription]);
+            [doneAlertView dismissWithClickedButtonIndex:0 animated:YES];
+            [[[UIAlertView alloc] initWithTitle:@"Whoops" message:[error localizedDescription] delegate:self cancelButtonTitle:@"Back" otherButtonTitles:nil] show];
+        }];
+        
+//        if ([pngImage writeToFile:imagePath atomically:NO]) {
+//            NSLog(@"Successfully cached profile picture to %@.", imagePath);
+//
+//            NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+//            [standardUserDefaults setValue:chatIdString forKeyPath:@"chatId"];
+//            [standardUserDefaults setValue:realNameString forKeyPath:@"realName"];
+//            
+//            AFAmazonS3Manager *s3Manager = [[AFAmazonS3Manager alloc] initWithAccessKeyID:AWSAccessKeyId secret:AWSSecretKey];
+//            s3Manager.responseSerializer = [AFOnoResponseSerializer XMLResponseSerializer];
+//            s3Manager.requestSerializer.region = AFAmazonS3USStandardRegion;
+//            s3Manager.requestSerializer.bucket = @"checkchat";
+//            [s3Manager.requestSerializer setValue:@"image/png" forHTTPHeaderField:@"Content-Type"];
+//            
+//            [s3Manager putObjectWithFile:imagePath
+//                         destinationPath:@"profilePictures/test.png"
+//                              parameters:nil
+//                                progress:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+//                                    NSLog(@"%f%% Uploaded", (totalBytesWritten / (totalBytesExpectedToWrite * 1.0f) * 100));
+//                                } success:^(id responseObject) {
+//                                    NSLog(@"Successfully uploaded profile picture to Amazon S3.");
+//                                    NSLog(@"Response: %@", responseObject);
+//                                    // Save URL here
+//                                    [self dismissViewControllerAnimated:YES completion:nil];
+//                                } failure:^(NSError *error) {
+//                                    NSLog(@"Failed uploading profile picture to Amazon S3.");
+//                                    NSLog(@"Error: %@", [error localizedDescription]);
+//                                }];
+//        } else {
+//            NSLog(@"Failed caching profile picture.");
+//        }
     } else {
         [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Your nickname and real name cannot be empty. Let's try that again!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }

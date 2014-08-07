@@ -33,6 +33,7 @@
 		CACE171E1893392D0035F4F6 /* ChelseaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CACE171D1893392D0035F4F6 /* ChelseaTests.m */; };
 		CACE172818933A110035F4F6 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CACE172718933A100035F4F6 /* Storyboard.storyboard */; };
 		CAE1D325190D69F500BB2696 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE1D324190D69F500BB2696 /* CoreLocation.framework */; };
+		CAE41BCE19931D4700115791 /* ChelseaHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CAE41BCD19931D4700115791 /* ChelseaHTTPClient.m */; };
 		CAEF402A19379D8300C69802 /* InAppPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAEF402919379D8300C69802 /* InAppPurchaseViewController.m */; };
 		CAEF402D19379DD100C69802 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CAEF402C19379DD100C69802 /* AppDelegate.m */; };
 		CAEF403319379DF700C69802 /* HomeViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = CAEF403219379DF700C69802 /* HomeViewControllerDataSource.m */; };
@@ -95,6 +96,8 @@
 		CACE171D1893392D0035F4F6 /* ChelseaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChelseaTests.m; sourceTree = "<group>"; };
 		CACE172718933A100035F4F6 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		CAE1D324190D69F500BB2696 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		CAE41BCC19931D4700115791 /* ChelseaHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChelseaHTTPClient.h; path = Singleton/ChelseaHTTPClient.h; sourceTree = "<group>"; };
+		CAE41BCD19931D4700115791 /* ChelseaHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChelseaHTTPClient.m; path = Singleton/ChelseaHTTPClient.m; sourceTree = "<group>"; };
 		CAEF402819379D8300C69802 /* InAppPurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InAppPurchaseViewController.h; path = "View Controllers/InAppPurchaseViewController.h"; sourceTree = "<group>"; };
 		CAEF402919379D8300C69802 /* InAppPurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InAppPurchaseViewController.m; path = "View Controllers/InAppPurchaseViewController.m"; sourceTree = "<group>"; };
 		CAEF402B19379DD100C69802 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Delegate/AppDelegate.h; sourceTree = "<group>"; };
@@ -149,6 +152,8 @@
 				CA8894B518FF5C8C001A91C2 /* FoursquareHTTPClient.m */,
 				CAEF4041193A71E200C69802 /* TransactionObserver.h */,
 				CAEF4042193A71E200C69802 /* TransactionObserver.m */,
+				CAE41BCC19931D4700115791 /* ChelseaHTTPClient.h */,
+				CAE41BCD19931D4700115791 /* ChelseaHTTPClient.m */,
 			);
 			name = Singleton;
 			sourceTree = "<group>";
@@ -435,6 +440,7 @@
 			files = (
 				CAEF4043193A71E200C69802 /* TransactionObserver.m in Sources */,
 				CAA6D0061926A19300CF7093 /* UsersTableViewController.m in Sources */,
+				CAE41BCE19931D4700115791 /* ChelseaHTTPClient.m in Sources */,
 				CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */,
 				CAEF402D19379DD100C69802 /* AppDelegate.m in Sources */,
 				CA64AFD519368B70000B07A7 /* ProfileViewController.m in Sources */,

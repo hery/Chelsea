@@ -10,6 +10,7 @@
 #import "constants.h"
 #import "ChatTableViewCell.h"
 #import "UsersTableViewController.h"
+#import "ChelseaHTTPClient.h"
 
 #import <RDRStickyKeyboardView.h>
 #import <AFHTTPRequestOperationManager.h>
@@ -49,11 +50,8 @@
     numberOfUsersButtonItem.tintColor = [UIColor whiteColor];
     [self.navigationItem setRightBarButtonItem:numberOfUsersButtonItem];
     
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:chelseaBaseURL]];
-    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
-    manager.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingMutableContainers];
-    
-    [manager GET:@"/users" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    ChelseaHTTPClient *sharedChelseaHTTPClient = [ChelseaHTTPClient sharedChelseaHTTPClient];
+    [sharedChelseaHTTPClient GET:@"/users" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"Response URL: %@", task.response.URL);
         _checkedInUsersArray = responseObject[@"response"];
         NSLog(@"Users request succeeded. Response: <%@>", responseObject);

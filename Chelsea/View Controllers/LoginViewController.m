@@ -52,8 +52,6 @@
     [self.view addSubview:_loginWebView];
 }
 
-
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];

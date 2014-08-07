@@ -18,6 +18,7 @@
     UIImageView *profilePictureImageView;
     UIView *headerView;
     UIButton *playButton;
+    UIAlertView *doneAlertView;
     
     CGFloat headerViewTopMargin;
     CGFloat playButtonTopMargin;

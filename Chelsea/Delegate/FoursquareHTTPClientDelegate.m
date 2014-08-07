@@ -62,7 +62,7 @@
             _chatTableViewController.chelseaWebSocket = _chelseaWebSocket;
             _chelseaWebSocket.delegate = _chatTableViewController;
             NSLog(@"Opening websocket...");
-            [_chelseaWebSocket open];           
+            [_chelseaWebSocket open];
         }
         default:
             break;
@@ -71,6 +71,7 @@
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket
 {
+    // todo: set this class as the websocket delegate.
     [self setUpWebsocket];
     
     UIAlertView *checkInSuccessAlertView = [[UIAlertView alloc] initWithTitle:@"Checked-In!" message:[NSString stringWithFormat:@"Welcome to %@", _venue[@"name"]] delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
