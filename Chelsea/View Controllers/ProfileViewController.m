@@ -7,6 +7,8 @@
 //
 
 #import "ProfileViewController.h"
+#import "ChelseaHTTPClient.h"
+
 #import <AFHTTPSessionManager.h>
 
 @interface ProfileViewController ()
@@ -56,7 +58,7 @@
     adjustFrameForRealNameLabel.origin.y += _profilePicture.frame.size.height/2 + 50; // 30 = margin
     realNameLabel.frame = adjustFrameForRealNameLabel;
     
-    realNameLabel.text = [NSString stringWithFormat:@"%@ %@", _user[@"user"][@"firstName"], _user[@"user"][@"lastName"]];
+    realNameLabel.text = [NSString stringWithFormat:@"%@ %@", _user[@"user"][@"firstName"], _user[@"user"][@"lastName"]]; // ## todo: RealName.
     realNameLabel.backgroundColor = [UIColor whiteColor];
     realNameLabel.textColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
     realNameLabel.textAlignment = NSTextAlignmentCenter;
@@ -67,7 +69,7 @@
     manager.responseSerializer = [AFImageResponseSerializer serializer];
     NSString *urlString = [NSString stringWithFormat:@"%@300x300%@", _user[@"user"][@"photo"][@"prefix"], _user[@"user"][@"photo"][@"suffix"]];
     urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-    [manager GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    [manager GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) { // ## todo: S3 picture.
         UIImage *profilePicture = responseObject;
         
         static UIImage *maskImage = nil;

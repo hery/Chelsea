@@ -12,7 +12,8 @@
 
 typedef NS_ENUM(NSInteger, FoursquareHTTPClientEndpoint) {
     FoursquareHTTPClientEndpointSearch,
-    FoursquareHTTPClientEndPointCheckIn
+    FoursquareHTTPClientEndPointCheckIn,
+    FoursquareHTTPClientEndpointMe
 };
 
 @interface FoursquareHTTPClient : AFHTTPSessionManager

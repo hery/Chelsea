@@ -60,9 +60,16 @@
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
             _chelseaWebSocket = [[SRWebSocket alloc] initWithURLRequest:request];
             _chatTableViewController.chelseaWebSocket = _chelseaWebSocket;
-            _chelseaWebSocket.delegate = _chatTableViewController;
+            _chelseaWebSocket.delegate = self;
             NSLog(@"Opening websocket...");
             [_chelseaWebSocket open];
+        }
+        case FoursquareHTTPClientEndpointMe:
+        {
+            NSString *FSIdString = response[@"response"][@"user"][@"id"];
+            NSLog(@"GET /users/self succeeded! Got id: %@", FSIdString);
+            [[NSUserDefaults standardUserDefaults] setValue:FSIdString forKey:@"foursquareId"];
+            break;
         }
         default:
             break;
@@ -71,11 +78,7 @@
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket
 {
-    // todo: set this class as the websocket delegate.
-    [self setUpWebsocket];
-    
     UIAlertView *checkInSuccessAlertView = [[UIAlertView alloc] initWithTitle:@"Checked-In!" message:[NSString stringWithFormat:@"Welcome to %@", _venue[@"name"]] delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
-    checkInSuccessAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [checkInSuccessAlertView show];
 }
 
@@ -100,7 +103,7 @@
     NSString *userUUID = [identifierForVendor UUIDString];
     // Get user's chatId
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *chatId = [standardUserDefaults valueForKeyPath:@"chatId"];
+    NSString *chatId = [standardUserDefaults valueForKey:@"chatId"];
     // Get FS venueId
     NSString *venueId = _venue[@"id"];
     // We need the user's anonymity level here. Let's start with 1 to implement in-app purchase page.
@@ -109,16 +112,17 @@
         alLevel = 1;
         [standardUserDefaults setValue:@"1" forKey:@"al"];
     }
+    alLevel = 0; // Default AL. Set to 0 to debug profile view. Leave to 1 for production.
     NSNumber *AL = [NSNumber numberWithInteger:alLevel];
     NSLog(@"Checking AL: %@", AL);
     // Package and send message
-    NSDictionary *packetDictionary = @{@"userId":userUUID,
-                                       @"userAL":AL,
-                                       @"user":_checkedInUser,
-                                       @"chatId":chatId,
+    NSDictionary *packetDictionary = @{@"userId": userUUID,
+                                       @"userAL": AL,
+                                       @"user": _checkedInUser,
+                                       @"chatId": chatId,
                                        @"venueId": venueId,
                                        @"type": @"setup",
-                                       @"text":[NSString stringWithFormat:@"%@ joined", chatId]};
+                                       @"text": [NSString stringWithFormat:@"%@ joined", chatId]};
     NSError *error;
     NSData *jsonPacket = [NSJSONSerialization dataWithJSONObject:packetDictionary options:NSJSONWritingPrettyPrinted error:&error];
     NSString *packetString = [[NSString alloc] initWithData:jsonPacket encoding:NSUTF8StringEncoding];
@@ -142,10 +146,8 @@
     if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Back"]) // `no result` alert view
         return;
     
-    if ([[alertView textFieldAtIndex:0].text isEqualToString:@""]) { // `description name` alert view
-        UIAlertView *emptyName = [[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"You can't use an empty description, try again." delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
-        emptyName.alertViewStyle = UIAlertViewStylePlainTextInput;
-        [emptyName show];
+    if ([[alertView buttonTitleAtIndex:buttonIndex]  isEqualToString:@"Let's go!"]) {
+        [self setUpWebsocket];
         return;
     }
 }

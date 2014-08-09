@@ -179,13 +179,14 @@ static const CGFloat verticalSeparator = 10.0f;
     NSString *chatIdString = chatIdTextField.text;
     NSString *realNameString = realNameTextField.text;
     UIImage *profilePicture = profilePictureImageView.image;
+    NSString *foursquareIdString = [[NSUserDefaults standardUserDefaults] valueForKey:@"foursquareId"];
     NSLog(@"Hi %@! Or rather... %@. I've got your profile picture there %@.", chatIdString, realNameString, profilePicture);
 
     // Save image to Amazon S3. Save URL for user dictionary.
     NSData *pngImage = UIImagePNGRepresentation(profilePicture);
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *imagePath =[documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", chatIdString]];
+    NSString *imagePath =[documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", foursquareIdString]];
     
     if (![chatIdString isEqualToString:@""] && ![realNameString isEqualToString:@""]) {
         
@@ -206,6 +207,9 @@ static const CGFloat verticalSeparator = 10.0f;
             [doneAlertView dismissWithClickedButtonIndex:0 animated:YES];
             NSLog(@"HTTP Response code: %li", [responseObject[@"code"] integerValue]);
             if ([responseObject[@"code"] integerValue] == 201) {
+                
+                // ## todo: set the user defaults BOOL key "setup" to YES
+                
                 if ([pngImage writeToFile:imagePath atomically:NO]) {
                     NSLog(@"Successfully cached profile picture to %@.", imagePath);
                     
@@ -219,7 +223,7 @@ static const CGFloat verticalSeparator = 10.0f;
                     s3Manager.requestSerializer.bucket = @"checkchat";
                     [s3Manager.requestSerializer setValue:@"image/png" forHTTPHeaderField:@"Content-Type"];
                     
-                    NSString *pictureNameString = [NSString stringWithFormat:@"profilePictures/%@.png", chatIdString];
+                    NSString *pictureNameString = [NSString stringWithFormat:@"profilePictures/%@.png", foursquareIdString];
                     
                     [s3Manager putObjectWithFile:imagePath
                                  destinationPath:pictureNameString
@@ -234,6 +238,7 @@ static const CGFloat verticalSeparator = 10.0f;
                                         } failure:^(NSError *error) {
                                             NSLog(@"Failed uploading profile picture to Amazon S3.");
                                             NSLog(@"Error: %@", [error localizedDescription]);
+                                            [[[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"I could not save your picture. Check your internet connection." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
                                         }];
                 } else {
                     NSLog(@"Failed caching profile picture.");
@@ -246,15 +251,9 @@ static const CGFloat verticalSeparator = 10.0f;
             [doneAlertView dismissWithClickedButtonIndex:0 animated:YES];
             [[[UIAlertView alloc] initWithTitle:@"Whoops" message:[error localizedDescription] delegate:self cancelButtonTitle:@"Back" otherButtonTitles:nil] show];
         }];
-        
     } else {
         [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Your nickname and real name cannot be empty. Let's try that again!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }
-}
-
-- (void)setupFailedCallback
-{
-    
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info

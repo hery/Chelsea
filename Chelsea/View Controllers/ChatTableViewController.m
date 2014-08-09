@@ -38,6 +38,9 @@
 {
     [super viewDidLoad];
     
+    // Switch delegate from FoursquareHTTPClientDelegate to self to handle messaging.
+    _chelseaWebSocket.delegate = self;
+    
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
     _messagesArray = [[NSMutableArray alloc] init];
     
