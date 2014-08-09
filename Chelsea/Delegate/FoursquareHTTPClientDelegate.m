@@ -67,8 +67,9 @@
         case FoursquareHTTPClientEndpointMe:
         {
             NSString *FSIdString = response[@"response"][@"user"][@"id"];
-            NSLog(@"GET /users/self succeeded! Got id: %@", FSIdString);
+            NSLog(@"9s/self succeeded! Got id: %@", FSIdString);
             [[NSUserDefaults standardUserDefaults] setValue:FSIdString forKey:@"foursquareId"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             break;
         }
         default:
@@ -104,6 +105,7 @@
     // Get user's chatId
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString *chatId = [standardUserDefaults valueForKey:@"chatId"];
+    NSString *realName = [standardUserDefaults valueForKey:@"realName"];
     // Get FS venueId
     NSString *venueId = _venue[@"id"];
     // We need the user's anonymity level here. Let's start with 1 to implement in-app purchase page.
@@ -120,6 +122,7 @@
                                        @"userAL": AL,
                                        @"user": _checkedInUser,
                                        @"chatId": chatId,
+                                       @"realName": realName,
                                        @"venueId": venueId,
                                        @"type": @"setup",
                                        @"text": [NSString stringWithFormat:@"%@ joined", chatId]};

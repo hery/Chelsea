@@ -486,10 +486,12 @@ static NSString * AFCreateMultipartFormBoundary() {
     return [NSString stringWithFormat:@"Boundary+%08X%08X", arc4random(), arc4random()];
 }
 
-static NSString * const kAFMultipartFormCRLF = @"\r\n";
+//static NSString * const kAFMultipartFormCRLF = @"\r\n";
+static NSString * const kAFMultipartFormCRLF = @"";
 
 static inline NSString * AFMultipartFormInitialBoundary(NSString *boundary) {
-    return [NSString stringWithFormat:@"--%@%@", boundary, kAFMultipartFormCRLF];
+//    return [NSString stringWithFormat:@"--%@%@", boundary, kAFMultipartFormCRLF];
+    return @"";
 }
 
 static inline NSString * AFMultipartFormEncapsulationBoundary(NSString *boundary) {
@@ -569,7 +571,8 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
 
     self.request = urlRequest;
     self.stringEncoding = encoding;
-    self.boundary = AFCreateMultipartFormBoundary();
+//    self.boundary = AFCreateMultipartFormBoundary();
+    self.boundary = @"";
     self.bodyStream = [[AFMultipartBodyStream alloc] initWithStringEncoding:encoding];
 
     return self;
@@ -671,8 +674,8 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
     NSParameterAssert(mimeType);
 
     NSMutableDictionary *mutableHeaders = [NSMutableDictionary dictionary];
-    [mutableHeaders setValue:[NSString stringWithFormat:@"form-data; name=\"%@\"; filename=\"%@\"", name, fileName] forKey:@"Content-Disposition"];
-    [mutableHeaders setValue:mimeType forKey:@"Content-Type"];
+//    [mutableHeaders setValue:[NSString stringWithFormat:@"form-data; name=\"%@\"; filename=\"%@\"", name, fileName] forKey:@"Content-Disposition"];
+//    [mutableHeaders setValue:mimeType forKey:@"Content-Type"];
 
     [self appendPartWithHeaders:mutableHeaders body:data];
 }

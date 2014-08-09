@@ -180,7 +180,7 @@ static const CGFloat verticalSeparator = 10.0f;
     NSString *realNameString = realNameTextField.text;
     UIImage *profilePicture = profilePictureImageView.image;
     NSString *foursquareIdString = [[NSUserDefaults standardUserDefaults] valueForKey:@"foursquareId"];
-    NSLog(@"Hi %@! Or rather... %@. I've got your profile picture there %@.", chatIdString, realNameString, profilePicture);
+    NSLog(@"Hi %@! Or rather... %@. I've got your profile picture there %@, and I'll save it as %@.", chatIdString, realNameString, profilePicture, foursquareIdString);
 
     // Save image to Amazon S3. Save URL for user dictionary.
     NSData *pngImage = UIImagePNGRepresentation(profilePicture);

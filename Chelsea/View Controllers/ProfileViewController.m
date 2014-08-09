@@ -10,6 +10,7 @@
 #import "ChelseaHTTPClient.h"
 
 #import <AFHTTPSessionManager.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ProfileViewController ()
 
@@ -58,67 +59,68 @@
     adjustFrameForRealNameLabel.origin.y += _profilePicture.frame.size.height/2 + 50; // 30 = margin
     realNameLabel.frame = adjustFrameForRealNameLabel;
     
-    realNameLabel.text = [NSString stringWithFormat:@"%@ %@", _user[@"user"][@"firstName"], _user[@"user"][@"lastName"]]; // ## todo: RealName.
+    realNameLabel.text = _user[@"realName"] ?: @"Stranger";
     realNameLabel.backgroundColor = [UIColor whiteColor];
     realNameLabel.textColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
     realNameLabel.textAlignment = NSTextAlignmentCenter;
     realNameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:28.0f];
     [self.view addSubview:realNameLabel];
     
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] init];
-    manager.responseSerializer = [AFImageResponseSerializer serializer];
-    NSString *urlString = [NSString stringWithFormat:@"%@300x300%@", _user[@"user"][@"photo"][@"prefix"], _user[@"user"][@"photo"][@"suffix"]];
-    urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-    [manager GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) { // ## todo: S3 picture.
-        UIImage *profilePicture = responseObject;
-        
-        static UIImage *maskImage = nil;
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            
-            UIGraphicsBeginImageContextWithOptions(CGSizeMake(profilePictureRadius, profilePictureRadius), NO, 0.0f);
-            CGContextRef ctx = UIGraphicsGetCurrentContext();
-            CGContextSaveGState(ctx);
-            
-            CGRect rect = CGRectMake(0, 0, profilePictureRadius, profilePictureRadius);
-            CGContextSetFillColorWithColor(ctx, [UIColor whiteColor].CGColor);
-            CGContextFillRect(ctx, rect);
-            
-            CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
-            CGContextFillEllipseInRect(ctx, rect);
-            
-            CGContextRestoreGState(ctx);
-            maskImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-        });
-        
-        CGImageRef imageReference = profilePicture.CGImage;
-        CGImageRef maskReference = maskImage.CGImage;
-        
-        CGImageRef imageMask = CGImageMaskCreate(CGImageGetWidth(maskReference),
-                                                 CGImageGetHeight(maskReference),
-                                                 CGImageGetBitsPerComponent(maskReference),
-                                                 CGImageGetBitsPerPixel(maskReference),
-                                                 CGImageGetBytesPerRow(maskReference),
-                                                 CGImageGetDataProvider(maskReference),
-                                                 NULL, // Decode is null
-                                                 NO // Should interpolate
-                                                 );
-        
-        CGImageRef maskedReference = CGImageCreateWithMask(imageReference, imageMask);
-        CGImageRelease(imageMask);
-        
-        UIImage *maskedImage = [UIImage imageWithCGImage:maskedReference];
-        CGImageRelease(maskedReference);
-        
-        _profilePicture.image = maskedImage;
-        
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"Couldn't get profile picture.");
-        NSLog(@"Request URL: %@", task.response.URL);
-    }];
+    NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://s3.amazonaws.com/checkchat/profilePictures/%@.png", _user[@"user"][@"id"]]];
+    _profilePicture.contentMode = UIViewContentModeCenter;
+    [_profilePicture sd_setImageWithURL:imageURL];
+//    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:imageURL];
+//    manager.responseSerializer = [AFImageResponseSerializer serializer];
+//    NSString *urlString = [NSString stringWithFormat:@"%@.png", _user[@"user"][@"id"]];
+//    [manager GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+//        UIImage *profilePicture = responseObject;
+//        
+//        static UIImage *maskImage = nil;
+//        static dispatch_once_t onceToken;
+//        dispatch_once(&onceToken, ^{
+//            
+//            UIGraphicsBeginImageContextWithOptions(CGSizeMake(profilePictureRadius, profilePictureRadius), NO, 0.0f);
+//            CGContextRef ctx = UIGraphicsGetCurrentContext();
+//            CGContextSaveGState(ctx);
+//            
+//            CGRect rect = CGRectMake(0, 0, profilePictureRadius, profilePictureRadius);
+//            CGContextSetFillColorWithColor(ctx, [UIColor whiteColor].CGColor);
+//            CGContextFillRect(ctx, rect);
+//            
+//            CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
+//            CGContextFillEllipseInRect(ctx, rect);
+//            
+//            CGContextRestoreGState(ctx);
+//            maskImage = UIGraphicsGetImageFromCurrentImageContext();
+//            UIGraphicsEndImageContext();
+//        });
+//        
+//        CGImageRef imageReference = profilePicture.CGImage;
+//        CGImageRef maskReference = maskImage.CGImage;
+//        
+//        CGImageRef imageMask = CGImageMaskCreate(CGImageGetWidth(maskReference),
+//                                                 CGImageGetHeight(maskReference),
+//                                                 CGImageGetBitsPerComponent(maskReference),
+//                                                 CGImageGetBitsPerPixel(maskReference),
+//                                                 CGImageGetBytesPerRow(maskReference),
+//                                                 CGImageGetDataProvider(maskReference),
+//                                                 NULL, // Decode is null
+//                                                 NO // Should interpolate
+//                                                 );
+//        
+//        CGImageRef maskedReference = CGImageCreateWithMask(imageReference, imageMask);
+//        CGImageRelease(imageMask);
+//        
+//        UIImage *maskedImage = [UIImage imageWithCGImage:maskedReference];
+//        CGImageRelease(maskedReference);
+//        
+//        _profilePicture.image = maskedImage;
+//        
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        NSLog(@"Couldn't get profile picture.");
+//        NSLog(@"Request URL: %@", task.response.URL);
+//    }];
     
-    // todo: add a button for private messaging
 }
 
 - (void)viewWillDisappear:(BOOL)animated
