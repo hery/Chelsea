@@ -81,7 +81,7 @@ static const CGFloat verticalSeparator = 10.0f;
     chatIdLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0f];
     chatIdLabel.numberOfLines = 0;
     chatIdLabel.textColor = [UIColor whiteColor];
-    chatIdLabel.text = @"Nickname: how users with a peek level smaller than your anonymity level will identify you.";
+    chatIdLabel.text = @"Username – How everybody will see you.";
     [chatIdLabel sizeToFit];
     [self.view addSubview:chatIdLabel];
     
@@ -105,7 +105,7 @@ static const CGFloat verticalSeparator = 10.0f;
     realNameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0f];
     realNameLabel.numberOfLines = 0;
     realNameLabel.textColor = [UIColor whiteColor];
-    realNameLabel.text = @"Real Name: for those with a higher peek level. Let's be playful!";
+    realNameLabel.text = @"Real Name – For those with a higher peek level.";
     [realNameLabel sizeToFit];
     [self.view addSubview:realNameLabel];
     
@@ -129,7 +129,7 @@ static const CGFloat verticalSeparator = 10.0f;
     profilePictureLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0f];
     profilePictureLabel.numberOfLines = 0;
     profilePictureLabel.textColor = [UIColor whiteColor];
-    profilePictureLabel.text = @"Your Picture: also for those with a higher peek level. We dare you.";
+    profilePictureLabel.text = @"Picture – Also for those with a higher peek level. Tap the picture below and be playful!";
     [profilePictureLabel sizeToFit];
     
     [self.view addSubview:profilePictureLabel];
@@ -296,6 +296,7 @@ static const CGFloat verticalSeparator = 10.0f;
                                             NSLog(@"Response: %@", responseObject);
                                             // Save URL here
                                             [self dismissViewControllerAnimated:YES completion:nil];
+//                                            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"profileSetup"];
                                         } failure:^(NSError *error) {
                                             NSLog(@"Failed uploading profile picture to Amazon S3.");
                                             NSLog(@"Error: %@", [error localizedDescription]);

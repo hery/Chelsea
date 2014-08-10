@@ -46,7 +46,7 @@
         
     [self.view addSubview:_profilePicture];
     
-    UILabel *chatIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, _profilePicture.frame.origin.y + _profilePicture.frame.size.height,
+    UILabel *chatIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + _profilePicture.frame.origin.y + _profilePicture.frame.size.height,
                                                                      [UIScreen mainScreen].bounds.size.width, 50)];
     chatIdLabel.text = _user[@"chatId"];
     chatIdLabel.textColor = [UIColor whiteColor];
