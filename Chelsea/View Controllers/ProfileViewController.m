@@ -31,7 +31,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = CHELSEA_COLOR;
     self.title = _user[@"chatId"];
     NSLog(@"Current user: %@", _user);
     
@@ -39,32 +39,46 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0]}];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
-    static const CGFloat profilePictureRadius = 250;
+    CGFloat profilePictureRadius = [UIScreen mainScreen].bounds.size.width;
 
-    _profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, profilePictureRadius, profilePictureRadius)];
-    _profilePicture.center = self.view.center;
-    
-    static const CGFloat profilePictureOffset = 50.0f;
-    CGRect adjustedFrameForProfilePicture = _profilePicture.frame;
-    adjustedFrameForProfilePicture.origin.y -= profilePictureOffset;
-    _profilePicture.frame = adjustedFrameForProfilePicture;
-    _profilePicture.backgroundColor = [UIColor whiteColor];
+    _profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(0, 30, profilePictureRadius, profilePictureRadius)];
+    _profilePicture.backgroundColor = CHELSEA_COLOR;
         
     [self.view addSubview:_profilePicture];
     
-    UILabel *realNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
-    realNameLabel.center = _profilePicture.center;
+    UILabel *chatIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, _profilePicture.frame.origin.y + _profilePicture.frame.size.height,
+                                                                     [UIScreen mainScreen].bounds.size.width, 50)];
+    chatIdLabel.text = _user[@"chatId"];
+    chatIdLabel.textColor = [UIColor whiteColor];
+    chatIdLabel.textAlignment = NSTextAlignmentLeft;
+    chatIdLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:28.0f];
+    chatIdLabel.numberOfLines = 0;
+    [chatIdLabel sizeToFit];
+    [self.view addSubview:chatIdLabel];
     
-    CGRect adjustFrameForRealNameLabel = realNameLabel.frame;
-    adjustFrameForRealNameLabel.origin.y += _profilePicture.frame.size.height/2 + 50; // 30 = margin
-    realNameLabel.frame = adjustFrameForRealNameLabel;
+    UILabel *isActuallyLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, chatIdLabel.frame.origin.y + chatIdLabel.frame.size.height,
+                                                                         [UIScreen mainScreen].bounds.size.width, 40)];
+    isActuallyLabel.text = @"is actually";
+    isActuallyLabel.textAlignment = NSTextAlignmentLeft;
+    isActuallyLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:28.0f];
+    isActuallyLabel.numberOfLines = 0;
+    isActuallyLabel.textColor = [UIColor whiteColor];
+    [isActuallyLabel sizeToFit];
+    [self.view addSubview:isActuallyLabel];
+    
+    UILabel *realNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, isActuallyLabel.frame.origin.y + isActuallyLabel.frame.size.height,
+                                                                       [UIScreen mainScreen].bounds.size.width, 50)];
     
     realNameLabel.text = _user[@"realName"] ?: @"Stranger";
-    realNameLabel.backgroundColor = [UIColor whiteColor];
-    realNameLabel.textColor = [UIColor colorWithRed:44/255.0f green:114/225.0f blue:217/225.0f alpha:1.0];
-    realNameLabel.textAlignment = NSTextAlignmentCenter;
-    realNameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:28.0f];
+    realNameLabel.backgroundColor = CHELSEA_COLOR;
+    realNameLabel.textColor = [UIColor whiteColor];
+    realNameLabel.textAlignment = NSTextAlignmentLeft;
+    realNameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:28.0f];
+    realNameLabel.numberOfLines = 0;
+    [realNameLabel sizeToFit];
     [self.view addSubview:realNameLabel];
+    
+
     
     NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://s3.amazonaws.com/checkchat/profilePictures/%@.png", _user[@"user"][@"id"]]];
     _profilePicture.contentMode = UIViewContentModeCenter;

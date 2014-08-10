@@ -38,7 +38,6 @@ static const CGFloat verticalSeparator = 10.0f;
     return self;
 }
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -250,10 +249,10 @@ static const CGFloat verticalSeparator = 10.0f;
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *imagePath =[documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", foursquareIdString]];
     
-    if (![chatIdString isEqualToString:@""] && ![realNameString isEqualToString:@""]) {
+    if (![chatIdString isEqualToString:@""] && ![realNameString isEqualToString:@""] && !([chatIdString length] > 16)) {
         
         // Check chatId string uniqueness
-        doneAlertView = [[UIAlertView alloc] initWithTitle:@"Please Wait" message:@"We are validating your anonymous chat identifier..." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        doneAlertView = [[UIAlertView alloc] initWithTitle:@"Please Wait" message:@"We're setting you up. This is going to be awesome!" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [doneAlertView show];
         
         ChelseaHTTPClient *sharedChelseaHTTPClient = [ChelseaHTTPClient sharedChelseaHTTPClient];
@@ -313,6 +312,8 @@ static const CGFloat verticalSeparator = 10.0f;
             [doneAlertView dismissWithClickedButtonIndex:0 animated:YES];
             [[[UIAlertView alloc] initWithTitle:@"Whoops" message:[error localizedDescription] delegate:self cancelButtonTitle:@"Back" otherButtonTitles:nil] show];
         }];
+    } else  if ([chatIdString length] > 16) {
+                [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Your nickname cannot be longer than 16 characters. Let's try that again!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     } else {
         [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Your nickname and real name cannot be empty. Let's try that again!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }
