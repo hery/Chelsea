@@ -69,9 +69,13 @@
     NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://s3.amazonaws.com/checkchat/profilePictures/%@.png", _user[@"user"][@"id"]]];
     _profilePicture.contentMode = UIViewContentModeCenter;
     _profilePicture.clipsToBounds = YES;
-    [_profilePicture sd_setImageWithURL:imageURL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        NSLog(@"Got image at %@", [imageURL description]);
-    }];
+    [_profilePicture sd_setImageWithURL:imageURL placeholderImage:nil options:SDWebImageRefreshCached];
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSelf)];
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+    UISwipeGestureRecognizer *swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSelf)];
+    swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
+    [self.view addGestureRecognizer:swipeGestureRecognizer];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -88,15 +92,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)dismissSelf
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    NSLog(@"Should dismiss self!");
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
-*/
 
 @end

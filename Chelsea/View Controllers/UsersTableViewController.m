@@ -119,7 +119,10 @@
         NSLog(@"AL-%li <= PL-%li: Pushing Profile VC.", selectedUserAL, PL);
         ProfileViewController *profileViewController = [ProfileViewController new];
         profileViewController.user = selectedUser;
-        [self.navigationController pushViewController:profileViewController animated:YES];
+//        [self.navigationController pushViewController:profileViewController animated:YES];
+        [self.navigationController presentViewController:profileViewController animated:YES completion:^{
+            
+        }];
     }
 }
 
