@@ -8,8 +8,7 @@
 
 #import "LoginViewController.h"
 #import "HomeViewController.h"
-#import "FoursquareHTTPClient.h"
-#import "FoursquareHTTPClientDelegate.h"
+
 #import "constants.h"
 
 @interface LoginViewController ()
@@ -87,10 +86,6 @@
     if (accessCodeString) { // todo: do a more accurate check here
         NSLog(@"FS auth succeeded. Token: <%@>", accessCodeString);
         [standardUserDefault setObject:accessCodeString forKey:@"foursquareAccessCode"];
-        
-        FoursquareHTTPClient *sharedFSClient = [FoursquareHTTPClient sharedFoursquareHTTPClient];
-        sharedFSClient.delegate = [FoursquareHTTPClientDelegate new];
-        [sharedFSClient performGETRequestForEndpointString:@"users/self" endpointConstant:FoursquareHTTPClientEndpointMe additionalParameters:nil];
         
         UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
         HomeViewController *homeViewController = [mainStoryBoard instantiateViewControllerWithIdentifier:@"homeViewController"];

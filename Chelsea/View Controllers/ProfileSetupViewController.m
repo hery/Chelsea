@@ -7,6 +7,8 @@
 //
 
 #import "ProfileSetupViewController.h"
+#import "FoursquareHTTPClient.h"
+#import "FoursquareHTTPClientDelegate.h"
 #import "ChelseaTextField.h"
 #import "ChelseaHTTPClient.h"
 #import "constants.h"
@@ -25,6 +27,8 @@ static const CGFloat verticalSeparator = 10.0f;
 
 @implementation ProfileSetupViewController
 
+#pragma mark - View Controller Lifecycle
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,6 +38,7 @@ static const CGFloat verticalSeparator = 10.0f;
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -42,6 +47,11 @@ static const CGFloat verticalSeparator = 10.0f;
     
     NSLog(@"Loaded profile setup view view controller.");
     CGFloat verticalCount = topMargin;
+    
+    NSLog(@"Fetching Foursquare id...");
+    FoursquareHTTPClient *sharedFSClient = [FoursquareHTTPClient sharedFoursquareHTTPClient];
+    sharedFSClient.delegate = [FoursquareHTTPClientDelegate new];
+    [sharedFSClient performGETRequestForEndpointString:@"users/self" endpointConstant:FoursquareHTTPClientEndpointMe additionalParameters:nil];
     
     headerViewTopMargin = verticalCount;
     headerView = [[UIView alloc] initWithFrame:CGRectMake(10,
@@ -157,6 +167,58 @@ static const CGFloat verticalSeparator = 10.0f;
     [self.view addSubview:playButton];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    NSLog(@"Current foursquare id: %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"foursquareId"]);
+    
+    [UIView animateWithDuration:0.7f delay:1.0f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        CGRect chatIdLabelFrame = chatIdLabel.frame;
+        chatIdLabelFrame.origin.x = leftMargin;
+        chatIdLabel.frame = chatIdLabelFrame;
+        
+        CGRect chatIdTextFieldFrame = chatIdTextField.frame;
+        chatIdTextFieldFrame.origin.x = leftMargin;
+        chatIdTextField.frame = chatIdTextFieldFrame;
+        
+        CGRect realNameLabelFrame = realNameLabel.frame;
+        realNameLabelFrame.origin.x = leftMargin;
+        realNameLabel.frame = realNameLabelFrame;
+        
+        CGRect realNameTextFiedFrame = realNameTextField.frame;
+        realNameTextFiedFrame.origin.x = leftMargin;
+        realNameTextField.frame = realNameTextFiedFrame;
+        
+        CGRect profilePictureLabelFrame = profilePictureLabel.frame;
+        profilePictureLabelFrame.origin.x = leftMargin;
+        profilePictureLabel.frame = profilePictureLabelFrame;
+        
+        CGRect profilePictureFrame = profilePictureImageView.frame;
+        profilePictureFrame.origin.x = leftMargin;
+        profilePictureImageView.frame = profilePictureFrame;
+    } completion:nil];
+    
+    [UIView animateWithDuration:0.7f delay:0.4f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        CGRect headerViewFrame = headerView.frame;
+        headerViewFrame.origin.y = headerViewTopMargin;
+        headerView.frame = headerViewFrame;
+    } completion:nil];
+    
+    [UIView animateWithDuration:0.7f delay:1.5f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        CGRect playButtonFrame = playButton.frame;
+        playButtonFrame.origin.y = playButtonTopMargin;
+        playButton.frame = playButtonFrame;
+    } completion:nil];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Actions
+
 - (void)tapped
 {
     NSLog(@"Tapped picture. Should load camera.");
@@ -256,6 +318,8 @@ static const CGFloat verticalSeparator = 10.0f;
     }
 }
 
+#pragma mark - Image Picker Delegate
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *originalImage, *editedImage, *imageToSave;
@@ -288,53 +352,7 @@ static const CGFloat verticalSeparator = 10.0f;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [UIView animateWithDuration:0.7f delay:1.0f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        CGRect chatIdLabelFrame = chatIdLabel.frame;
-        chatIdLabelFrame.origin.x = leftMargin;
-        chatIdLabel.frame = chatIdLabelFrame;
-        
-        CGRect chatIdTextFieldFrame = chatIdTextField.frame;
-        chatIdTextFieldFrame.origin.x = leftMargin;
-        chatIdTextField.frame = chatIdTextFieldFrame;
-        
-        CGRect realNameLabelFrame = realNameLabel.frame;
-        realNameLabelFrame.origin.x = leftMargin;
-        realNameLabel.frame = realNameLabelFrame;
-        
-        CGRect realNameTextFiedFrame = realNameTextField.frame;
-        realNameTextFiedFrame.origin.x = leftMargin;
-        realNameTextField.frame = realNameTextFiedFrame;
-        
-        CGRect profilePictureLabelFrame = profilePictureLabel.frame;
-        profilePictureLabelFrame.origin.x = leftMargin;
-        profilePictureLabel.frame = profilePictureLabelFrame;
-        
-        CGRect profilePictureFrame = profilePictureImageView.frame;
-        profilePictureFrame.origin.x = leftMargin;
-        profilePictureImageView.frame = profilePictureFrame;
-    } completion:nil];
-    
-    [UIView animateWithDuration:0.7f delay:0.4f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        CGRect headerViewFrame = headerView.frame;
-        headerViewFrame.origin.y = headerViewTopMargin;
-        headerView.frame = headerViewFrame;
-    } completion:nil];
-    
-    [UIView animateWithDuration:0.7f delay:1.5f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        CGRect playButtonFrame = playButton.frame;
-        playButtonFrame.origin.y = playButtonTopMargin;
-        playButton.frame = playButtonFrame;
-    } completion:nil];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+#pragma mark - Textfield Delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {

@@ -116,7 +116,7 @@
         inAppPurchaseViewController.userPL = PL;
         [self.navigationController pushViewController:inAppPurchaseViewController animated:YES];
     } else {
-        NSLog(@"AL-%li <= PL-%li: Pushing In-App Purchases VC.", selectedUserAL, PL);
+        NSLog(@"AL-%li <= PL-%li: Pushing Profile VC.", selectedUserAL, PL);
         ProfileViewController *profileViewController = [ProfileViewController new];
         profileViewController.user = selectedUser;
         [self.navigationController pushViewController:profileViewController animated:YES];

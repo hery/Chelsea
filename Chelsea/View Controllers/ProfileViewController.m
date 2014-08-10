@@ -68,59 +68,10 @@
     
     NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://s3.amazonaws.com/checkchat/profilePictures/%@.png", _user[@"user"][@"id"]]];
     _profilePicture.contentMode = UIViewContentModeCenter;
-    [_profilePicture sd_setImageWithURL:imageURL];
-//    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:imageURL];
-//    manager.responseSerializer = [AFImageResponseSerializer serializer];
-//    NSString *urlString = [NSString stringWithFormat:@"%@.png", _user[@"user"][@"id"]];
-//    [manager GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-//        UIImage *profilePicture = responseObject;
-//        
-//        static UIImage *maskImage = nil;
-//        static dispatch_once_t onceToken;
-//        dispatch_once(&onceToken, ^{
-//            
-//            UIGraphicsBeginImageContextWithOptions(CGSizeMake(profilePictureRadius, profilePictureRadius), NO, 0.0f);
-//            CGContextRef ctx = UIGraphicsGetCurrentContext();
-//            CGContextSaveGState(ctx);
-//            
-//            CGRect rect = CGRectMake(0, 0, profilePictureRadius, profilePictureRadius);
-//            CGContextSetFillColorWithColor(ctx, [UIColor whiteColor].CGColor);
-//            CGContextFillRect(ctx, rect);
-//            
-//            CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
-//            CGContextFillEllipseInRect(ctx, rect);
-//            
-//            CGContextRestoreGState(ctx);
-//            maskImage = UIGraphicsGetImageFromCurrentImageContext();
-//            UIGraphicsEndImageContext();
-//        });
-//        
-//        CGImageRef imageReference = profilePicture.CGImage;
-//        CGImageRef maskReference = maskImage.CGImage;
-//        
-//        CGImageRef imageMask = CGImageMaskCreate(CGImageGetWidth(maskReference),
-//                                                 CGImageGetHeight(maskReference),
-//                                                 CGImageGetBitsPerComponent(maskReference),
-//                                                 CGImageGetBitsPerPixel(maskReference),
-//                                                 CGImageGetBytesPerRow(maskReference),
-//                                                 CGImageGetDataProvider(maskReference),
-//                                                 NULL, // Decode is null
-//                                                 NO // Should interpolate
-//                                                 );
-//        
-//        CGImageRef maskedReference = CGImageCreateWithMask(imageReference, imageMask);
-//        CGImageRelease(imageMask);
-//        
-//        UIImage *maskedImage = [UIImage imageWithCGImage:maskedReference];
-//        CGImageRelease(maskedReference);
-//        
-//        _profilePicture.image = maskedImage;
-//        
-//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-//        NSLog(@"Couldn't get profile picture.");
-//        NSLog(@"Request URL: %@", task.response.URL);
-//    }];
-    
+    _profilePicture.clipsToBounds = YES;
+    [_profilePicture sd_setImageWithURL:imageURL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        NSLog(@"Got image at %@", [imageURL description]);
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

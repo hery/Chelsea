@@ -28,6 +28,10 @@
             if (venuesArray.count > 0) {
                 NSLog(@"Venue objects array: %@", venuesArray);
                 
+                NSLog(@"Checking objects states...");
+                NSLog(@"Will append to data source %@ with venue array %@.", _dataSource, _dataSource.venuesArray);
+                NSLog(@"Will update table view: %@", _tableView);
+                
                 NSMutableArray *indexPathArray = [NSMutableArray new];
                 [venuesArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                     [_dataSource.venuesArray addObject:(NSDictionary *)obj];
@@ -38,7 +42,7 @@
                 [_tableView insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationLeft];
                 [_tableView endUpdates];
             } else {
-                [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"We can't find any venue with that name where you are. Get closer!" delegate:self cancelButtonTitle:@"Back" otherButtonTitles:nil] show];
+                [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"We can't find any venue with that name where you are. Get closer or check spelling!" delegate:self cancelButtonTitle:@"Back" otherButtonTitles:nil] show];
             }
             
             break;
@@ -67,9 +71,8 @@
         case FoursquareHTTPClientEndpointMe:
         {
             NSString *FSIdString = response[@"response"][@"user"][@"id"];
-            NSLog(@"9s/self succeeded! Got id: %@", FSIdString);
+            NSLog(@"GET /users/self succeeded! Got id: %@", FSIdString);
             [[NSUserDefaults standardUserDefaults] setValue:FSIdString forKey:@"foursquareId"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
             break;
         }
         default:

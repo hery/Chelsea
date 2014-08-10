@@ -56,13 +56,6 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     
     _venueTableView.delegate = self;
     [_venueTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"venueCells"];
-
-    sharedFoursquareHTTPClient = [FoursquareHTTPClient sharedFoursquareHTTPClient];
-    FoursquareHTTPClientDelegate *delegate = [[FoursquareHTTPClientDelegate alloc] init];
-    delegate.navigationController = self.navigationController;
-    delegate.dataSource = dataSource;
-    delegate.tableView = _venueTableView;
-    sharedFoursquareHTTPClient.delegate = delegate;
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     if ([standardUserDefaults boolForKey:@"profileSetup"] == YES) {
@@ -71,6 +64,14 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
         ProfileSetupViewController *profileSetupViewController = [ProfileSetupViewController new];
         [self.navigationController presentViewController:profileSetupViewController animated:NO completion:nil];
     }
+    
+    // Set up the FS Client below so that the profile setup VC doesn't override it's delegate
+    sharedFoursquareHTTPClient = [FoursquareHTTPClient sharedFoursquareHTTPClient];
+    FoursquareHTTPClientDelegate *delegate = [[FoursquareHTTPClientDelegate alloc] init];
+    delegate.navigationController = self.navigationController;
+    delegate.dataSource = dataSource;
+    delegate.tableView = _venueTableView;
+    sharedFoursquareHTTPClient.delegate = delegate;
 }
 
 - (void)viewDidAppear:(BOOL)animated
