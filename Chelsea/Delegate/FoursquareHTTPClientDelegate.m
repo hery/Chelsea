@@ -117,7 +117,7 @@
         alLevel = 1;
         [standardUserDefaults setValue:@"1" forKey:@"al"];
     }
-    alLevel = 0; // Default AL. Set to 0 to debug profile view. Leave to 1 for production.
+    // alLevel = 0; // Debug line. Set AL to 0 to debug profile view. Leave to 1 for production.
     NSNumber *AL = [NSNumber numberWithInteger:alLevel];
     NSLog(@"Checking AL: %@", AL);
     // Package and send message

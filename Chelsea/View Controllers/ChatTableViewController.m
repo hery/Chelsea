@@ -73,6 +73,10 @@
 {
     [super viewDidAppear:animated];
     
+    _chelseaWebSocket.delegate = self;
+    _keepSocketAlive = YES;
+    [self pingServer];
+    
     if (_chelseaWebSocket.readyState == SR_CLOSED || _chelseaWebSocket.readyState == SR_CLOSING) {
         [self.navigationController popViewControllerAnimated:YES];
     }

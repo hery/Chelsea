@@ -296,7 +296,7 @@ static const CGFloat verticalSeparator = 10.0f;
                                             NSLog(@"Response: %@", responseObject);
                                             // Save URL here
                                             [self dismissViewControllerAnimated:YES completion:nil];
-//                                            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"profileSetup"];
+                                            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"profileSetup"];
                                         } failure:^(NSError *error) {
                                             NSLog(@"Failed uploading profile picture to Amazon S3.");
                                             NSLog(@"Error: %@", [error localizedDescription]);

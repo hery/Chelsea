@@ -59,7 +59,7 @@ NSString * const searchEndPointURL = @"https://api.foursquare.com/v2/venues/sear
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     if ([standardUserDefaults boolForKey:@"profileSetup"] == YES) {
-        return;
+        // Skip to delegate setup.
     } else {
         ProfileSetupViewController *profileSetupViewController = [ProfileSetupViewController new];
         [self.navigationController presentViewController:profileSetupViewController animated:NO completion:nil];
