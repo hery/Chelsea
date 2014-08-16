@@ -73,6 +73,7 @@
 {
     [super viewDidAppear:animated];
     
+    // ## LeftHere
     _chelseaWebSocket.delegate = self;
     _keepSocketAlive = YES;
     [self pingServer];

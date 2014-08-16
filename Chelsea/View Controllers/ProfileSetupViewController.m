@@ -54,9 +54,9 @@ static const CGFloat verticalSeparator = 10.0f;
     
     headerViewTopMargin = verticalCount;
     headerView = [[UIView alloc] initWithFrame:CGRectMake(10,
-                                                                  -50,
-                                                                 [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
-                                                                  50)];
+                                                          -50,
+                                                         [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
+                                                          50)];
     
     UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 50, 50)];
     logoImageView.image = [UIImage imageNamed:@"logo"];
@@ -74,55 +74,65 @@ static const CGFloat verticalSeparator = 10.0f;
     
     verticalCount += headerView.frame.size.height + verticalSeparator;
     
-    chatIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(-[UIScreen mainScreen].bounds.size.width,
-                                                                     verticalCount,
-                                                                     [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
-                                                                     10)];
+    UIScrollView *profileSetupScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,
+                                                                                         verticalCount,
+                                                                                         [UIScreen mainScreen].bounds.size.height,
+                                                                                          [UIScreen mainScreen].bounds.size.width)];
+    profileSetupScrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 2, profileSetupScrollView.frame.size.height);
+    profileSetupScrollView.backgroundColor = [UIColor redColor];
+    [self.view addSubview:profileSetupScrollView];
+    
+    verticalCount = 0;
+    
+    chatIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin,
+                                                             verticalCount,
+                                                             [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
+                                                             10)];
     chatIdLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0f];
     chatIdLabel.numberOfLines = 0;
     chatIdLabel.textColor = [UIColor whiteColor];
     chatIdLabel.text = @"Username – How everybody will see you.";
     [chatIdLabel sizeToFit];
-    [self.view addSubview:chatIdLabel];
+    [profileSetupScrollView addSubview:chatIdLabel];
     
     verticalCount += chatIdLabel.frame.size.height + verticalSeparator;
     
-    chatIdTextField = [[ChelseaTextField alloc] initWithFrame:CGRectMake(-[UIScreen mainScreen].bounds.size.width,
-                                                                                           verticalCount,
-                                                                                          [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
-                                                                                           50)];
+    chatIdTextField = [[ChelseaTextField alloc] initWithFrame:CGRectMake(leftMargin,
+                                                                           verticalCount,
+                                                                          [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
+                                                                           50)];
     chatIdTextField.placeholder = @"Pandaman";
     chatIdTextField.delegate = self;
     chatIdTextField.layer.cornerRadius = 5.0f;
-    [self.view addSubview:chatIdTextField];
+    [profileSetupScrollView addSubview:chatIdTextField];
     
     verticalCount += chatIdTextField.frame.size.height + verticalSeparator;
     
-    realNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(-[UIScreen mainScreen].bounds.size.width,
-                                                                      verticalCount,
-                                                                       [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
-                                                                       10)];
+    realNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin,
+                                                              verticalCount,
+                                                               [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
+                                                               10)];
     realNameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0f];
     realNameLabel.numberOfLines = 0;
     realNameLabel.textColor = [UIColor whiteColor];
     realNameLabel.text = @"Real Name – For those with a higher peek level.";
     [realNameLabel sizeToFit];
-    [self.view addSubview:realNameLabel];
+    [profileSetupScrollView addSubview:realNameLabel];
     
     verticalCount += realNameLabel.frame.size.height + verticalSeparator;
     
-    realNameTextField = [[ChelseaTextField alloc] initWithFrame:CGRectMake(-[UIScreen mainScreen].bounds.size.width,
-                                                                                            verticalCount,
-                                                                                            [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
-                                                                                             50)];
+    realNameTextField = [[ChelseaTextField alloc] initWithFrame:CGRectMake(leftMargin,
+                                                                            verticalCount,
+                                                                            [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
+                                                                             50)];
     realNameTextField.delegate = self;
     realNameTextField.placeholder = @"Johnny Appleseed";
     realNameTextField.layer.cornerRadius = 5.0f;
-    [self.view addSubview:realNameTextField];
+    [profileSetupScrollView addSubview:realNameTextField];
     
     verticalCount += realNameTextField.frame.size.height + verticalSeparator;
     
-    profilePictureLabel = [[UILabel alloc] initWithFrame:CGRectMake(-[UIScreen mainScreen].bounds.size.width,
+    profilePictureLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin,
                                                                    verticalCount,
                                                                    [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                    10)];
@@ -132,11 +142,11 @@ static const CGFloat verticalSeparator = 10.0f;
     profilePictureLabel.text = @"Picture – Also for those with a higher peek level. Tap the picture below and be playful!";
     [profilePictureLabel sizeToFit];
     
-    [self.view addSubview:profilePictureLabel];
+    [profileSetupScrollView addSubview:profilePictureLabel];
 
     verticalCount += profilePictureLabel.frame.size.height + verticalSeparator;
     
-    profilePictureImageView = [[UIImageView alloc] initWithFrame:CGRectMake(-[UIScreen mainScreen].bounds.size.width,
+    profilePictureImageView = [[UIImageView alloc] initWithFrame:CGRectMake(leftMargin,
                                                                             verticalCount,
                                                                            [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                             150)];
@@ -148,14 +158,14 @@ static const CGFloat verticalSeparator = 10.0f;
     profilePictureImageView.backgroundColor = [UIColor whiteColor];
     profilePictureImageView.layer.cornerRadius = 5.0f;
     profilePictureImageView.userInteractionEnabled = YES;
-    [self.view addSubview:profilePictureImageView];
+    [profileSetupScrollView addSubview:profilePictureImageView];
     
     verticalCount += profilePictureImageView.frame.size.height + verticalSeparator;
     
     playButtonTopMargin = verticalCount - 10.0f; // Special offset for this guy.
     
     playButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMargin,
-                                                                      [UIScreen mainScreen].bounds.size.height,
+                                                                      playButtonTopMargin,
                                                                      [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                      75)];
     playButton.backgroundColor = [UIColor clearColor];
@@ -163,7 +173,7 @@ static const CGFloat verticalSeparator = 10.0f;
     [playButton setTitle:@"Done here!" forState:UIControlStateNormal];
     [playButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [playButton addTarget:self action:@selector(doneHere) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:playButton];
+    [profileSetupScrollView addSubview:playButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -171,42 +181,10 @@ static const CGFloat verticalSeparator = 10.0f;
     [super viewDidAppear:animated];
     NSLog(@"Current foursquare id: %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"foursquareId"]);
     
-    [UIView animateWithDuration:0.7f delay:1.0f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        CGRect chatIdLabelFrame = chatIdLabel.frame;
-        chatIdLabelFrame.origin.x = leftMargin;
-        chatIdLabel.frame = chatIdLabelFrame;
-        
-        CGRect chatIdTextFieldFrame = chatIdTextField.frame;
-        chatIdTextFieldFrame.origin.x = leftMargin;
-        chatIdTextField.frame = chatIdTextFieldFrame;
-        
-        CGRect realNameLabelFrame = realNameLabel.frame;
-        realNameLabelFrame.origin.x = leftMargin;
-        realNameLabel.frame = realNameLabelFrame;
-        
-        CGRect realNameTextFiedFrame = realNameTextField.frame;
-        realNameTextFiedFrame.origin.x = leftMargin;
-        realNameTextField.frame = realNameTextFiedFrame;
-        
-        CGRect profilePictureLabelFrame = profilePictureLabel.frame;
-        profilePictureLabelFrame.origin.x = leftMargin;
-        profilePictureLabel.frame = profilePictureLabelFrame;
-        
-        CGRect profilePictureFrame = profilePictureImageView.frame;
-        profilePictureFrame.origin.x = leftMargin;
-        profilePictureImageView.frame = profilePictureFrame;
-    } completion:nil];
-    
     [UIView animateWithDuration:0.7f delay:0.4f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         CGRect headerViewFrame = headerView.frame;
         headerViewFrame.origin.y = headerViewTopMargin;
         headerView.frame = headerViewFrame;
-    } completion:nil];
-    
-    [UIView animateWithDuration:0.7f delay:1.5f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        CGRect playButtonFrame = playButton.frame;
-        playButtonFrame.origin.y = playButtonTopMargin;
-        playButton.frame = playButtonFrame;
     } completion:nil];
 }
 
