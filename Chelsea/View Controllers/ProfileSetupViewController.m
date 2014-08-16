@@ -50,7 +50,7 @@ static const CGFloat verticalSeparator = 10.0f;
                                    @"A user with a peek level higher than another user’s anonymity level can see the real identify of that user. \n\rHigher anonymity and peek levels are available as in-app purchases. We use the money to keep the service running. And for coffee, if any is left.",
                                    @"By giving us your username, you agree to let us share it with everyone.\n\rBy giving us your real name and profile picture, you agree to let us share it with users with a higher peek level than your peek level.\n\rLet’s get started!"];
     
-    NSInteger numberOfPages = dataSourceMessage.count + 1;
+    numberOfPages = dataSourceMessage.count + 1;
     
     NSLog(@"Loaded profile setup view view controller.");
     CGFloat verticalCount = topMargin;
@@ -86,6 +86,7 @@ static const CGFloat verticalSeparator = 10.0f;
                                                                                           verticalCount,
                                                                                           [UIScreen mainScreen].bounds.size.width,
                                                                                           [UIScreen mainScreen].bounds.size.height - headerView.frame.size.height)];
+    profileSetupScrollView.delegate = self;
     profileSetupScrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * numberOfPages, profileSetupScrollView.frame.size.height);
     profileSetupScrollView.pagingEnabled = YES;
 //    profileSetupScrollView.backgroundColor = [UIColor redColor]; // ## debug
@@ -213,12 +214,6 @@ static const CGFloat verticalSeparator = 10.0f;
 {
     [super viewDidAppear:animated];
     NSLog(@"Current foursquare id: %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"foursquareId"]);
-    
-//    [UIView animateWithDuration:0.7f delay:0.4f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-//        CGRect headerViewFrame = headerView.frame;
-//        headerViewFrame.origin.y = headerViewTopMargin;
-//        headerView.frame = headerViewFrame;
-//    } completion:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -328,6 +323,23 @@ static const CGFloat verticalSeparator = 10.0f;
                 [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Your nickname cannot be longer than 16 characters. Let's try that again!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     } else {
         [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Your nickname and real name cannot be empty. Let's try that again!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+    }
+}
+
+#pragma mark - ScrollView Delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat scrollingIndex = scrollView.contentOffset.x / [UIScreen mainScreen].bounds.size.width;
+    if (scrollingIndex > numberOfPages - 2) {
+        CGFloat normalizedScrollingIndex = scrollingIndex - (numberOfPages - 2);
+        NSLog(@"Normalized scorlling index: %f", normalizedScrollingIndex);
+        
+        CGRect headerViewFrame = headerView.frame;
+        headerViewFrame.origin.y = -50*(1-normalizedScrollingIndex);
+        
+        NSLog(@"New yOrigin: %f", headerViewFrame.origin.y);
+        headerView.frame = headerViewFrame;
     }
 }
 

@@ -9,7 +9,10 @@
 #import <UIKit/UIKit.h>
 @class ChelseaTextField;
 
-@interface ProfileSetupViewController : UIViewController <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface ProfileSetupViewController : UIViewController <UITextFieldDelegate,
+                                                            UIImagePickerControllerDelegate,
+                                                            UINavigationControllerDelegate,
+                                                            UIScrollViewDelegate> {
     UILabel *chatIdLabel;
     ChelseaTextField *chatIdTextField;
     UILabel *realNameLabel;
@@ -22,6 +25,8 @@
     
     CGFloat headerViewTopMargin;
     CGFloat playButtonTopMargin;
+                                                                
+    NSInteger numberOfPages;
 }
 
 @end
