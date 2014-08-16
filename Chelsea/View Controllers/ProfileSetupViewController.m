@@ -97,7 +97,7 @@ static const CGFloat verticalSeparator = 10.0f;
 
     for (int i = currentPageIndex; i < numberOfPages-1; i++) {
         UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin + screenWidth*i,
-                                                                              verticalCount + topMargin*4.5,
+                                                                              verticalCount,
                                                                               [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                               10.0f)];
         // ## todo: should probably move that to a plist or more static location.
@@ -106,6 +106,10 @@ static const CGFloat verticalSeparator = 10.0f;
         descriptionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:22.0f];
         descriptionLabel.textColor = [UIColor whiteColor];
         [descriptionLabel sizeToFit];
+        
+        CGPoint labelCenter = descriptionLabel.center;
+        labelCenter.y = CGRectGetMidY([UIScreen mainScreen].bounds) - profileSetupScrollView.frame.origin.y;
+        descriptionLabel.center = labelCenter;
         
         [profileSetupScrollView addSubview:descriptionLabel];
     }
