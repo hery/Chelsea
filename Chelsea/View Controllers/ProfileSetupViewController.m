@@ -45,7 +45,11 @@ static const CGFloat verticalSeparator = 10.0f;
     self.view.backgroundColor = CHELSEA_COLOR;
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     
-    NSArray *dataSourceMessage = @[@"Sahp", @"Sahp", @"Sahp", @"Sahp"];
+    NSArray *dataSourceMessage = @[@"CheckChat uses a playful anonymity system to spice up your encounters and give you a chance to financially help us keep the wheel turning.",
+                                   @"By default, everyone in CheckChat is anonymous. You only see usernames. \n\rHowever, anonymity and peek levels (AL and PL) make it possible to break the anonymity wall. They work as follow:",
+                                   @"A user with a peek level higher than another user’s anonymity level can see the real identify of that user. \n\rHigher anonymity and peek levels are available as in-app purchases. We use the money to keep the service running. And for coffee, if any is left.",
+                                   @"By giving us your username, you agree to let us share it with everyone.\n\rBy giving us your real name and profile picture, you agree to let us share it with users with a higher peek level than your peek level.\n\rLet’s get started!"];
+    
     NSInteger numberOfPages = dataSourceMessage.count + 1;
     
     NSLog(@"Loaded profile setup view view controller.");
@@ -99,7 +103,7 @@ static const CGFloat verticalSeparator = 10.0f;
         // ## todo: should probably move that to a plist or more static location.
         descriptionLabel.text = dataSourceMessage[i];
         descriptionLabel.numberOfLines = 0;
-        descriptionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20.0f];
+        descriptionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:22.0f];
         descriptionLabel.textColor = [UIColor whiteColor];
         [descriptionLabel sizeToFit];
         
