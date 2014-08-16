@@ -43,6 +43,10 @@ static const CGFloat verticalSeparator = 10.0f;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = CHELSEA_COLOR;
+    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    
+    NSArray *dataSourceMessage = @[@"Sahp", @"Sahp", @"Sahp", @"Sahp"];
+    NSInteger numberOfPages = dataSourceMessage.count + 1;
     
     NSLog(@"Loaded profile setup view view controller.");
     CGFloat verticalCount = topMargin;
@@ -75,16 +79,37 @@ static const CGFloat verticalSeparator = 10.0f;
     verticalCount += headerView.frame.size.height + verticalSeparator;
     
     UIScrollView *profileSetupScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,
-                                                                                         verticalCount,
-                                                                                         [UIScreen mainScreen].bounds.size.height,
-                                                                                          [UIScreen mainScreen].bounds.size.width)];
-    profileSetupScrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 2, profileSetupScrollView.frame.size.height);
-    profileSetupScrollView.backgroundColor = [UIColor redColor];
+                                                                                          verticalCount,
+                                                                                          [UIScreen mainScreen].bounds.size.width,
+                                                                                          [UIScreen mainScreen].bounds.size.height - headerView.frame.size.height)];
+    profileSetupScrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * numberOfPages, profileSetupScrollView.frame.size.height);
+    profileSetupScrollView.pagingEnabled = YES;
+//    profileSetupScrollView.backgroundColor = [UIColor redColor]; // ## debug
+    profileSetupScrollView.backgroundColor = profileSetupScrollView.superview.backgroundColor;
     [self.view addSubview:profileSetupScrollView];
     
     verticalCount = 0;
+    static int currentPageIndex = 0;
+
+    for (int i = currentPageIndex; i < numberOfPages-1; i++) {
+        UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin + screenWidth*i,
+                                                                              verticalCount + topMargin*4.5,
+                                                                              [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
+                                                                              10.0f)];
+        // ## todo: should probably move that to a plist or more static location.
+        descriptionLabel.text = dataSourceMessage[i];
+        descriptionLabel.numberOfLines = 0;
+        descriptionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20.0f];
+        descriptionLabel.textColor = [UIColor whiteColor];
+        [descriptionLabel sizeToFit];
+        
+        [profileSetupScrollView addSubview:descriptionLabel];
+    }
     
-    chatIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin,
+    currentPageIndex = numberOfPages - 1;
+    verticalCount = 0;
+    
+    chatIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin + screenWidth*currentPageIndex,
                                                              verticalCount,
                                                              [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                              10)];
@@ -97,7 +122,7 @@ static const CGFloat verticalSeparator = 10.0f;
     
     verticalCount += chatIdLabel.frame.size.height + verticalSeparator;
     
-    chatIdTextField = [[ChelseaTextField alloc] initWithFrame:CGRectMake(leftMargin,
+    chatIdTextField = [[ChelseaTextField alloc] initWithFrame:CGRectMake(leftMargin + screenWidth*currentPageIndex,
                                                                            verticalCount,
                                                                           [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                            50)];
@@ -108,7 +133,7 @@ static const CGFloat verticalSeparator = 10.0f;
     
     verticalCount += chatIdTextField.frame.size.height + verticalSeparator;
     
-    realNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin,
+    realNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin + screenWidth*currentPageIndex,
                                                               verticalCount,
                                                                [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                10)];
@@ -121,7 +146,7 @@ static const CGFloat verticalSeparator = 10.0f;
     
     verticalCount += realNameLabel.frame.size.height + verticalSeparator;
     
-    realNameTextField = [[ChelseaTextField alloc] initWithFrame:CGRectMake(leftMargin,
+    realNameTextField = [[ChelseaTextField alloc] initWithFrame:CGRectMake(leftMargin + screenWidth*currentPageIndex,
                                                                             verticalCount,
                                                                             [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                              50)];
@@ -132,7 +157,7 @@ static const CGFloat verticalSeparator = 10.0f;
     
     verticalCount += realNameTextField.frame.size.height + verticalSeparator;
     
-    profilePictureLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin,
+    profilePictureLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin + screenWidth*currentPageIndex,
                                                                    verticalCount,
                                                                    [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                    10)];
@@ -146,7 +171,7 @@ static const CGFloat verticalSeparator = 10.0f;
 
     verticalCount += profilePictureLabel.frame.size.height + verticalSeparator;
     
-    profilePictureImageView = [[UIImageView alloc] initWithFrame:CGRectMake(leftMargin,
+    profilePictureImageView = [[UIImageView alloc] initWithFrame:CGRectMake(leftMargin + screenWidth*currentPageIndex,
                                                                             verticalCount,
                                                                            [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                             150)];
@@ -164,7 +189,7 @@ static const CGFloat verticalSeparator = 10.0f;
     
     playButtonTopMargin = verticalCount - 10.0f; // Special offset for this guy.
     
-    playButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMargin,
+    playButton = [[UIButton alloc] initWithFrame:CGRectMake(leftMargin + screenWidth*currentPageIndex,
                                                                       playButtonTopMargin,
                                                                      [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                      75)];
@@ -181,11 +206,11 @@ static const CGFloat verticalSeparator = 10.0f;
     [super viewDidAppear:animated];
     NSLog(@"Current foursquare id: %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"foursquareId"]);
     
-    [UIView animateWithDuration:0.7f delay:0.4f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        CGRect headerViewFrame = headerView.frame;
-        headerViewFrame.origin.y = headerViewTopMargin;
-        headerView.frame = headerViewFrame;
-    } completion:nil];
+//    [UIView animateWithDuration:0.7f delay:0.4f usingSpringWithDamping:0.7f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+//        CGRect headerViewFrame = headerView.frame;
+//        headerViewFrame.origin.y = headerViewTopMargin;
+//        headerView.frame = headerViewFrame;
+//    } completion:nil];
 }
 
 - (void)didReceiveMemoryWarning
