@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Hery Ratsimihah. All rights reserved.
 //
 
+#import <CoreText/CoreText.h>
+
 #import "ProfileSetupViewController.h"
 #import "FoursquareHTTPClient.h"
 #import "FoursquareHTTPClientDelegate.h"
@@ -45,10 +47,17 @@ static const CGFloat verticalSeparator = 10.0f;
     self.view.backgroundColor = CHELSEA_COLOR;
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     
-    NSArray *dataSourceMessage = @[@"CheckChat uses a playful anonymity system to spice up your encounters and give you a chance to financially help us keep the wheel turning.",
+    NSArray *dataSourceMessage = @[@"",
+                                   @"CheckChat is a location-based chat app that uses a playful anonymity system to kindle your encounters and give you a chance to financially help us keep the wheel turning.",
                                    @"By default, everyone in CheckChat is anonymous. You only see usernames. \n\rHowever, anonymity and peek levels (AL and PL) make it possible to break the anonymity wall.",
-                                   @"A user with a peek level higher than another user’s anonymity level can see the real identify of that user. \n\rHigher anonymity and peek levels are available as in-app purchases. We use the money to keep the service running. And for coffee, if any is left.",
+                                   @"A user with a peek level that is higher than another user’s anonymity level can see the real identify of that user. \n\rHigher anonymity and peek levels are available as in-app purchases. We use the money to keep the service running. And for coffee, if any is left.",
                                    @"By giving us your username, you agree to let us share it with everyone.\n\rBy giving us your real name and profile picture, you agree to let us share it with users with a higher peek level than your peek level.\n\rLet’s get started!"];
+    
+    NSArray *boldStringsArray = @[@[@""],
+                                  @[@"CheckChat"],
+                                  @[@"everyone in CheckChat is anonymous"],
+                                  @[@"peek level", @"higher", @"anonymity level", @"in-app purchases", @"coffee"],
+                                  @[@"username", @"everyone", @"real name and profile picture", @"users with a higher peek level"]];
     
     numberOfPages = dataSourceMessage.count + 1;
     
@@ -82,16 +91,23 @@ static const CGFloat verticalSeparator = 10.0f;
     
     verticalCount += headerView.frame.size.height + verticalSeparator;
     
-    UIScrollView *profileSetupScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,
+    profileSetupScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,
                                                                                           verticalCount,
                                                                                           [UIScreen mainScreen].bounds.size.width,
                                                                                           [UIScreen mainScreen].bounds.size.height - headerView.frame.size.height)];
     profileSetupScrollView.delegate = self;
     profileSetupScrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * numberOfPages, profileSetupScrollView.frame.size.height);
     profileSetupScrollView.pagingEnabled = YES;
-//    profileSetupScrollView.backgroundColor = [UIColor redColor]; // ## debug
     profileSetupScrollView.backgroundColor = profileSetupScrollView.superview.backgroundColor;
     [self.view addSubview:profileSetupScrollView];
+    
+    UIImageView *splashImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
+    splashImageView.center = CGPointMake(CGRectGetMidX([UIScreen mainScreen].bounds),
+                                         CGRectGetMidY([UIScreen mainScreen].bounds) - profileSetupScrollView.frame.origin.y);
+    splashImageView.image = [UIImage imageNamed:@"logo"];
+    splashImageView.contentMode = UIViewContentModeScaleAspectFit;
+    splashImageView.clipsToBounds = YES;
+    [profileSetupScrollView addSubview:splashImageView];
     
     verticalCount = 0;
     static int currentPageIndex = 0;
@@ -101,10 +117,27 @@ static const CGFloat verticalSeparator = 10.0f;
                                                                               verticalCount,
                                                                               [UIScreen mainScreen].bounds.size.width - 2*leftMargin,
                                                                               10.0f)];
-        // ## todo: should probably move that to a plist or more static location.
-        descriptionLabel.text = dataSourceMessage[i];
+        UIFont *boldFontName = [UIFont fontWithName:@"HelveticaNeue-Bold" size:22.0f];
+        NSString *messageString = dataSourceMessage[i];
+        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:messageString];
+        [attrString beginEditing];
+
+        [attrString addAttribute:NSFontAttributeName
+                           value:[UIFont fontWithName:@"HelveticaNeue-Thin" size:22.0f]
+                           range:NSMakeRange(0, messageString.length)];
+        
+        for (NSString *subString in boldStringsArray[i]) {
+            NSRange boldedRange = [messageString rangeOfString:subString];
+            [attrString addAttribute:NSFontAttributeName
+                               value:boldFontName
+                               range:boldedRange];
+        }
+
+        [attrString endEditing];
+        
+        NSLog(@"Setting %@", attrString);
+        descriptionLabel.attributedText = attrString;
         descriptionLabel.numberOfLines = 0;
-        descriptionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:22.0f];
         descriptionLabel.textColor = [UIColor whiteColor];
         [descriptionLabel sizeToFit];
         
@@ -213,6 +246,10 @@ static const CGFloat verticalSeparator = 10.0f;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [UIView animateWithDuration:0.4 delay:0.0 usingSpringWithDamping:0.9 initialSpringVelocity:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        profileSetupScrollView.contentOffset = CGPointMake([UIScreen mainScreen].bounds.size.width, 0);
+    } completion:nil];
     NSLog(@"Current foursquare id: %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"foursquareId"]);
 }
 

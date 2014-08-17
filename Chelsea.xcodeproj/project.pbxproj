@@ -19,6 +19,7 @@
 		CAA6D0061926A19300CF7093 /* UsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA6D0051926A19300CF7093 /* UsersTableViewController.m */; };
 		CAAD363E193B73EB00C375AB /* UserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CAAD363D193B73EB00C375AB /* UserTableViewCell.m */; };
 		CAB3C2AC18EF3FF700C88E3F /* LocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */; };
+		CAC57DE219A141B800BE659C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAC57DE119A141B800BE659C /* CoreText.framework */; };
 		CACCB68C192D8A650006D440 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACCB68B192D8A650006D440 /* LoginViewController.m */; };
 		CACE16F31893392D0035F4F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F21893392D0035F4F6 /* Foundation.framework */; };
 		CACE16F51893392D0035F4F6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACE16F41893392D0035F4F6 /* CoreGraphics.framework */; };
@@ -78,6 +79,7 @@
 		CAAD363D193B73EB00C375AB /* UserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserTableViewCell.m; path = Objects/UserTableViewCell.m; sourceTree = "<group>"; };
 		CAB3C2AA18EF3FF700C88E3F /* LocationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationTableViewController.h; path = "View Controllers/LocationTableViewController.h"; sourceTree = "<group>"; };
 		CAB3C2AB18EF3FF700C88E3F /* LocationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationTableViewController.m; path = "View Controllers/LocationTableViewController.m"; sourceTree = "<group>"; };
+		CAC57DE119A141B800BE659C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		CACCB68A192D8A650006D440 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = "View Controllers/LoginViewController.h"; sourceTree = "<group>"; };
 		CACCB68B192D8A650006D440 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = "View Controllers/LoginViewController.m"; sourceTree = "<group>"; };
 		CACE16EF1893392D0035F4F6 /* Chelsea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chelsea.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAC57DE219A141B800BE659C /* CoreText.framework in Frameworks */,
 				CAE1D325190D69F500BB2696 /* CoreLocation.framework in Frameworks */,
 				CAEF403D193952A100C69802 /* StoreKit.framework in Frameworks */,
 				CACE16F51893392D0035F4F6 /* CoreGraphics.framework in Frameworks */,
@@ -239,6 +242,7 @@
 		CACE16F11893392D0035F4F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CAC57DE119A141B800BE659C /* CoreText.framework */,
 				CAEF403C193952A100C69802 /* StoreKit.framework */,
 				CAE1D324190D69F500BB2696 /* CoreLocation.framework */,
 				CACE16F21893392D0035F4F6 /* Foundation.framework */,

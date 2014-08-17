@@ -22,6 +22,7 @@
     UIView *headerView;
     UIButton *playButton;
     UIAlertView *doneAlertView;
+    UIScrollView *profileSetupScrollView;
     
     CGFloat headerViewTopMargin;
     CGFloat playButtonTopMargin;
