@@ -336,9 +336,7 @@ static const CGFloat verticalSeparator = 10.0f;
         NSLog(@"Normalized scorlling index: %f", normalizedScrollingIndex);
         
         CGRect headerViewFrame = headerView.frame;
-        headerViewFrame.origin.y = -50*(1-normalizedScrollingIndex);
-        
-        NSLog(@"New yOrigin: %f", headerViewFrame.origin.y);
+        headerViewFrame.origin.y = -50 + 50*(1.5*normalizedScrollingIndex);
         headerView.frame = headerViewFrame;
     }
 }
