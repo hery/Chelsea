@@ -135,7 +135,6 @@ static const CGFloat verticalSeparator = 10.0f;
 
         [attrString endEditing];
         
-        NSLog(@"Setting %@", attrString);
         descriptionLabel.attributedText = attrString;
         descriptionLabel.numberOfLines = 0;
         descriptionLabel.textColor = [UIColor whiteColor];
@@ -370,8 +369,6 @@ static const CGFloat verticalSeparator = 10.0f;
     CGFloat scrollingIndex = scrollView.contentOffset.x / [UIScreen mainScreen].bounds.size.width;
     if (scrollingIndex > numberOfPages - 2) {
         CGFloat normalizedScrollingIndex = scrollingIndex - (numberOfPages - 2);
-        NSLog(@"Normalized scorlling index: %f", normalizedScrollingIndex);
-        
         CGRect headerViewFrame = headerView.frame;
         headerViewFrame.origin.y = -50 + 50*(1.5*normalizedScrollingIndex);
         headerView.frame = headerViewFrame;
