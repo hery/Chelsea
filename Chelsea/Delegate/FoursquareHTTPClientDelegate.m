@@ -80,12 +80,6 @@
     }
 }
 
-- (void)webSocketDidOpen:(SRWebSocket *)webSocket
-{
-    UIAlertView *checkInSuccessAlertView = [[UIAlertView alloc] initWithTitle:@"Checked-In!" message:[NSString stringWithFormat:@"Welcome to %@", _venue[@"name"]] delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
-    [checkInSuccessAlertView show];
-}
-
 - (void)foursquareHTTPClient:(FoursquareHTTPClient *)client didFailWithError:(NSError *)error
 {
     NSLog(@"Request failed. Reason: %@", error);
@@ -140,6 +134,21 @@
     _chatTableViewController.venue = _venue;
     _chatTableViewController.chelseaUserInfo = @{@"userId":userUUID, @"chatId":chatId};
     [self.navigationController pushViewController:_chatTableViewController animated:YES];
+}
+
+#pragma mark - WebSocket Delegate
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket
+{
+    UIAlertView *checkInSuccessAlertView = [[UIAlertView alloc] initWithTitle:@"Checked-In!" message:[NSString stringWithFormat:@"Welcome to %@", _venue[@"name"]] delegate:self cancelButtonTitle:@"Let's go!" otherButtonTitles:nil];
+    [checkInSuccessAlertView show];
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
+{
+    NSLog(@"WebSocket failed! %@", [error localizedDescription]);
+    [[[UIAlertView alloc] initWithTitle:@"Whoops" message:[error localizedDescription] delegate:self cancelButtonTitle:@"Back" otherButtonTitles:nil] show];
+    _tableView.userInteractionEnabled = YES;
 }
 
 #pragma mark - Alert View Delegate Methods

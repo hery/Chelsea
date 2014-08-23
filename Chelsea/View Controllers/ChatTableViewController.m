@@ -350,6 +350,8 @@
     NSDictionary *packetDictionary = @{@"userId":_chelseaUserInfo[@"userId"],
                                        @"chatId":_chelseaUserInfo[@"chatId"],
                                        @"venueId":_venue[@"id"],
+                                       @"lat":_venue[@"location"][@"lat"],
+                                       @"lng":_venue[@"location"][@"lng"],
                                        @"text":message,
                                        @"type":@"chat"};
 
