@@ -2,6 +2,7 @@ Chelsea
 =======
 
 Yet another location-based chat app -- built on top of Foursquare.
+[Available in the App Store](https://itunes.apple.com/us/app/checkchat/id874060418?mt=8)
 
 ## Background Info
 
@@ -16,6 +17,17 @@ The stack includes:
 * the iOS client
 
 A few things broke with some late changes I made and possibly the iOS 8 release, but I'll try to fix them in the coming days.
+
+## Usage
+
+* Check-in at a location using CheckChat
+* See the usernames of who is checked-in and chat with them
+
+## Anonymity System
+
+* Users with a higher peek level (PL) can see the real name and picture of others with a lower anonymity level (AL)
+* Users can buy anonymity level (AL) and peek level (PL) as in-app purchase
+* Apple rejected the anonymity system as a business model
 
 ## Requirements
 
